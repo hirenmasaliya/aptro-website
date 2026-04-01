@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://aptro.app' // Replace with your actual domain
+  const baseUrl = 'https://aptro.vercel.app'
 
   // Core Marketing Routes
   const routes = [
