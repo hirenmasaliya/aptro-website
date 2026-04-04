@@ -1,10 +1,8 @@
 "use client";
 
 import Features from "./components/Features";
-import Footer from "./components/Footer";
 import Hero from "./components/Hero";
-import Navbar from "./components/Navbar";
-import { ChevronRight, ArrowRight, ShieldCheck, Zap, Globe } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap, } from "lucide-react";
 import Link from "next/link";
 
 export default function Home() {
