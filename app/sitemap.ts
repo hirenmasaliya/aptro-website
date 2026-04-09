@@ -6,8 +6,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   // Core Marketing Routes
   const routes = [
     '',
-    '/features',
-    '/solutions',
+    '/shop',
+    '/story',
     '/pricing',
     '/download',
     '/resources',

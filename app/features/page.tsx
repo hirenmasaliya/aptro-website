@@ -2,181 +2,187 @@
 
 import { useState } from "react";
 import { 
-  BarChart3, FileText, ShoppingCart, Zap, ShieldCheck, 
-  Smartphone, Layers, Users, RefreshCw, ArrowUpRight, 
-  CheckCircle2, User, Building2, Briefcase, Globe
+  FileText, ShieldCheck, Smartphone, Layers, Users, RefreshCw, 
+  ArrowRight, CheckCircle2, User, Building2, Briefcase, Globe, Zap
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
-// --- Specialized Data ---
 const roleContent = {
   freelancer: {
-    badge: "Solo Explorer",
-    title: "Tools for the solo founder.",
-    desc: "Everything you need to look professional and stay organized without the overhead of a large team.",
+    badge: "Solo Architect",
+    title: "Refined for the individual.",
+    desc: "A suite of professional tools designed to eliminate administrative friction for solo founders.",
     spotlight: [
       {
-        title: "Personal Invoicing",
-        desc: "Send beautiful, brand-aligned invoices in seconds. Get paid faster with integrated payment links.",
-        icon: <FileText className="w-6 h-6" />,
-        color: "from-blue-600/20 to-blue-400/5",
-        accent: "text-blue-400",
-        details: ["Custom branding", "Expense tracking", "Tax-ready exports"]
+        title: "Precision Invoicing",
+        desc: "Issue high-fidelity, brand-aligned invoices. Accelerate revenue with integrated global payments.",
+        icon: <FileText className="w-5 h-5" />,
+        details: ["Automated Tax Calculations", "Expense Reconciliation", "PDF Export Engine"]
       },
       {
-        title: "Client CRM",
-        desc: "Keep a detailed history of every client interaction and order. Build relationships, not just spreadsheets.",
-        icon: <Users className="w-6 h-6" />,
-        color: "from-emerald-600/20 to-emerald-400/5",
-        accent: "text-emerald-400",
-        details: ["Client profiles", "Order history", "Automated reminders"]
+        title: "Relational CRM",
+        desc: "Maintain a comprehensive history of client interactions. Build institutional memory for your solo practice.",
+        icon: <Users className="w-5 h-5" />,
+        details: ["Automated Client Reminders", "Secure File Sharing", "Lead Status Tracking"]
       }
     ]
   },
   business: {
-    badge: "Enterprise Grade",
-    title: "Scale your operations.",
-    desc: "Advanced infrastructure designed for teams that need to sync inventory, manage staff, and analyze global sales.",
+    badge: "Enterprise Infrastructure",
+    title: "Orchestrate your growth.",
+    desc: "Advanced architecture designed for teams managing complex inventory, staff, and global logistics.",
     spotlight: [
       {
-        title: "Multi-Location Inventory",
-        desc: "Sync stock levels across multiple warehouses and storefronts in real-time. Never oversell again.",
-        icon: <RefreshCw className="w-6 h-6" />,
-        color: "from-purple-600/20 to-purple-400/5",
-        accent: "text-purple-400",
-        details: ["Low-stock alerts", "Batch imports", "Warehouse transfer"]
+        title: "Omnichannel Inventory",
+        desc: "Synchronize stock levels across diverse storefronts and warehouses in real-time.",
+        icon: <RefreshCw className="w-5 h-5" />,
+        details: ["Predictive Low-Stock Alerts", "Batch Logistics", "Real-Time Rebalancing"]
       },
       {
-        title: "Team Permissions",
-        desc: "Assign roles to staff, accountants, and managers. Control exactly who sees your financial data.",
-        icon: <ShieldCheck className="w-6 h-6" />,
-        color: "from-orange-600/20 to-orange-400/5",
-        accent: "text-orange-400",
-        details: ["Audit logs", "Role-based access", "Manager approvals"]
+        title: "Governance & Roles",
+        desc: "Define granular permissions for staff and accountants. Maintain strict financial oversight.",
+        icon: <ShieldCheck className="w-5 h-5" />,
+        details: ["Immutable Audit Logs", "Multi-Level Approvals", "SSO & Identity Management"]
       }
     ]
   }
 };
 
 const commonFeatures = [
-  { title: "Cloud Security", icon: <ShieldCheck size={20} />, desc: "AES-256 bank-grade encryption." },
-  { title: "Mobile App", icon: <Smartphone size={20} />, desc: "Manage business on iOS & Android." },
-  { title: "Instant Sync", icon: <Zap size={20} />, desc: "Real-time cloud reconciliation." },
-  { title: "API Access", icon: <Layers size={20} />, desc: "Integrate with 2000+ other apps." },
-  { title: "Global Ready", icon: <Globe size={20} />, desc: "100+ currencies and tax zones." },
-  { title: "24/7 Support", icon: <Briefcase size={20} />, desc: "Expert help whenever you need it." },
+  { title: "Bank-Grade Encryption", icon: <ShieldCheck size={18} />, desc: "AES-256 standard security." },
+  { title: "Cross-Platform", icon: <Smartphone size={18} />, desc: "Native iOS, Android & Web." },
+  { title: "Global Settlement", icon: <Globe size={18} />, desc: "Multi-currency reconciliation." },
+  { title: "Universal API", icon: <Layers size={18} />, desc: "Connect with 2000+ ecosystems." },
+  { title: "Real-Time Sync", icon: <Zap size={18} />, desc: "Zero-latency data propagation." },
+  { title: "SLA Support", icon: <Briefcase size={18} />, desc: "Dedicated 24/7 priority help." },
 ];
 
 export default function FeaturesPage() {
   const [role, setRole] = useState<"freelancer" | "business">("freelancer");
-
   const activeContent = roleContent[role];
 
   return (
-    <main className="pt-32 pb-20 bg-[#050505] text-white selection:bg-blue-500/30 selection:text-blue-200">
+    <main className="pt-40 pb-20 bg-white text-zinc-950 selection:bg-blue-100 selection:text-blue-700 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         
         {/* --- Header Section --- */}
-        <div className="text-center max-w-3xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[10px] font-bold uppercase tracking-[0.2em] text-blue-400 mb-6">
-            Platform Capabilities
-          </div>
-          <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tighter mb-8">
-            Tailored for your <br />
-            <span className="text-blue-500 italic">growth.</span>
-          </h1>
+        <div className="max-w-4xl mb-32">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-blue-100"
+          >
+            Capabilities
+          </motion.div>
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            className="text-6xl md:text-9xl font-black tracking-tighter leading-[0.85] mb-12"
+          >
+            Engineered for <br />
+            <span className="text-blue-600 italic">your scale.</span>
+          </motion.h1>
 
-          {/* Role Switcher */}
-          <div className="inline-flex p-1 bg-white/5 rounded-2xl border border-white/10 mb-8 backdrop-blur-md">
+          {/* Role Switcher (Executive Design) */}
+          <div className="inline-flex p-1.5 bg-zinc-100 rounded-full border border-zinc-200">
             <button 
               onClick={() => setRole("freelancer")}
-              className={`flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold transition-all ${role === "freelancer" ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "text-gray-400 hover:text-white"}`}
+              className={`flex items-center gap-2 px-10 py-3 rounded-full text-[11px] font-black uppercase tracking-widest transition-all ${role === "freelancer" ? "bg-white text-zinc-950 shadow-sm" : "text-zinc-400 hover:text-zinc-600"}`}
             >
-              <User size={16} /> Freelancer
+              <User size={14} /> Freelancer
             </button>
             <button 
               onClick={() => setRole("business")}
-              className={`flex items-center gap-2 px-8 py-3 rounded-xl text-sm font-bold transition-all ${role === "business" ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20" : "text-gray-400 hover:text-white"}`}
+              className={`flex items-center gap-2 px-10 py-3 rounded-full text-[11px] font-black uppercase tracking-widest transition-all ${role === "business" ? "bg-white text-zinc-950 shadow-sm" : "text-zinc-400 hover:text-zinc-600"}`}
             >
-              <Building2 size={16} /> Business
+              <Building2 size={14} /> Business
             </button>
           </div>
         </div>
 
-        {/* --- Spotlight Features (Dynamic) --- */}
-        <div className="space-y-40 mb-40">
-          <div className="text-center mb-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <h2 className="text-3xl font-bold mb-4">{activeContent.title}</h2>
-            <p className="text-gray-500 max-w-xl mx-auto">{activeContent.desc}</p>
-          </div>
-
-          {activeContent.spotlight.map((feature, i) => (
-            <div key={i} className={`flex flex-col lg:flex-row items-center gap-20 animate-in fade-in slide-in-from-bottom-8 duration-1000 ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
-              <div className="flex-1 space-y-8">
-                <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center ${feature.accent}`}>
-                  {feature.icon}
+        {/* --- Spotlight Content --- */}
+        <AnimatePresence mode="wait">
+          <motion.div 
+            key={role}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="space-y-48 mb-48"
+          >
+            {activeContent.spotlight.map((feature, i) => (
+              <div key={i} className={`flex flex-col lg:flex-row items-center gap-24 ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+                <div className="flex-1 space-y-10">
+                  <div className="w-14 h-14 rounded-2xl bg-zinc-50 border border-zinc-100 flex items-center justify-center text-blue-600 shadow-sm">
+                    {feature.icon}
+                  </div>
+                  <h3 className="text-4xl md:text-6xl font-black tracking-tighter">{feature.title}</h3>
+                  <p className="text-xl text-zinc-500 leading-relaxed font-medium">{feature.desc}</p>
+                  
+                  <div className="grid grid-cols-1 gap-4 pt-4">
+                    {feature.details.map(detail => (
+                      <div key={detail} className="flex items-center gap-4 text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                        <CheckCircle2 size={16} className="text-blue-600" /> {detail}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <h3 className="text-4xl font-bold tracking-tight">{feature.title}</h3>
-                <p className="text-lg text-gray-400 leading-relaxed">{feature.desc}</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {feature.details.map(detail => (
-                    <div key={detail} className="flex items-center gap-3 text-sm text-gray-300">
-                      <CheckCircle2 size={16} className={feature.accent} /> {detail}
+                
+                {/* Visual Preview (Mockup Style) */}
+                <div className="flex-1 w-full relative">
+                  <div className="absolute -inset-10 bg-blue-50/50 blur-[120px] -z-10 rounded-full" />
+                  <div className="relative aspect-video rounded-[3rem] border border-zinc-100 bg-white shadow-2xl flex items-center justify-center overflow-hidden">
+                    <div className="text-center">
+                       <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-300 mb-4">{activeContent.badge}</p>
+                       <div className="h-px w-20 bg-zinc-100 mx-auto" />
                     </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div className="flex-1 w-full relative group">
-                <div className={`absolute -inset-4 bg-linear-to-br ${feature.color} blur-3xl rounded-[3rem] opacity-50 group-hover:opacity-100 transition-opacity`} />
-                <div className="relative aspect-16/10 rounded-[2.5rem] border border-white/10 bg-[#0a0a0a] overflow-hidden shadow-2xl flex items-center justify-center">
-                  <div className="text-center">
-                     <p className="text-[10px] font-black uppercase tracking-widest text-gray-600 mb-2">{activeContent.badge}</p>
-                     <p className="text-2xl font-black text-white/10 italic">Interactive Preview</p>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
-        {/* --- Common Infrastructure --- */}
-        <section className="pt-32 border-t border-white/5">
-          <div className="mb-16">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">The Aptro Standard</h2>
-            <p className="text-gray-500 leading-relaxed">Universal features included in every plan to ensure your business remains secure and connected.</p>
+        {/* --- Standard Infrastructure Grid --- */}
+        <section className="pt-32 border-t border-zinc-100">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+            <div className="max-w-xl">
+              <h2 className="text-4xl font-black tracking-tighter mb-4">The Aptro Standard</h2>
+              <p className="text-zinc-500 font-medium">Foundational protocols built into every workspace, ensuring absolute security and connectivity.</p>
+            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-300">Universal Baseline</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-100 border border-zinc-100 rounded-[3rem] overflow-hidden">
             {commonFeatures.map((f, i) => (
-              <div key={i} className="group p-8 rounded-4xl bg-[#0a0a0a] border border-white/5 hover:border-blue-500/20 hover:bg-blue-500/2 transition-all">
-                <div className="mb-6 inline-block p-3 rounded-xl bg-white/5 text-blue-400 group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all">
+              <div key={i} className="group p-12 bg-white hover:bg-zinc-50 transition-all">
+                <div className="mb-8 inline-block p-3 rounded-xl bg-zinc-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
                   {f.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-3">{f.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed group-hover:text-gray-300">{f.desc}</p>
+                <h3 className="text-xl font-black mb-4 tracking-tighter uppercase tracking-widest text-xs">{f.title}</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed font-medium">{f.desc}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* --- Final CTA --- */}
-        <section className="mt-40 relative group overflow-hidden rounded-[4rem]">
-          <div className="absolute inset-0 bg-blue-600/10 blur-[100px]" />
-          <div className="relative p-12 lg:p-24 border border-white/10 bg-black text-center">
-            <h2 className="text-4xl lg:text-6xl font-bold mb-8 tracking-tighter">Ready to experience <br />the difference?</h2>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/download" className="px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-blue-50 transition-all">
+        <section className="mt-40 rounded-[4rem] bg-zinc-950 text-white p-12 lg:p-32 text-center relative overflow-hidden shadow-2xl">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.1),transparent_70%)]" />
+          <div className="relative z-10">
+            <h2 className="text-5xl lg:text-7xl font-black mb-12 tracking-tighter">Scale with <br /> confidence.</h2>
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Link href="/download" className="px-12 py-5 bg-white text-zinc-950 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-all">
                 Download for {role === "freelancer" ? "Mobile" : "Desktop"}
               </Link>
-              <Link href="/pricing" className="px-8 py-4 bg-white/5 border border-white/10 rounded-full font-bold hover:bg-white/10 transition-all">
-                View All Plans
+              <Link href="/pricing" className="px-12 py-5 bg-transparent border border-white/20 rounded-full font-black text-[11px] uppercase tracking-widest hover:bg-white/5 transition-all">
+                System Overview
               </Link>
             </div>
           </div>
         </section>
 
       </div>
+
     </main>
   );
 }

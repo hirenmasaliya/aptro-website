@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { ChevronDown, Menu, X, Smartphone, Globe, Shield, ArrowRight, ArrowUpRight } from "lucide-react";
-import Image from "next/image";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
     const pathname = usePathname();
@@ -26,79 +26,50 @@ export default function Navbar() {
 
     return (
         <nav
-            className={`fixed top-0 w-full z-100 transition-all duration-500 ${isScrolled
-                ? "bg-black/60 backdrop-blur-xl border-b border-white/5 py-3"
+            className={`fixed top-0 w-full z-[100] transition-all duration-300 ${isScrolled
+                ? "bg-white/80 backdrop-blur-md border-b border-zinc-100 py-3 shadow-sm"
                 : "bg-transparent py-6"
                 }`}
         >
             <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-                {/* Logo Section */}
-
-                <Link href="/" className="flex items-center gap-3 group">
-                    {/* Logo Container */}
-                    <div className="relative w-11 h-11 flex items-center justify-center transition-all duration-500 group-hover:scale-110">
-
-                        {/* Ambient Glow (clean + controlled) */}
-                        <div className="absolute inset-0 rounded-xl bg-blue-500/20 blur-2xl opacity-0 group-hover:opacity-100 transition duration-500" />
-
-                        {/* Main Container */}
-                        <div className="relative z-10 w-full h-full rounded-xl bg-[#0b0b0f] border border-white/10 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 group-hover:border-blue-500/40 group-hover:shadow-blue-500/20">
-
-                            {/* Logo */}
-                            <div className="relative w-full h-full p-2 flex items-center justify-center">
-                                <Image
-                                    src="/logo.png"
-                                    alt="Aptro Logo"
-                                    fill
-                                    className="object-contain transition-transform duration-500 group-hover:scale-110"
-                                    priority
-                                />
-                            </div>
-
-                            {/* Subtle Shine Sweep */}
-                            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:translate-x-full transition-all duration-700 pointer-events-none" />
-
-                            {/* Soft Glass Overlay */}
-                            <div className="absolute inset-0 bg-linear-to-br from-white/5 to-transparent pointer-events-none" />
-                        </div>
-
-                        {/* Reflection Shadow */}
-                        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-[2px] bg-blue-500/30 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:w-10" />
-                    </div>
-
-                    {/* Brand Name */}
-                    <span className="font-semibold text-2xl tracking-tight text-white group-hover:text-blue-500 transition-all duration-300">
-                        APTRO
+                
+                {/* 1. PROFESSIONAL LOGO SECTION */}
+                <Link href="/" className="flex items-center gap-2 group">
+                    <span className="font-black text-2xl tracking-tighter text-zinc-950">
+                        APTRO<span className="text-blue-600">.</span>
+                    </span>
+                    <span className="hidden sm:inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest bg-zinc-100 text-zinc-500 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                        Business OS
                     </span>
                 </Link>
 
-                {/* Desktop Navigation Links */}
-                <div className="hidden md:flex items-center bg-white/5 border border-white/5 p-1 rounded-full backdrop-blur-md">
+                {/* 2. DESKTOP NAVIGATION (Pill Style) */}
+                <div className="hidden md:flex items-center bg-zinc-100/50 border border-zinc-200/50 p-1 rounded-full backdrop-blur-sm">
                     {navLinks.map((link) => (
                         <div key={link.name} className="relative group/nav">
                             <Link
                                 href={link.href}
-                                className={`px-5 py-2 rounded-full text-[13px] font-semibold transition-all flex items-center gap-1.5 ${pathname === link.href
-                                    ? "text-white bg-white/10 shadow-inner"
-                                    : "text-gray-400 hover:text-white"
+                                className={`px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-widest transition-all flex items-center gap-1.5 ${pathname === link.href
+                                    ? "text-zinc-950 bg-white shadow-sm"
+                                    : "text-zinc-500 hover:text-zinc-950"
                                     }`}
                             >
                                 {link.name}
                                 {link.hasDropdown && (
-                                    <ChevronDown size={12} className="group-hover/nav:rotate-180 transition-transform duration-300 opacity-50" />
+                                    <ChevronDown size={12} className="group-hover/nav:rotate-180 transition-transform duration-300 opacity-40" />
                                 )}
                             </Link>
 
-                            {/* Pro Dropdown Menu */}
+                            {/* Refined White Dropdown Menu */}
                             {link.hasDropdown && (
-                                <div className="absolute top-[calc(100%+10px)] left-0 w-72 p-2 bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 rounded-3xl opacity-0 translate-y-4 pointer-events-none group-hover/nav:opacity-100 group-hover/nav:translate-y-0 group-hover/nav:pointer-events-auto transition-all duration-300 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                                <div className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-72 p-3 bg-white border border-zinc-100 rounded-[2rem] opacity-0 translate-y-4 pointer-events-none group-hover/nav:opacity-100 group-hover/nav:translate-y-0 group-hover/nav:pointer-events-auto transition-all duration-300 shadow-2xl shadow-zinc-200">
                                     <DropdownItem icon={<Smartphone size={18} />} title="Mobile POS" desc="Take payments from anywhere." href="/solutions/pos" />
-                                    <DropdownItem icon={<Globe size={18} />} title="Global E-commerce" desc="Sync orders across borders." href="/solutions/ecom" />
-                                    <DropdownItem icon={<Shield size={18} />} title="Enterprise" desc="Advanced security & audit logs." href="/solutions/enterprise" />
+                                    <DropdownItem icon={<Globe size={18} />} title="Global E-com" desc="Sync orders across borders." href="/solutions/ecom" />
+                                    <DropdownItem icon={<Shield size={18} />} title="Enterprise" desc="Advanced security layers." href="/solutions/enterprise" />
 
-                                    <div className="mt-2 p-3 bg-blue-600/10 rounded-2xl border border-blue-500/20">
-                                        <Link href="/solutions" className="text-[11px] font-bold text-blue-400 flex items-center justify-between group/link">
-                                            View all solutions <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" />
+                                    <div className="mt-2 p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
+                                        <Link href="/solutions" className="text-[10px] font-black uppercase tracking-widest text-blue-600 flex items-center justify-between group/link">
+                                            All solutions <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" />
                                         </Link>
                                     </div>
                                 </div>
@@ -107,69 +78,80 @@ export default function Navbar() {
                     ))}
                 </div>
 
-                {/* Right Actions */}
-                <div className="hidden md:flex items-center gap-6">
+                {/* 3. RIGHT ACTIONS */}
+                <div className="hidden md:flex items-center gap-8">
                     <Link
                         href="https://aptrooms.web.app/login"
                         target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm font-bold text-gray-400 hover:text-white transition-colors flex items-center gap-1 group"
+                        className="text-[11px] font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-950 transition-colors flex items-center gap-1 group"
                     >
                         Log in
-                        <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" />
+                        <ArrowUpRight size={12} className="opacity-0 group-hover:opacity-100 transition-all -translate-y-0.5" />
                     </Link>
                     <Link
                         href="/download"
-                        className="relative px-7 py-3 bg-white text-black rounded-full font-bold text-sm overflow-hidden group/btn hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                        className="bg-zinc-950 text-white px-8 py-3.5 rounded-full font-black text-[11px] uppercase tracking-[0.2em] hover:bg-blue-600 transition-all shadow-xl shadow-zinc-200 active:scale-95"
                     >
-                        <span className="relative z-10">Get Started</span>
-                        <div className="absolute inset-0 bg-linear-to-r from-blue-100 to-white opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                        Get Started
                     </Link>
                 </div>
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="md:hidden text-white p-2 hover:bg-white/5 rounded-xl transition-colors"
+                    className="md:hidden text-zinc-950 p-2 hover:bg-zinc-100 rounded-xl transition-colors"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
-                <div className="fixed inset-0 top-18 bg-black/95 backdrop-blur-xl z-90 p-6 flex flex-col md:hidden animate-in fade-in slide-in-from-top-5">
-                    <div className="flex flex-col gap-2">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                href={link.href}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="text-2xl font-bold p-4 hover:text-blue-500 transition-colors flex items-center justify-between"
-                            >
-                                {link.name} <ChevronDown className="-rotate-90 opacity-20" />
-                            </Link>
-                        ))}
-                    </div>
-                    <div className="mt-auto space-y-4">
-                        <Link href="/login" className="block w-full p-4 rounded-2xl text-center font-bold border border-white/10">Log in</Link>
-                        <Link href="/download" className="block w-full p-5 bg-blue-600 text-white rounded-2xl text-center font-bold shadow-lg shadow-blue-600/20">Download App</Link>
-                    </div>
-                </div>
-            )}
+            {/* 4. MOBILE MENU OVERLAY (Full Screen White) */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div 
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: '100vh' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="fixed inset-0 top-0 left-0 w-full bg-white z-[90] p-8 flex flex-col md:hidden"
+                    >
+                        <div className="mt-20 flex flex-col gap-6">
+                            {navLinks.map((link, i) => (
+                                <motion.div
+                                    key={link.name}
+                                    initial={{ x: -20, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ delay: i * 0.1 }}
+                                >
+                                    <Link
+                                        href={link.href}
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="text-5xl font-black tracking-tighter text-zinc-950 flex items-center justify-between"
+                                    >
+                                        {link.name}
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
+                        <div className="mt-auto mb-10 space-y-4">
+                            <Link href="/login" className="block w-full p-5 rounded-2xl text-center font-bold text-zinc-400 border border-zinc-100">Log in</Link>
+                            <Link href="/download" className="block w-full p-6 bg-zinc-950 text-white rounded-[2rem] text-center font-black uppercase tracking-widest text-xs">Download App</Link>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 }
 
 function DropdownItem({ icon, title, desc, href }: { icon: any, title: string, desc: string, href: string }) {
     return (
-        <Link href={href} className="flex items-start gap-4 p-4 rounded-2xl hover:bg-white/5 transition-all group/item">
-            <div className="mt-1 text-gray-500 group-hover/item:text-blue-500 transition-colors">
+        <Link href={href} className="flex items-start gap-4 p-4 rounded-2xl hover:bg-zinc-50 transition-all group/item">
+            <div className="mt-1 text-zinc-400 group-hover/item:text-blue-600 transition-colors">
                 {icon}
             </div>
             <div>
-                <div className="text-sm font-bold text-white mb-0.5">{title}</div>
-                <div className="text-xs text-gray-500 leading-relaxed">{desc}</div>
+                <div className="text-[13px] font-bold text-zinc-950 mb-0.5">{title}</div>
+                <div className="text-[11px] text-zinc-500 leading-relaxed font-medium">{desc}</div>
             </div>
         </Link>
     );
