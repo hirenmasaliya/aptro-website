@@ -1,194 +1,224 @@
 "use client";
 
-import { useState } from "react";
-import { 
-  Check, 
-  ArrowRight, 
-  User, 
-  Building2, 
-  Star, 
+import { useState, useEffect } from "react";
+import {
+  ArrowRight,
+  User,
+  Building2,
+  Star,
   Plus,
-  ShieldCheck,
-  Zap
+  Loader2,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const pricingData = {
-  freelancer: [
-    {
-      name: "Starter",
-      price: { monthly: "₹0", yearly: "₹0" },
-      description: "Foundational tools for solo exploration.",
-      features: ["5 Invoices/mo", "Standard PDF Engine", "1 User License", "Standard Analytics", "Community Access"],
-      cta: "Initialize",
-      popular: false,
-    },
-    {
-      name: "Pro Solo",
-      price: { monthly: "₹999", yearly: "₹799" },
-      description: "High-performance automation for founders.",
-      features: ["Unlimited Invoicing", "Custom Identity Kits", "Automated Ledgering", "Priority Channel", "API Infrastructure"],
-      cta: "Go Pro Solo",
-      popular: true,
-    }
-  ],
-  business: [
-    {
-      name: "Team",
-      price: { monthly: "₹3,999", yearly: "₹3,199" },
-      description: "Collaborative power for growing agencies.",
-      features: ["Everything in Pro Solo", "10 Team Licenses", "Inventory Sync", "Governance Logs", "Global Logistics"],
-      cta: "Activate Team",
-      popular: false,
-    },
-    {
-      name: "Enterprise",
-      price: { monthly: "Custom", yearly: "Custom" },
-      description: "Full-scale sovereign controls.",
-      features: ["Unlimited Capacity", "SSO & SAML 2.0", "Dedicated Architect", "Custom Tax Zones", "SLA Guarantee"],
-      cta: "Inquire Sales",
-      popular: true,
-    }
-  ]
-};
+// ✅ Correct Interface (FIXED)
+interface Plan {
+  id: string;
+  name: string;
+  type: "freelancer" | "business";
+  isPopular: boolean;
+  features: string[];
+  prices: {
+    IN: {
+      monthly: number;
+      yearly: number;
+      textMonthly: string;
+      textYearly: string;
+    };
+  };
+  specialOffer?: string;
+}
 
 export default function PricingPage() {
   const [role, setRole] = useState<"freelancer" | "business">("freelancer");
   const [isYearly, setIsYearly] = useState(false);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // ✅ Fetch API
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+
+        const response = await fetch("/api/plans");
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const json = await response.json();
+
+        console.log("Plans:", json.data); // ✅ Debug
+
+        if (json.success) {
+          setPlans(json.data || []);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  // ✅ Filter Plans
+  const filteredPlans = plans.filter((plan) => plan.type === role);
 
   return (
-    <main className="pt-40 pb-32 bg-white text-zinc-950 selection:bg-blue-100 selection:text-blue-700 overflow-x-hidden">
-      
-      {/* Background Soft Gradients */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+    <main className="pt-40 pb-32 bg-white text-zinc-950 overflow-x-hidden">
+      {/* Background */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-blue-50/50 blur-[140px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        {/* --- Header Section --- */}
-        <div className="text-left md:text-center max-w-4xl mx-auto mb-24">
-          <motion.div 
-            initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-blue-100"
+      <div className="max-w-7xl mx-auto px-6">
+
+        {/* HEADER */}
+        <div className="text-center max-w-4xl mx-auto mb-24">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-8xl font-black mb-10"
           >
-            Licensing Ecosystem
-          </motion.div>
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-9xl font-black tracking-tighter mb-12 leading-[0.85] text-zinc-950"
-          >
-            Pick your <br /><span className="text-blue-600 italic">velocity.</span>
+            Pick your <span className="text-blue-600 italic">plan</span>
           </motion.h1>
-          
-          {/* Executive Switcher */}
-          <div className="flex flex-col items-center gap-10">
-            <div className="inline-flex p-1.5 bg-zinc-100 border border-zinc-200 rounded-full shadow-inner">
-              <button 
+
+          {/* ROLE SWITCH */}
+          <div className="flex justify-center mb-10">
+            <div className="flex p-1 bg-zinc-100 rounded-full">
+              <button
                 onClick={() => setRole("freelancer")}
-                className={`relative px-10 py-3 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-500 ${role === "freelancer" ? "bg-white text-zinc-950 shadow-sm" : "text-zinc-400 hover:text-zinc-600"}`}
-              >
-                <User size={14} className="inline mr-2" /> Freelancer
-              </button>
-              <button 
-                onClick={() => setRole("business")}
-                className={`relative px-10 py-3 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-500 ${role === "business" ? "bg-white text-zinc-950 shadow-sm" : "text-zinc-400 hover:text-zinc-600"}`}
-              >
-                <Building2 size={14} className="inline mr-2" /> Business
-              </button>
-            </div>
-
-            {/* Billing Toggle */}
-            <div className="flex items-center gap-5 text-[10px] font-black uppercase tracking-[0.2em]">
-              <span className={!isYearly ? "text-zinc-950" : "text-zinc-300"}>Monthly</span>
-              <button 
-                onClick={() => setIsYearly(!isYearly)}
-                className="w-12 h-6 bg-zinc-100 border border-zinc-200 rounded-full relative p-1 transition-all"
-              >
-                <motion.div 
-                  animate={{ x: isYearly ? 24 : 0 }}
-                  className="w-4 h-4 bg-blue-600 rounded-full shadow-md shadow-blue-200" 
-                />
-              </button>
-              <span className={isYearly ? "text-zinc-950" : "text-zinc-300"}>
-                Yearly <span className="text-blue-600 ml-1">(-20%)</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* --- Pricing Grid --- */}
-        <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto mb-48">
-          <AnimatePresence mode="wait">
-            {pricingData[role].map((tier, i) => (
-              <motion.div 
-                key={`${role}-${tier.name}`}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ delay: i * 0.1 }}
-                className={`group relative p-10 lg:p-14 rounded-[3.5rem] transition-all duration-500 border ${
-                  tier.popular ? "bg-blue-50/30 border-blue-100 shadow-2xl shadow-blue-50" : "bg-white border-zinc-100 shadow-sm hover:shadow-xl"
+                className={`px-6 py-2 rounded-full text-xs font-bold ${
+                  role === "freelancer"
+                    ? "bg-white shadow"
+                    : "text-zinc-400"
                 }`}
               >
-                {tier.popular && (
-                  <div className="absolute top-10 right-10 flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-950 text-[10px] font-black text-white uppercase tracking-widest">
-                    <Star size={10} fill="currentColor" /> Recommended
-                  </div>
-                )}
+                <User size={14} className="inline mr-2" />
+                Freelancer
+              </button>
 
-                <div className="mb-12">
-                  <h3 className="text-3xl font-black mb-3 tracking-tighter text-zinc-950">{tier.name}</h3>
-                  <p className="text-zinc-500 text-sm font-medium">{tier.description}</p>
-                </div>
+              <button
+                onClick={() => setRole("business")}
+                className={`px-6 py-2 rounded-full text-xs font-bold ${
+                  role === "business"
+                    ? "bg-white shadow"
+                    : "text-zinc-400"
+                }`}
+              >
+                <Building2 size={14} className="inline mr-2" />
+                Business
+              </button>
+            </div>
+          </div>
 
-                <div className="mb-14">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-7xl font-black tracking-tighter text-zinc-950">
-                      {isYearly ? tier.price.yearly : tier.price.monthly}
-                    </span>
-                    {tier.price.monthly !== "Custom" && (
-                      <span className="text-zinc-300 font-bold text-lg uppercase tracking-widest">/mo</span>
-                    )}
-                  </div>
-                </div>
+          {/* BILLING TOGGLE */}
+          <div className="flex justify-center items-center gap-4 text-sm font-bold">
+            <span className={!isYearly ? "text-black" : "text-gray-400"}>
+              Monthly
+            </span>
 
-                <button className={`w-full py-6 rounded-full font-black text-[11px] uppercase tracking-[0.3em] transition-all mb-14 flex items-center justify-center gap-3 shadow-xl ${
-                  tier.popular 
-                    ? "bg-zinc-950 text-white hover:bg-blue-600 shadow-zinc-200" 
-                    : "bg-white text-zinc-950 border border-zinc-200 hover:bg-zinc-50 shadow-zinc-100"
-                }`}>
-                  {tier.cta}
-                  <ArrowRight size={16} />
-                </button>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="w-12 h-6 bg-gray-200 rounded-full p-1"
+            >
+              <motion.div
+                animate={{ x: isYearly ? 24 : 0 }}
+                className="w-4 h-4 bg-blue-600 rounded-full"
+              />
+            </button>
 
-                <div className="space-y-6">
-                  <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-300 mb-6">Standard Capabilities</p>
-                  <div className="grid grid-cols-1 gap-5">
-                    {tier.features.map((feature) => (
-                      <div key={feature} className="flex items-center gap-4 text-xs font-bold text-zinc-500 uppercase tracking-tight">
-                        <Plus size={14} className="text-blue-600" />
-                        {feature}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </div>
-
-        {/* --- Global Trust Footer --- */}
-        <div className="text-center pb-20">
-          <p className="text-zinc-300 text-[10px] font-black uppercase tracking-[0.5em] mb-12">Universal Settlement Protocol</p>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-30 grayscale contrast-125">
-             <div className="flex items-center gap-2 font-black text-xl italic tracking-widest text-zinc-950">SECURE</div>
-             <div className="flex items-center gap-2 font-black text-xl italic tracking-widest text-zinc-950">SOVEREIGN</div>
-             <div className="flex items-center gap-2 font-black text-xl italic tracking-widest text-zinc-950">SYNCED</div>
+            <span className={isYearly ? "text-black" : "text-gray-400"}>
+              Yearly
+            </span>
           </div>
         </div>
 
+        {/* PRICING GRID */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 min-h-[300px]">
+
+          {/* LOADING */}
+          {isLoading ? (
+            <div className="col-span-full flex justify-center">
+              <Loader2 className="animate-spin text-blue-600" size={40} />
+            </div>
+          ) : filteredPlans.length === 0 ? (
+
+            /* EMPTY STATE */
+            <div className="col-span-full text-center text-gray-400">
+              No plans available
+            </div>
+
+          ) : (
+            <AnimatePresence>
+              {filteredPlans.map((tier, i) => (
+                <motion.div
+                  key={tier.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  className={`p-8 rounded-3xl border flex flex-col justify-between ${
+                    tier.isPopular
+                      ? "bg-blue-50 border-blue-200 shadow-xl"
+                      : "bg-white border-gray-200"
+                  }`}
+                >
+                  {/* POPULAR TAG */}
+                  {tier.isPopular && (
+                    <div className="mb-4 text-xs font-bold text-blue-600 flex items-center gap-2">
+                      <Star size={12} /> Recommended
+                    </div>
+                  )}
+
+                  {/* TITLE */}
+                  <div>
+                    <h3 className="text-2xl font-black mb-2">
+                      {tier.name}
+                    </h3>
+
+                    {/* PRICE */}
+                    <div className="text-4xl font-black mb-6">
+                      {isYearly
+                        ? tier.prices.IN.textYearly
+                        : tier.prices.IN.textMonthly}
+                      <span className="text-sm text-gray-400 ml-2">
+                        {isYearly ? "/yr" : "/mo"}
+                      </span>
+                    </div>
+
+                    {/* FEATURES */}
+                    <div className="space-y-3 mb-6">
+                      {tier.features?.map((feature, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center gap-2 text-sm text-gray-600"
+                        >
+                          <Plus size={14} className="text-blue-600" />
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* BUTTON */}
+                  <button
+                    className={`w-full py-3 rounded-full font-bold flex items-center justify-center gap-2 ${
+                      tier.isPopular
+                        ? "bg-black text-white hover:bg-blue-600"
+                        : "border border-gray-300"
+                    }`}
+                  >
+                    Get Started
+                    <ArrowRight size={16} />
+                  </button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          )}
+        </div>
       </div>
     </main>
   );
