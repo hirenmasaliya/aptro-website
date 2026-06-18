@@ -1,195 +1,170 @@
 "use client";
 
-import { 
-  Scale, 
-  ShieldAlert, 
-  CreditCard, 
-  Ban, 
-  Gavel, 
-  FileCheck,
-  ArrowRight,
-  Info,
-  Download
-} from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-
-const sections = [
-  { id: "acceptance", title: "Acceptance", icon: <FileCheck size={14} /> },
-  { id: "accounts", title: "User Accounts", icon: <Scale size={14} /> },
-  { id: "billing", title: "Billing & Fees", icon: <CreditCard size={14} /> },
-  { id: "restrictions", title: "Conduct", icon: <Ban size={14} /> },
-  { id: "termination", title: "Termination", icon: <ShieldAlert size={14} /> },
-];
+import { ArrowLeft, Scale } from "lucide-react";
 
 export default function TermsPage() {
   return (
-    <main className="pt-40 pb-20 bg-white text-zinc-950 selection:bg-blue-100 selection:text-blue-700 overflow-x-hidden">
-      
-      {/* Subtle Background Dynamics */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-zinc-50/50 blur-[120px] rounded-full" />
-      </div>
+    <main className="min-h-screen bg-zinc-50 py-16 md:py-24 text-zinc-900 selection:bg-blue-200 selection:text-blue-900">
+      <div className="max-w-3xl mx-auto px-6">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-        {/* --- Header Section --- */}
-        <div className="max-w-4xl mb-32">
-          <motion.div 
-            initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}
-            className="flex items-center gap-2 text-blue-600 mb-10"
-          >
-            <Gavel size={18} />
-            <span className="text-[10px] font-black uppercase tracking-[0.4em]">Sovereign Framework</span>
-          </motion.div>
+        {/* Header */}
+        <header className="mb-14">
+          <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-6">
+            <Scale size={24} />
+          </div>
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+            Terms of Service
+          </h1>
+          <p className="text-zinc-500">
+            Effective Date: June 18, 2026 • Version 1.7.1
+          </p>
+        </header>
+
+        {/* Document Content */}
+        <article className="space-y-12">
           
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-9xl font-black tracking-tighter mb-10 leading-[0.85] text-zinc-950"
-          >
-            Terms of <br /><span className="text-zinc-400 italic">Service.</span>
-          </motion.h1>
-          
-          <motion.p 
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-            className="text-xl md:text-2xl text-zinc-500 leading-relaxed max-w-2xl font-medium"
-          >
-            These protocols define the relationship between Aptro and your business. 
-            We have architected these rules to be as transparent and fair as possible.
-          </motion.p>
-        </div>
-
-        <div className="grid lg:grid-cols-12 gap-16">
-          
-          {/* --- Sticky Sidebar Navigation --- */}
-          <aside className="hidden lg:block lg:col-span-3 sticky top-40 h-fit">
-            <div className="space-y-1 border-l-2 border-zinc-100 pl-6">
-              <p className="text-[10px] font-black text-zinc-300 uppercase tracking-[0.3em] mb-8 ml-2">Governance</p>
-              {sections.map((s) => (
-                <a 
-                  key={s.id}
-                  href={`#${s.id}`}
-                  className="flex items-center gap-4 px-2 py-3 text-[11px] font-bold uppercase tracking-widest text-zinc-400 hover:text-zinc-950 transition-all hover:translate-x-1"
-                >
-                  {s.title}
-                </a>
-              ))}
-            </div>
-            
-            <div className="mt-20 p-8 rounded-[2.5rem] bg-zinc-50 border border-zinc-100 shadow-sm">
-              <h4 className="text-xs font-black uppercase tracking-widest mb-3 text-zinc-950">Record Keeping</h4>
-              <p className="text-zinc-400 text-[11px] font-medium leading-relaxed mb-8 uppercase tracking-tight">Need an offline copy for your legal archives?</p>
-              <button className="text-[10px] font-black text-blue-600 uppercase tracking-widest flex items-center gap-2 group border-b border-blue-100 pb-1 w-fit">
-                Download PDF <Download size={12} className="group-hover:translate-y-1 transition-transform" />
-              </button>
-            </div>
-          </aside>
-
-          {/* --- Main Content Area --- */}
-          <div className="lg:col-span-9 space-y-32">
-            
-            <section id="acceptance" className="scroll-mt-40">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="p-4 bg-zinc-50 rounded-2xl text-blue-600 shadow-sm border border-zinc-100"><FileCheck size={24}/></div>
-                <h2 className="text-4xl font-black tracking-tighter">Acceptance of Protocol</h2>
-              </div>
-              <div className="text-zinc-500 leading-relaxed space-y-6 text-lg font-medium">
-                <p>
-                  By initializing an account within the Aptro ecosystem, you execute a binding agreement to these Terms. 
-                  If you operate on behalf of a legal entity, you represent that you have the authority to bind that entity.
-                </p>
-                <div className="flex gap-6 p-8 rounded-[2.5rem] bg-zinc-950 text-white shadow-xl relative overflow-hidden">
-                   <div className="absolute top-0 right-0 p-8 opacity-10"><Info size={80} strokeWidth={1}/></div>
-                   <div className="relative z-10 flex gap-4">
-                     <Info size={20} className="text-blue-500 shrink-0" />
-                     <p className="text-sm font-light leading-relaxed">
-                       <strong className="text-white font-bold block mb-1 uppercase tracking-widest text-[10px]">Executive Summary:</strong> 
-                       Use of this platform constitutes full legal consent to our governing rules.
-                     </p>
-                   </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="accounts" className="scroll-mt-40">
-              <div className="flex justify-between items-end mb-12">
-                <h2 className="text-4xl font-black tracking-tighter">01. Identity & Security</h2>
-                <p className="text-[10px] font-black text-zinc-300 uppercase tracking-widest">User Governance</p>
-              </div>
-              <div className="space-y-10">
-                <p className="text-zinc-500 text-lg font-medium leading-relaxed">
-                  You are the sole custodian of your account credentials. Aptro facilitates secure access, 
-                  but the ultimate responsibility for maintaining password integrity and 2FA remains with you.
-                </p>
-                <div className="grid sm:grid-cols-2 gap-px bg-zinc-100 border border-zinc-100 rounded-[3rem] overflow-hidden">
-                  <div className="p-10 bg-white">
-                    <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest block mb-4">Maturity</span>
-                    <p className="text-sm font-bold text-zinc-950 uppercase tracking-tight">Users must be 18+ years of age to manage commercial ledgers.</p>
-                  </div>
-                  <div className="p-10 bg-white">
-                    <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest block mb-4">Uniqueness</span>
-                    <p className="text-sm font-bold text-zinc-950 uppercase tracking-tight">Duplicate free-tier accounts for the same entity are strictly prohibited.</p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="billing" className="scroll-mt-40">
-              <div className="p-12 lg:p-20 rounded-[4rem] bg-zinc-50 border border-zinc-100 shadow-sm">
-                <h2 className="text-4xl font-black mb-10 tracking-tighter flex items-center gap-4">
-                  <CreditCard className="text-blue-600" /> Billing Infrastructure
-                </h2>
-                <div className="space-y-8 text-zinc-500 text-lg font-medium leading-relaxed">
-                  <p>
-                    Aptro operates on a transparent licensing model. All listed fees are exclusive of statutory taxes 
-                    determined by your regional taxing authority.
-                  </p>
-                  <div className="pt-8 border-t border-zinc-200">
-                    <p className="font-black text-zinc-950 uppercase tracking-widest text-xs mb-4">Liquidation & Refunds</p>
-                    <p className="text-sm">
-                      We provide a <span className="text-zinc-950 font-bold">14-day satisfaction window</span> for new subscriptions. 
-                      Subsequent billing cycles are non-refundable but can be terminated instantly to cease future liability.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            <section id="restrictions" className="scroll-mt-40">
-              <h2 className="text-4xl font-black mb-12 tracking-tighter">02. Negative Covenants</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {[
-                  "Reverse engineering system logic.",
-                  "Unauthorized automated data scraping.",
-                  "Engagement in sovereign money laundering.",
-                  "Breach of cloud infrastructure integrity."
-                ].map((text, i) => (
-                  <div key={i} className="flex items-center gap-5 p-8 rounded-[2rem] bg-white border border-zinc-100 hover:border-blue-200 transition-all group">
-                    <Ban size={18} className="text-zinc-200 group-hover:text-blue-600 transition-colors" />
-                    <span className="text-xs font-bold text-zinc-500 uppercase tracking-tight group-hover:text-zinc-950">{text}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* --- Footer Note --- */}
-            <footer className="pt-24 border-t border-zinc-100 flex flex-col md:flex-row justify-between items-center gap-10">
-              <div className="text-center md:text-left">
-                <p className="text-[10px] font-black text-zinc-950 uppercase tracking-widest mb-2">Legal Queries</p>
-                <p className="text-xs text-zinc-400 font-medium">legal@aptro.app</p>
-              </div>
-              <Link href="/contact" className="px-10 py-4 bg-zinc-950 text-white rounded-full font-black text-[10px] uppercase tracking-widest hover:bg-blue-600 shadow-xl shadow-zinc-200 transition-all">
-                Contact Legal Counsel
-              </Link>
-            </footer>
-
-            <div className="pt-10 text-center md:text-left">
-               <p className="text-[10px] text-zinc-300 font-black uppercase tracking-[0.4em]">
-                System Release 1.2.0 • Last Revised: April 2026
+          {/* Section 1 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              1. Acceptance of Terms
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                By accessing or using the Aptro platform, applications, and APIs ("Services"), you agree to be bound by these Terms of Service. If you are using the Services on behalf of a business or legal entity, you represent that you have the authority to bind that entity to these Terms.
+              </p>
+              <p>
+                If you do not agree to these Terms, you may not access or use the Services. We reserve the right to update these Terms at any time, and continued use of the platform constitutes acceptance of those changes.
               </p>
             </div>
+          </section>
+
+          {/* Section 2 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              2. User Accounts & Security
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                To access certain features of Aptro, you must register for an account. You agree to provide accurate, current, and complete information during registration.
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li><strong className="text-zinc-900 font-medium">Account Security:</strong> You are the sole custodian of your account credentials. The ultimate responsibility for maintaining password integrity and enabling Two-Factor Authentication (2FA) rests with you.</li>
+                <li><strong className="text-zinc-900 font-medium">Maturity:</strong> Users must be at least 18 years of age to manage commercial ledgers on our platform.</li>
+                <li><strong className="text-zinc-900 font-medium">Uniqueness:</strong> Creating multiple or duplicate free-tier accounts for the same business entity to bypass limits is strictly prohibited and will result in immediate termination.</li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Section 3 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              3. Billing, Fees & Subscriptions
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                Aptro operates on a transparent, subscription-based licensing model. By upgrading to a paid tier, you agree to pay all applicable fees associated with your usage.
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li><strong className="text-zinc-900 font-medium">Taxes:</strong> All listed fees are exclusive of statutory taxes (such as VAT or GST) determined by your regional taxing authority. You are responsible for any applicable taxes.</li>
+                <li><strong className="text-zinc-900 font-medium">Refund Policy:</strong> We provide a 14-day satisfaction window for new annual subscriptions. Subsequent billing cycles are non-refundable.</li>
+                <li><strong className="text-zinc-900 font-medium">Cancellations:</strong> You may cancel your subscription at any time. Cancellation will take effect at the end of your current billing cycle, and you will not be charged further.</li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Section 4 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              4. Acceptable Use & Conduct
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                You agree to use Aptro only for lawful business purposes. You are strictly prohibited from engaging in any of the following activities:
+              </p>
+              <ul className="list-disc pl-6 space-y-2">
+                <li>Reverse engineering, decompiling, or disassembling any part of the Aptro platform.</li>
+                <li>Using automated data scraping, bots, or undocumented API requests to extract data.</li>
+                <li>Utilizing the platform for money laundering, fraudulent transactions, or illegal trade.</li>
+                <li>Attempting to breach, bypass, or test the vulnerability of our cloud infrastructure or security systems.</li>
+              </ul>
+            </div>
+          </section>
+
+          {/* Section 5 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              5. Intellectual Property
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                <strong className="text-zinc-900 font-medium">Your Data:</strong> You retain all ownership rights to the business data, ledgers, and inventory you upload to Aptro. We claim no intellectual property rights over your materials.
+              </p>
+              <p>
+                <strong className="text-zinc-900 font-medium">Our Platform:</strong> Aptro and its original content, features, software, and design are owned by us and are protected by international copyright, trademark, and other intellectual property laws.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 6 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              6. Limitation of Liability
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                To the maximum extent permitted by law, Aptro shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, use, or goodwill, arising out of your access to or inability to access the Services.
+              </p>
+              <p>
+                The platform is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, either express or implied.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 7 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              7. Termination
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                We reserve the right to suspend or terminate your account immediately, without prior notice or liability, for any reason, including without limitation if you breach these Terms of Service.
+              </p>
+              <p>
+                Upon termination, your right to use the Services will cease immediately. If you wish to terminate your account, you may simply discontinue using the Services or delete your account from your dashboard.
+              </p>
+            </div>
+          </section>
+
+          {/* Section 8 */}
+          <section>
+            <h2 className="text-xl font-semibold mb-4 border-b border-zinc-200 pb-2">
+              8. Contact Legal Counsel
+            </h2>
+            <div className="space-y-4 text-zinc-600 leading-relaxed">
+              <p>
+                If you have any questions, disputes, or require specific clarifications regarding these Terms of Service, please reach out to our legal department.
+              </p>
+              <div className="mt-4 p-4 bg-white border border-zinc-200 rounded-xl">
+                <p className="font-medium text-zinc-900">Email us at:</p>
+                <a href="mailto:legal@aptro.com" className="text-blue-600 hover:underline">
+                  legal@aptro.com
+                </a>
+              </div>
+            </div>
+          </section>
+
+        </article>
+        
+        {/* Footer */}
+        <footer className="mt-20 pt-8 border-t border-zinc-200 text-sm text-zinc-500 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p>© {new Date().getFullYear()} Aptro. All rights reserved.</p>
+          <div className="flex gap-4">
+            <Link href="/privacy" className="hover:text-zinc-900 transition-colors">Privacy Policy</Link>
+            <Link href="/contact" className="hover:text-zinc-900 transition-colors">Contact Support</Link>
           </div>
-        </div>
+        </footer>
+
       </div>
     </main>
   );
