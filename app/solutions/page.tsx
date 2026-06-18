@@ -3,83 +3,116 @@
 import { 
   Store, 
   Laptop, 
-  BarChart, 
   Zap, 
   ArrowRight,
   CheckCircle2,
   PieChart,
   Users2,
-  Target,
   LayoutGrid,
   TrendingUp,
   Briefcase,
   AlertCircle
 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
+import { Plus_Jakarta_Sans } from "next/font/google";
+
+const jakarta = Plus_Jakarta_Sans({ 
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Premium smooth easing (Matching Home & Features)
+const premiumEasing = [0.22, 1, 0.36, 1] as const;
+
+const fadeUpItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: premiumEasing } }
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+  }
+};
 
 export default function SolutionsPage() {
   return (
-    <main className="min-h-screen pt-36 pb-32 bg-zinc-50 text-zinc-950 font-sans selection:bg-blue-200 selection:text-blue-900 overflow-hidden">
+    <main className={`min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* Soft Background Dynamics */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[800px] h-[800px] bg-blue-100/40 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-50/60 blur-[100px] rounded-full" />
+      {/* --- Premium Minimal Background (Matching Home) --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center">
+        <div 
+          className="absolute inset-0 opacity-[0.15]" 
+          style={{
+            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
+            backgroundSize: '32px 32px',
+            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
+          }}
+        />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         {/* --- Hero Section --- */}
-        <div className="max-w-4xl mb-24 md:mb-32">
+        <motion.div 
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          className="max-w-5xl mb-24 md:mb-32"
+        >
           <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-200"
+            variants={fadeUpItem}
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8"
           >
-            <Target size={14} /> Who We Help
+            Who We Help
           </motion.div>
           
           <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 leading-[0.9] text-zinc-900"
+            variants={fadeUpItem}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-semibold tracking-tight mb-6 leading-[1.05] text-zinc-950"
           >
             Solving operational <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">chaos.</span>
+            <span className="text-zinc-400 italic font-medium">chaos.</span>
           </motion.h1>
           
           <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            variants={fadeUpItem}
             className="text-lg md:text-xl text-zinc-500 leading-relaxed max-w-2xl font-medium"
           >
-            Running a business usually means juggling 10 different apps. Aptro consolidates your tools into one unified platform, built specifically for the way you work.
+            Running a business usually means juggling multiple disparate applications. Aptro consolidates your tools into one unified platform, built specifically for the way you work.
           </motion.p>
-        </div>
+        </motion.div>
 
-        {/* --- The Problem vs The Solution --- */}
+        {/* --- The Problem vs The Solution (Clean Bento Grid) --- */}
         <section className="mb-32">
-          <div className="grid md:grid-cols-2 gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid md:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200 rounded-[2rem] overflow-hidden"
+          >
             {/* The Problem */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="p-8 md:p-12 rounded-[2.5rem] bg-white border border-red-100 shadow-sm relative overflow-hidden group"
+              variants={fadeUpItem}
+              className="p-10 md:p-14 bg-[#FAFAFA] relative overflow-hidden group"
             >
-              <div className="absolute top-0 right-0 p-8 opacity-5"><AlertCircle size={120} className="text-red-500" /></div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-600 text-xs font-bold uppercase tracking-widest mb-6">
-                The Problem
+              <div className="absolute top-0 right-0 p-10 opacity-[0.03]"><AlertCircle size={120} /></div>
+              <div className="inline-flex items-center gap-2 text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-8">
+                The Old Way
               </div>
-              <h3 className="text-3xl font-black mb-4 text-zinc-900">Fragmented Workflows</h3>
-              <p className="text-zinc-500 font-medium leading-relaxed mb-8">
-                You are spending more time managing your business than actually growing it. Invoices are in one app, clients in another, inventory in a spreadsheet, and payroll on paper. Data gets lost, and deadlines are missed.
+              <h3 className="text-3xl font-semibold mb-4 text-zinc-950 tracking-tight">Fragmented Workflows</h3>
+              <p className="text-zinc-500 font-medium leading-relaxed mb-10 max-w-sm">
+                You spend more time managing tools than growing your business. Data is scattered, errors multiply, and critical deadlines slip through the cracks.
               </p>
-              <ul className="space-y-3">
-                {["Missed follow-ups and lost invoices", "Manual data entry leading to errors", "No clear view of your actual profits"].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm font-bold text-zinc-600">
-                    <div className="mt-0.5 w-1.5 h-1.5 rounded-full bg-red-400 shrink-0" /> {item}
+              <ul className="space-y-4">
+                {["Scattered client data across apps", "Manual accounting errors", "Lost invoices and missed payments"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm font-medium text-zinc-600">
+                    <div className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0" /> {item}
                   </li>
                 ))}
               </ul>
@@ -87,59 +120,65 @@ export default function SolutionsPage() {
 
             {/* The Solution */}
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-              className="p-8 md:p-12 rounded-[2.5rem] bg-zinc-900 text-white shadow-xl relative overflow-hidden"
+              variants={fadeUpItem}
+              className="p-10 md:p-14 bg-zinc-950 text-white relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 p-8 opacity-5"><Zap size={120} className="text-blue-500" /></div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-500/30">
-                The Aptro Solution
+              <div className="absolute top-0 right-0 p-10 opacity-5"><Zap size={120} /></div>
+              <div className="inline-flex items-center gap-2 text-zinc-400 text-xs font-semibold uppercase tracking-widest mb-8">
+                The Aptro Way
               </div>
-              <h3 className="text-3xl font-black mb-4">The Unified Hub</h3>
-              <p className="text-zinc-400 font-medium leading-relaxed mb-8">
-                Aptro centralizes everything. We connect your daily tasks, client management, inventory, and billing into a single, seamless ecosystem. Enter data once, and watch it sync everywhere automatically.
+              <h3 className="text-3xl font-semibold mb-4 text-white tracking-tight">The Unified Hub</h3>
+              <p className="text-zinc-400 font-medium leading-relaxed mb-10 max-w-sm">
+                A beautifully centralized ecosystem. Tasks, inventory, and billing sync automatically. Enter data once, and watch it flow flawlessly everywhere.
               </p>
-              <ul className="space-y-3">
-                {["Automated reminders & one-click billing", "Real-time stock & cash flow sync", "Crystal clear business analytics"].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 text-sm font-bold text-zinc-300">
-                    <CheckCircle2 size={16} className="text-blue-400 shrink-0" /> {item}
+              <ul className="space-y-4">
+                {["Automated one-click billing", "Real-time stock & cash flow sync", "Crystal clear business analytics"].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm font-medium text-zinc-300">
+                    <CheckCircle2 size={16} className="text-zinc-500 shrink-0" /> {item}
                   </li>
                 ))}
               </ul>
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
-        {/* --- Who We Serve (Target Audiences) --- */}
+        {/* --- Architected For You --- */}
         <section className="mb-32 pt-16 border-t border-zinc-200/80">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4 text-zinc-900">Who is Aptro for?</h2>
-            <p className="text-lg text-zinc-500 font-medium">We built distinct environments tailored to the exact needs of solo professionals and growing retail/service businesses.</p>
+          <div className="max-w-2xl mb-16">
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-zinc-950">Architected for you.</h2>
+            <p className="text-lg text-zinc-500">We built distinct environments tailored to the exact needs of solo professionals and growing enterprises.</p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid lg:grid-cols-2 gap-6"
+          >
             {/* Freelancer Profile */}
             <motion.div 
-              initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="p-8 md:p-10 rounded-[2.5rem] bg-white border border-zinc-200/80 shadow-sm hover:shadow-xl transition-shadow"
+              variants={fadeUpItem}
+              className="p-10 md:p-12 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500"
             >
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-8 border border-blue-100">
-                <Laptop size={24} />
+              <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 text-zinc-900 flex items-center justify-center mb-8">
+                <Laptop size={20} />
               </div>
-              <h3 className="text-2xl font-black mb-3 text-zinc-900">Independent Freelancers</h3>
-              <p className="text-zinc-500 font-medium leading-relaxed mb-8 h-20">
-                For the solo architect, designer, developer, or consultant who needs to look professional without hiring an assistant.
+              <h3 className="text-2xl font-semibold mb-3 text-zinc-950 tracking-tight">Independent Professionals</h3>
+              <p className="text-zinc-500 font-medium leading-relaxed mb-10">
+                For the solo architect, designer, developer, or consultant who demands flawless execution without an assistant.
               </p>
-              <div className="bg-zinc-50 rounded-2xl p-6 border border-zinc-100">
-                <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">How it helps you:</p>
+              <div className="bg-[#FAFAFA] rounded-xl p-6 border border-zinc-100">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-400 mb-5">Capabilities</p>
                 <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-sm font-bold text-zinc-700">
-                    <CheckCircle2 size={18} className="text-blue-600" /> Replaces scattered sticky notes with a Smart Daily Task Board.
+                  <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
+                    <CheckCircle2 size={16} className="text-zinc-400" /> Smart Daily Task Board
                   </li>
-                  <li className="flex items-center gap-3 text-sm font-bold text-zinc-700">
-                    <CheckCircle2 size={18} className="text-blue-600" /> Manages client project details and call notes in one place.
+                  <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
+                    <CheckCircle2 size={16} className="text-zinc-400" /> CRM & Call Note Management
                   </li>
-                  <li className="flex items-center gap-3 text-sm font-bold text-zinc-700">
-                    <CheckCircle2 size={18} className="text-blue-600" /> Turns project completion into an instant PDF Quotation/Bill.
+                  <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
+                    <CheckCircle2 size={16} className="text-zinc-400" /> Instant PDF Quotations & Billing
                   </li>
                 </ul>
               </div>
@@ -147,101 +186,116 @@ export default function SolutionsPage() {
 
             {/* Business Profile */}
             <motion.div 
-              initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="p-8 md:p-10 rounded-[2.5rem] bg-white border border-zinc-200/80 shadow-sm hover:shadow-xl transition-shadow"
+              variants={fadeUpItem}
+              className="p-10 md:p-12 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500"
             >
-              <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-8 border border-indigo-100">
-                <Store size={24} />
+              <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 text-zinc-900 flex items-center justify-center mb-8">
+                <Store size={20} />
               </div>
-              <h3 className="text-2xl font-black mb-3 text-zinc-900">Growing Businesses</h3>
-              <p className="text-zinc-500 font-medium leading-relaxed mb-8 h-20">
-                For retail stores, agencies, and product sellers who need strict control over inventory, staff, and complex accounting.
+              <h3 className="text-2xl font-semibold mb-3 text-zinc-950 tracking-tight">Growing Businesses</h3>
+              <p className="text-zinc-500 font-medium leading-relaxed mb-10">
+                For retail stores, agencies, and product sellers who require strict control over inventory, staff, and complex accounting.
               </p>
-              <div className="bg-zinc-50 rounded-2xl p-6 border border-zinc-100">
-                <p className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-4">How it helps you:</p>
+              <div className="bg-[#FAFAFA] rounded-xl p-6 border border-zinc-100">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-400 mb-5">Capabilities</p>
                 <ul className="space-y-4">
-                  <li className="flex items-center gap-3 text-sm font-bold text-zinc-700">
-                    <CheckCircle2 size={18} className="text-indigo-600" /> Dual-sided ledgers to track both Supplier Buys and Customer Sells.
+                  <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
+                    <CheckCircle2 size={16} className="text-zinc-400" /> Dual-sided Ledgers (Buys & Sells)
                   </li>
-                  <li className="flex items-center gap-3 text-sm font-bold text-zinc-700">
-                    <CheckCircle2 size={18} className="text-indigo-600" /> Live inventory tracking with automated low-stock push alerts.
+                  <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
+                    <CheckCircle2 size={16} className="text-zinc-400" /> Live Inventory & Stock Alerts
                   </li>
-                  <li className="flex items-center gap-3 text-sm font-bold text-zinc-700">
-                    <CheckCircle2 size={18} className="text-indigo-600" /> Built-in HR: Manage staff attendance, payroll, and GST billing.
+                  <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
+                    <CheckCircle2 size={16} className="text-zinc-400" /> Automated Payroll Processing
                   </li>
                 </ul>
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         </section>
 
-        {/* --- Transformation (Bento Card) --- */}
-        <section className="relative p-8 md:p-16 rounded-[3rem] bg-white border border-zinc-200/80 overflow-hidden shadow-xl shadow-zinc-200/20 mb-32">
-          <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_0%,rgba(37,99,235,0.05),transparent_50%)] pointer-events-none" />
-          
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center relative z-10">
+        {/* --- Transformation Section (Abstract UI Box) --- */}
+        <motion.section 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: premiumEasing }}
+          className="relative p-10 md:p-16 rounded-[3rem] bg-white border border-zinc-200/60 shadow-sm mb-32"
+        >
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="space-y-8">
-              <span className="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold uppercase tracking-widest rounded-full border border-blue-100">
-                Efficiency Audit
-              </span>
-              <h2 className="text-4xl lg:text-5xl font-black tracking-tight text-zinc-900 leading-tight">
-                Consolidate your <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">entire software stack.</span>
+              <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-zinc-950 leading-tight">
+                Consolidate your <br /> <span className="text-zinc-400 italic">software stack.</span>
               </h2>
-              <p className="text-zinc-500 leading-relaxed text-lg font-medium">
-                The average founder uses 5+ disparate applications to manage what Aptro delivers in a single environment. We eliminate the "Integration Tax" to ensure your business data remains unified, secure, and actionable.
+              <p className="text-zinc-500 leading-relaxed text-lg">
+                We eliminate the "Integration Tax". By uniting your entire workflow into a single environment, Aptro creates measurable impacts on your daily operations and bottom line.
               </p>
               
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-100">
-                  <PieChart className="text-blue-600 mb-3" size={24} />
-                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Throughput</p>
-                  <p className="text-3xl font-black text-zinc-900">+45%</p>
+                <div className="p-6 rounded-2xl bg-[#FAFAFA] border border-zinc-100">
+                  <PieChart className="text-zinc-900 mb-4" size={20} />
+                  <p className="text-xs font-medium text-zinc-500 mb-1">Throughput</p>
+                  <p className="text-3xl font-semibold text-zinc-950">+45%</p>
                 </div>
-                <div className="p-6 rounded-2xl bg-zinc-50 border border-zinc-100">
-                  <Users2 className="text-indigo-600 mb-3" size={24} />
-                  <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Time Saved</p>
-                  <p className="text-3xl font-black text-zinc-900">12h/wk</p>
+                <div className="p-6 rounded-2xl bg-[#FAFAFA] border border-zinc-100">
+                  <Users2 className="text-zinc-900 mb-4" size={20} />
+                  <p className="text-xs font-medium text-zinc-500 mb-1">Time Saved</p>
+                  <p className="text-3xl font-semibold text-zinc-950">12h/wk</p>
                 </div>
               </div>
             </div>
 
-            {/* Visual Abstract */}
-            <div className="relative aspect-square md:aspect-auto md:h-full min-h-[400px] bg-zinc-50 rounded-[2rem] border border-zinc-200 flex items-center justify-center group shadow-inner overflow-hidden">
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-blue-200/50 blur-[80px] rounded-full" />
-               
+            {/* Clean Visual Abstract */}
+            <div className="relative aspect-square md:aspect-auto md:h-full min-h-[400px] bg-[#FAFAFA] rounded-[2rem] border border-zinc-100 flex items-center justify-center group">
                {/* Abstract Grid Graphic */}
-               <div className="relative z-10 grid grid-cols-2 gap-4 p-8 group-hover:scale-105 transition-transform duration-700">
-                  <div className="w-24 h-24 bg-white rounded-2xl shadow-md border border-zinc-100 flex items-center justify-center text-blue-500"><Briefcase size={32} /></div>
-                  <div className="w-24 h-24 bg-white rounded-2xl shadow-md border border-zinc-100 flex items-center justify-center text-indigo-500"><LayoutGrid size={32} /></div>
-                  <div className="w-24 h-24 bg-white rounded-2xl shadow-md border border-zinc-100 flex items-center justify-center text-emerald-500"><TrendingUp size={32} /></div>
-                  <div className="w-24 h-24 bg-blue-600 rounded-2xl shadow-xl flex items-center justify-center text-white"><Zap size={32} /></div>
-               </div>
-
-               <div className="absolute bottom-6 right-6 px-4 py-2 rounded-full bg-white text-zinc-900 text-[10px] font-black uppercase tracking-widest shadow-md border border-zinc-100">
-                  All-in-One Hub
+               <div className="relative z-10 grid grid-cols-2 gap-4 p-8 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105">
+                  <div className="w-24 h-24 bg-white rounded-2xl shadow-sm border border-zinc-200/60 flex items-center justify-center text-zinc-400"><Briefcase size={28} /></div>
+                  <div className="w-24 h-24 bg-white rounded-2xl shadow-sm border border-zinc-200/60 flex items-center justify-center text-zinc-400"><LayoutGrid size={28} /></div>
+                  <div className="w-24 h-24 bg-white rounded-2xl shadow-sm border border-zinc-200/60 flex items-center justify-center text-zinc-400"><TrendingUp size={28} /></div>
+                  <div className="w-24 h-24 bg-zinc-950 rounded-2xl shadow-md flex items-center justify-center text-white"><Zap size={28} /></div>
                </div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* --- Final CTA --- */}
-        <section className="rounded-[3rem] bg-zinc-950 text-white p-12 md:p-24 text-center relative overflow-hidden shadow-2xl">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(37,99,235,0.2),transparent_70%)] pointer-events-none" />
-          
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Stop managing tools. <br />Start managing business.</h2>
-            <p className="text-zinc-400 mb-10 text-lg font-medium">
-              Join the growing network of freelancers and businesses simplifying their operations with Aptro.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Link href="/download" className="px-10 py-4 bg-white text-zinc-950 rounded-full font-bold text-sm hover:bg-zinc-200 transition-all flex items-center justify-center gap-2">
-                Download Aptro <ArrowRight size={16} />
-              </Link>
-              <Link href="/features" className="px-10 py-4 bg-zinc-800 text-white rounded-full font-bold text-sm hover:bg-zinc-700 transition-all flex items-center justify-center">
-                See All Features
-              </Link>
+        {/* --- THE EXECUTIVE CTA SECTION (Dark Mode Anchor) --- */}
+        <section className="w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: premiumEasing }}
+            className="relative px-8 py-20 lg:p-24 rounded-[3rem] overflow-hidden bg-zinc-950 text-center shadow-2xl"
+          >
+            {/* Subtle Dark Glow Layer */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/40 via-transparent to-transparent blur-[80px] pointer-events-none" />
+
+            <div className="relative z-10 max-w-2xl mx-auto">
+              <h2 className="text-4xl md:text-6xl font-semibold mb-6 tracking-tight text-white leading-tight">
+                Stop managing tools. <br />
+                <span className="text-zinc-400 italic font-medium">Start managing business.</span>
+              </h2>
+              <p className="text-zinc-400 text-lg mb-12 leading-relaxed">
+                Join the network of independent professionals and growing enterprises simplifying their operations with Aptro.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link
+                  href="/download"
+                  className="w-full sm:w-auto px-8 py-4 bg-white text-zinc-950 rounded-full font-medium text-sm transition-all duration-300 hover:scale-[0.98] flex items-center justify-center gap-2 group"
+                >
+                  Download App
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
+                <Link
+                  href="/features"
+                  className="w-full sm:w-auto px-8 py-4 bg-transparent border border-zinc-700 text-white rounded-full font-medium text-sm transition-all duration-300 hover:bg-zinc-900 hover:scale-[0.98] flex items-center justify-center"
+                >
+                  See All Features
+                </Link>
+              </div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
       </div>

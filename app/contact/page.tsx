@@ -4,24 +4,39 @@ import { useState } from "react";
 import { 
   Mail, 
   MapPin, 
-  Send, 
   CheckCircle2, 
   ArrowRight,
-  LifeBuoy,
+  Headphones,
   MessageSquare,
   Loader2,
-  AlertCircle
+  AlertCircle,
+  Clock,
+  ShieldCheck
 } from "lucide-react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
-// --- Component ---
+// Premium smooth easing
+const premiumEasing = [0.22, 1, 0.36, 1] as const;
+
+const fadeUpItem: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: premiumEasing } }
+};
+
+const staggerContainer: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+  }
+};
+
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Form State matching your API structure
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -41,35 +56,23 @@ export default function ContactPage() {
     setErrorMessage("");
     
     try {
-      // ✅ Call your external Support API endpoint
       const response = await fetch('/api/support', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
-      // Check if the API returned an error
       if (!response.ok || data.success === false) {
         throw new Error(data.message || "Failed to send message.");
       }
 
-      // Reset form and show success state
-      setFormData({
-        firstName: "",
-        lastName: "",
-        email: "",
-        subject: "General Inquiry",
-        message: "",
-      });
+      setFormData({ firstName: "", lastName: "", email: "", subject: "General Inquiry", message: "" });
       setSubmitted(true);
       
     } catch (error: any) {
       console.error("API Error:", error);
-      // Display the specific error message from your API to the user
       setErrorMessage(error.message || "Something went wrong. Please try again later.");
     } finally {
       setIsSubmitting(false);
@@ -77,105 +80,133 @@ export default function ContactPage() {
   };
 
   return (
-    <main className="min-h-screen pt-32 pb-32 bg-zinc-50 text-zinc-950 font-sans selection:bg-blue-200 selection:text-blue-900 overflow-hidden">
+    <main className="min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-hidden">
       
-      {/* Soft Background Dynamics */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-100/60 blur-[120px] rounded-full" />
-        <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-indigo-50/60 blur-[100px] rounded-full" />
+      {/* Premium Minimal Background */}
+      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center">
+        <div 
+          className="absolute inset-0 opacity-[0.15]" 
+          style={{
+            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
+            backgroundSize: '32px 32px',
+            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
+          }}
+        />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         
         <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
           
           {/* --- Left Column: Context & Information --- */}
           <div className="lg:col-span-5 space-y-12 lg:sticky lg:top-40">
             
-            <div>
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate="show"
+            >
               <motion.div 
-                initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/50 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6 border border-blue-200"
+                variants={fadeUpItem}
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8"
               >
                 <MessageSquare size={14} />
-                Get in touch
+                Global Support
               </motion.div>
               
               <motion.h1 
-                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-                className="text-5xl md:text-7xl font-black tracking-tight mb-6"
+                variants={fadeUpItem}
+                className="text-5xl md:text-7xl font-semibold tracking-tight mb-6 leading-[1.05]"
               >
-                Let's start a <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">conversation.</span>
+                Let's start a <br />
+                <span className="text-zinc-400 italic">conversation.</span>
               </motion.h1>
               
               <motion.p 
-                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
-                className="text-lg text-zinc-500 leading-relaxed font-medium"
+                variants={fadeUpItem}
+                className="text-lg text-zinc-500 leading-relaxed font-medium mb-12"
               >
-                Whether you have a question about pricing, need an enterprise migration, or just want to say hello—our team is ready to help.
+                Whether you have a question about enterprise migration, technical documentation, or partnership opportunities, our architecture team is ready to assist.
               </motion.p>
-            </div>
+            </motion.div>
 
             {/* Direct Channels */}
-            <div className="space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: premiumEasing }}
+              className="space-y-4"
+            >
               <ContactCard 
-                icon={<Mail size={24} />} 
-                title="Email Support" 
+                icon={<Mail size={20} />} 
+                title="Direct Email" 
                 detail="support@aptro.app" 
-                subtext="Expect a reply within 24 hours."
+                subtext="Expect a comprehensive response within 24 hours."
                 href="mailto:support@aptro.app"
               />
               <ContactCard 
-                icon={<MapPin size={24} />} 
+                icon={<MapPin size={20} />} 
                 title="Headquarters" 
                 detail="Jetpur, Gujarat, India" 
-                subtext="Available for scheduled visits."
+                subtext="Operating 09:00 - 18:00 IST (Mon-Fri)."
               />
-            </div>
+              <ContactCard 
+                icon={<Clock size={20} />} 
+                title="Response SLA" 
+                detail="99.9% Ticket Resolution" 
+                subtext="Enterprise clients receive 1-hour priority routing."
+              />
+            </motion.div>
 
             {/* Priority Support Card */}
-            <div className="p-8 rounded-3xl bg-zinc-900 text-white relative overflow-hidden group shadow-lg">
-              <LifeBuoy className="absolute -right-6 -top-6 w-32 h-32 opacity-5 group-hover:scale-110 transition-transform duration-700" />
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: premiumEasing }}
+              className="p-8 rounded-[2rem] bg-zinc-950 text-white relative overflow-hidden group shadow-xl"
+            >
+              <Headphones className="absolute -right-4 -top-4 w-32 h-32 opacity-5 text-white transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110" />
               <div className="relative z-10">
-                <h3 className="text-xl font-bold mb-2">Existing Customer?</h3>
+                <div className="flex items-center gap-2 mb-4">
+                  <ShieldCheck size={18} className="text-zinc-400" />
+                  <h3 className="text-lg font-semibold text-white">Existing Customer?</h3>
+                </div>
                 <p className="text-zinc-400 text-sm leading-relaxed mb-6 font-medium">
-                  Active license holders get priority routing. Log in to your dashboard to submit an authenticated ticket.
+                  Active license holders receive priority routing. Please authenticate via your dashboard to submit a secure ticket.
                 </p>
-                <Link href="/login" className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-blue-400 transition-colors">
-                  Go to Support Portal <ArrowRight size={16} />
+                <Link href="/login" className="inline-flex items-center gap-2 text-sm font-semibold text-white hover:text-zinc-300 transition-colors group/link">
+                  Access Support Portal <ArrowRight size={16} className="text-zinc-500 group-hover/link:translate-x-1 transition-transform duration-300" />
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
           </div>
 
           {/* --- Right Column: The Form --- */}
           <div className="lg:col-span-7">
             <motion.div 
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
-              className="p-8 md:p-12 rounded-[2.5rem] bg-white border border-zinc-200 shadow-xl shadow-zinc-200/20 relative"
+              initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: premiumEasing }}
+              className="p-8 md:p-12 rounded-[2.5rem] bg-white border border-zinc-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative"
             >
               <AnimatePresence mode="wait">
                 {submitted ? (
                   <motion.div 
                     key="success"
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.5, ease: premiumEasing }}
                     className="py-20 text-center flex flex-col items-center justify-center min-h-[500px]"
                   >
-                    <div className="w-20 h-20 bg-green-50 text-green-600 rounded-full flex items-center justify-center mb-6 shadow-sm border border-green-100">
-                      <CheckCircle2 size={40} strokeWidth={2} />
+                    <div className="w-16 h-16 bg-zinc-950 text-white rounded-2xl flex items-center justify-center mb-8 shadow-md">
+                      <CheckCircle2 size={32} />
                     </div>
-                    <h2 className="text-3xl font-black mb-3 text-zinc-900">Message Sent!</h2>
-                    <p className="text-zinc-500 mb-8 max-w-sm font-medium">
-                      Thank you for reaching out. Our support team will review your inquiry and get back to you shortly.
+                    <h2 className="text-3xl font-semibold mb-4 text-zinc-950 tracking-tight">Transmission Secured.</h2>
+                    <p className="text-zinc-500 mb-10 max-w-sm font-medium leading-relaxed">
+                      Thank you for reaching out. Our engineering or support team will review your inquiry and respond shortly.
                     </p>
                     <button 
                       onClick={() => setSubmitted(false)}
-                      className="px-6 py-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-900 rounded-full text-sm font-bold transition-colors"
+                      className="px-8 py-3.5 bg-[#FAFAFA] hover:bg-zinc-100 border border-zinc-200/80 text-zinc-950 rounded-full text-sm font-medium transition-colors"
                     >
-                      Send another message
+                      Submit Another Inquiry
                     </button>
                   </motion.div>
                 ) : (
@@ -186,11 +217,12 @@ export default function ContactPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
+                    transition={{ duration: 0.5 }}
                   >
                     {/* Error Message Display */}
                     {errorMessage && (
-                      <div className="p-4 bg-red-50 text-red-600 rounded-2xl flex items-center gap-3 text-sm font-bold border border-red-100">
-                        <AlertCircle size={18} />
+                      <div className="p-4 bg-zinc-100 text-zinc-900 rounded-2xl flex items-center gap-3 text-sm font-medium border border-zinc-200">
+                        <AlertCircle size={18} className="text-zinc-500" />
                         {errorMessage}
                       </div>
                     )}
@@ -200,7 +232,7 @@ export default function ContactPage() {
                         label="First Name" 
                         name="firstName"
                         type="text" 
-                        placeholder="John" 
+                        placeholder="Enter first name" 
                         value={formData.firstName}
                         onChange={handleChange}
                         required 
@@ -209,7 +241,7 @@ export default function ContactPage() {
                         label="Last Name" 
                         name="lastName"
                         type="text" 
-                        placeholder="Doe" 
+                        placeholder="Enter last name" 
                         value={formData.lastName}
                         onChange={handleChange}
                         required 
@@ -217,44 +249,44 @@ export default function ContactPage() {
                     </div>
                     
                     <FormInput 
-                      label="Work Email" 
+                      label="Corporate Email" 
                       name="email"
                       type="email" 
-                      placeholder="john@company.com" 
+                      placeholder="name@company.com" 
                       value={formData.email}
                       onChange={handleChange}
                       required 
                     />
                     
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-zinc-900 pl-1">How can we help?</label>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-zinc-500 pl-1">Inquiry Type</label>
                       <div className="relative">
                         <select 
                           name="subject"
                           value={formData.subject}
                           onChange={handleChange}
-                          className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm font-medium text-zinc-900 appearance-none cursor-pointer"
+                          className="w-full bg-[#FAFAFA] border border-zinc-200/80 rounded-2xl px-5 py-4 focus:outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100 transition-all text-sm font-medium text-zinc-950 appearance-none cursor-pointer"
                         >
                           <option value="General Inquiry">General Inquiry</option>
-                          <option value="Sales & Pricing">Sales & Pricing</option>
-                          <option value="Technical Support">Technical Support</option>
-                          <option value="Partnership">Partnership</option>
+                          <option value="Sales & Enterprise Pricing">Sales & Enterprise Pricing</option>
+                          <option value="Technical Architecture">Technical Architecture</option>
+                          <option value="Partnership & Integration">Partnership & Integration</option>
                         </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-zinc-400">
                           <ArrowRight size={16} className="rotate-90" />
                         </div>
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-sm font-bold text-zinc-900 pl-1">Message</label>
+                      <label className="text-xs font-semibold uppercase tracking-widest text-zinc-500 pl-1">Message</label>
                       <textarea 
                         name="message"
                         value={formData.message}
                         onChange={handleChange}
                         rows={5}
-                        placeholder="Tell us a little bit about your needs..."
-                        className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm font-medium text-zinc-900 resize-none placeholder:text-zinc-400"
+                        placeholder="Please provide specifics regarding your deployment or question..."
+                        className="w-full bg-[#FAFAFA] border border-zinc-200/80 rounded-2xl px-5 py-4 focus:outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100 transition-all text-sm font-medium text-zinc-950 resize-none placeholder:text-zinc-400"
                         required
                       ></textarea>
                     </div>
@@ -262,23 +294,23 @@ export default function ContactPage() {
                     <button 
                       type="submit" 
                       disabled={isSubmitting}
-                      className="w-full py-4 bg-blue-600 text-white rounded-full font-bold text-sm flex items-center justify-center gap-2 hover:bg-blue-700 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-4"
+                      className="w-full py-4 bg-zinc-950 text-white rounded-full font-medium text-sm flex items-center justify-center gap-2 hover:bg-zinc-800 transition-all duration-300 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed mt-4 group"
                     >
                       {isSubmitting ? (
                         <>
-                          <Loader2 size={18} className="animate-spin" />
-                          Sending...
+                          <Loader2 size={16} className="animate-spin" />
+                          Processing...
                         </>
                       ) : (
                         <>
-                          Send Message
-                          <Send size={16} />
+                          Transmit Message
+                          <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
                         </>
                       )}
                     </button>
                     
                     <p className="text-xs text-center text-zinc-500 font-medium mt-6">
-                      By submitting, you agree to our <Link href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</Link>.
+                      By transmitting this form, you acknowledge our <Link href="/privacy" className="text-zinc-950 hover:underline">Privacy Protocol</Link>.
                     </p>
                   </motion.form>
                 )}
@@ -296,13 +328,13 @@ export default function ContactPage() {
 
 function ContactCard({ icon, title, detail, subtext, href }: { icon: any, title: string, detail: string, subtext: string, href?: string }) {
   const content = (
-    <div className="flex items-start gap-4 p-6 rounded-3xl bg-white border border-zinc-200 shadow-sm transition-shadow hover:shadow-md">
-      <div className="p-3 rounded-2xl bg-blue-50 text-blue-600 shrink-0">
+    <div className="flex items-start gap-4 p-6 rounded-2xl bg-[#FAFAFA] border border-zinc-200/60 shadow-sm transition-colors duration-300 hover:bg-white hover:border-zinc-300">
+      <div className="w-12 h-12 rounded-xl bg-white border border-zinc-100 text-zinc-950 flex items-center justify-center shrink-0 shadow-sm">
         {icon}
       </div>
       <div>
-        <h4 className="text-sm font-bold text-zinc-900 mb-1">{title}</h4>
-        <p className="text-base text-zinc-600 font-medium mb-1">{detail}</p>
+        <h4 className="text-sm font-semibold text-zinc-950 mb-0.5 tracking-tight">{title}</h4>
+        <p className="text-sm text-zinc-600 font-medium mb-2">{detail}</p>
         <p className="text-xs text-zinc-400 font-medium">{subtext}</p>
       </div>
     </div>
@@ -328,7 +360,7 @@ interface FormInputProps {
 function FormInput({ label, type, name, placeholder, value, onChange, required }: FormInputProps) {
   return (
     <div className="w-full space-y-2">
-      <label className="text-sm font-bold text-zinc-900 pl-1">{label}</label>
+      <label className="text-xs font-semibold uppercase tracking-widest text-zinc-500 pl-1">{label}</label>
       <input 
         type={type} 
         name={name}
@@ -336,7 +368,7 @@ function FormInput({ label, type, name, placeholder, value, onChange, required }
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full bg-zinc-50 border border-zinc-200 rounded-2xl px-4 py-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-sm font-medium text-zinc-900 placeholder:text-zinc-400"
+        className="w-full bg-[#FAFAFA] border border-zinc-200/80 rounded-2xl px-5 py-4 focus:outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100 transition-all text-sm font-medium text-zinc-950 placeholder:text-zinc-400"
       />
     </div>
   );
