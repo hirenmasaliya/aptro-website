@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import PageLayout from "./components/PageLayout";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aptro.vercel.app"),
@@ -38,8 +37,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Aptro App",
-    description:
-      "Business management & invoice app for small businesses.",
+    description: "Business management & invoice app for small businesses.",
   },
 
   robots: {
@@ -87,14 +85,8 @@ export default function RootLayout({
       </head>
 
       <body className="bg-[#050505] text-white selection:bg-blue-500/30">
-        <Navbar />
-
-        {/* Keeps footer at bottom */}
-        <div className="min-h-[calc(100vh-200px)]">
-          {children}
-        </div>
-
-        <Footer />
+        {/* The new client wrapper handles the conditional Navbar and Footer */}
+        <PageLayout>{children}</PageLayout>
       </body>
     </html>
   );

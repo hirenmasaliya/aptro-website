@@ -37,7 +37,7 @@ export default function TermsPage() {
         />
       </div>
 
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
+      <div className="max-w-5xl mx-auto px-6 relative z-10">
         
         {/* Navigation */}
         <motion.div 
@@ -72,9 +72,9 @@ export default function TermsPage() {
               Terms of Service
             </h1>
             <div className="flex items-center gap-3 text-sm font-medium text-zinc-500">
-              <span>Effective Date: June 18, 2026</span>
+              <span>Effective Date: June 21, 2026</span>
               <span className="w-1 h-1 rounded-full bg-zinc-300" />
-              <span>Version 1.7.1</span>
+              <span>Version 1.7.2</span>
             </div>
           </motion.header>
 
@@ -88,10 +88,10 @@ export default function TermsPage() {
               </h2>
               <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  By accessing or using the Aptro platform, applications, and APIs ("Services"), you agree to be bound by these Terms of Service. If you are using the Services on behalf of a business or legal entity, you represent that you have the authority to bind that entity to these Terms.
+                  By downloading, accessing, or using the Aptro Business Management & Invoice App ("Services"), you agree to be bound by these Terms of Service. Aptro is a B2B platform designed to help small and medium businesses (SMBs) manage invoices, inventory, orders, and payroll.
                 </p>
                 <p>
-                  If you do not agree to these Terms, you may not access or use the Services. We reserve the right to update these Terms at any time, and continued use of the platform constitutes acceptance of those changes.
+                  If you are using the Services on behalf of a registered business, shop, or legal entity, you represent that you have the authority to bind that entity to these Terms.
                 </p>
               </div>
             </motion.section>
@@ -99,24 +99,20 @@ export default function TermsPage() {
             {/* Section 2 */}
             <motion.section variants={fadeUpItem}>
               <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                2. User Accounts & Security
+                2. Nature of Services & Tax Disclaimer
               </h2>
               <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  To access certain features of Aptro, you must register for an account. You agree to provide accurate, current, and complete information during registration.
+                  Aptro provides digital tools to format and generate invoices, track inventory, and manage business ledgers. <strong className="text-zinc-950">However, Aptro is not a financial advisor, tax consultant, or Chartered Accountant (CA).</strong>
                 </p>
                 <ul className="list-none space-y-4 mt-4">
                   <li className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
-                    <span><strong className="text-zinc-950">Account Security:</strong> You are the sole custodian of your account credentials. The ultimate responsibility for maintaining password integrity and enabling Two-Factor Authentication (2FA) rests with you.</span>
+                    <span><strong className="text-zinc-950">GST & Tax Compliance:</strong> While we provide GST-ready invoice templates, you are solely responsible for ensuring the correct GST rates, HSN/SAC codes, and tax calculations are applied to your products.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
-                    <span><strong className="text-zinc-950">Maturity:</strong> Users must be at least 18 years of age to manage commercial ledgers on our platform.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
-                    <span><strong className="text-zinc-950">Uniqueness:</strong> Creating multiple or duplicate free-tier accounts for the same business entity to bypass limits is strictly prohibited and will result in immediate termination.</span>
+                    <span><strong className="text-zinc-950">Filing Returns:</strong> Generating an invoice on Aptro does not automatically file your taxes. You remain entirely responsible for filing your local, state, or federal tax returns (including GST returns in India).</span>
                   </li>
                 </ul>
               </div>
@@ -125,24 +121,20 @@ export default function TermsPage() {
             {/* Section 3 */}
             <motion.section variants={fadeUpItem}>
               <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                3. Billing, Fees & Subscriptions
+                3. User Accounts & Business Verification
               </h2>
               <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  Aptro operates on a transparent, subscription-based licensing model. By upgrading to a paid tier, you agree to pay all applicable fees associated with your usage.
+                  To manage a business profile on Aptro, you must register for an account. You agree to provide accurate business details, including your valid GSTIN (if applicable), business address, and contact information.
                 </p>
                 <ul className="list-none space-y-4 mt-4">
                   <li className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
-                    <span><strong className="text-zinc-950">Taxes:</strong> All listed fees are exclusive of statutory taxes (such as VAT or GST) determined by your regional taxing authority. You are responsible for any applicable taxes.</span>
+                    <span><strong className="text-zinc-950">Data Accuracy:</strong> You are responsible for all data entered into the app, including customer balances, vendor ledgers, and inventory counts.</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
-                    <span><strong className="text-zinc-950">Refund Policy:</strong> We provide a 14-day satisfaction window for new annual subscriptions. Subsequent billing cycles are non-refundable.</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
-                    <span><strong className="text-zinc-950">Cancellations:</strong> You may cancel your subscription at any time. Cancellation will take effect at the end of your current billing cycle, and you will not be charged further.</span>
+                    <span><strong className="text-zinc-950">Account Security:</strong> You are the sole custodian of your account credentials. Aptro is not liable for data loss or manipulation resulting from unauthorized access to your device or account.</span>
                   </li>
                 </ul>
               </div>
@@ -151,18 +143,40 @@ export default function TermsPage() {
             {/* Section 4 */}
             <motion.section variants={fadeUpItem}>
               <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                4. Acceptable Use & Conduct
+                4. Premium Subscriptions & Billing
               </h2>
               <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  You agree to use Aptro only for lawful business purposes. You are strictly prohibited from engaging in any of the following activities:
+                  Aptro offers both a free tier and premium subscription plans (e.g., to remove the Aptro watermark on invoices, access premium templates, or enable multi-staff login).
+                </p>
+                <ul className="list-none space-y-4 mt-4">
+                  <li className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
+                    <span><strong className="text-zinc-950">Payments & Taxes:</strong> All subscription fees are billed in advance. Prices displayed are exclusive of GST unless stated otherwise.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
+                    <span><strong className="text-zinc-950">Non-Refundable:</strong> Due to the nature of digital software, premium subscription fees are non-refundable once billed, except where legally mandated.</span>
+                  </li>
+                </ul>
+              </div>
+            </motion.section>
+
+            {/* Section 5 */}
+            <motion.section variants={fadeUpItem}>
+              <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
+                5. Acceptable Use & Conduct
+              </h2>
+              <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
+                <p>
+                  You agree to use Aptro only for lawful commercial purposes. Your account will be immediately terminated if you engage in:
                 </p>
                 <ul className="list-none space-y-3 mt-4">
                   {[
-                    "Reverse engineering, decompiling, or disassembling any part of the Aptro platform.",
-                    "Using automated data scraping, bots, or undocumented API requests to extract data.",
-                    "Utilizing the platform for money laundering, fraudulent transactions, or illegal trade.",
-                    "Attempting to breach, bypass, or test the vulnerability of our cloud infrastructure."
+                    "Generating fraudulent invoices to evade taxes, claim false Input Tax Credit (ITC), or deceive authorities.",
+                    "Using the app to manage inventory for illegal goods, narcotics, or restricted firearms.",
+                    "Reverse engineering, decompiling, or attempting to extract the app's source code.",
+                    "Harassing your customers using the automated payment reminder feature."
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
                       <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 shrink-0 mt-2" />
@@ -173,32 +187,17 @@ export default function TermsPage() {
               </div>
             </motion.section>
 
-            {/* Section 5 */}
-            <motion.section variants={fadeUpItem}>
-              <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                5. Intellectual Property
-              </h2>
-              <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
-                <p>
-                  <strong className="text-zinc-950">Your Data:</strong> You retain all ownership rights to the business data, ledgers, and inventory you upload to Aptro. We claim no intellectual property rights over your materials.
-                </p>
-                <p>
-                  <strong className="text-zinc-950">Our Platform:</strong> Aptro and its original content, features, software, and design are owned by us and are protected by international copyright, trademark, and other intellectual property laws.
-                </p>
-              </div>
-            </motion.section>
-
             {/* Section 6 */}
             <motion.section variants={fadeUpItem}>
               <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                6. Limitation of Liability
+                6. Data Backup & Ownership
               </h2>
               <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  To the maximum extent permitted by law, Aptro shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, use, or goodwill, arising out of your access to or inability to access the Services.
+                  <strong className="text-zinc-950">Your Business Data:</strong> You retain full ownership of the business data, customer details, digital signatures, and inventory you upload. Aptro acts merely as a processor.
                 </p>
                 <p>
-                  The platform is provided on an "AS IS" and "AS AVAILABLE" basis without warranties of any kind, either express or implied.
+                  <strong className="text-zinc-950">Cloud Sync:</strong> While Aptro provides cloud synchronization to keep your data safe, we highly recommend periodically exporting your ledgers and invoices as PDF or CSV files. Aptro is not liable for data loss due to internet outages, device failures, or user error.
                 </p>
               </div>
             </motion.section>
@@ -206,26 +205,41 @@ export default function TermsPage() {
             {/* Section 7 */}
             <motion.section variants={fadeUpItem}>
               <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                7. Termination
+                7. Limitation of Liability
               </h2>
               <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  We reserve the right to suspend or terminate your account immediately, without prior notice or liability, for any reason, including without limitation if you breach these Terms of Service.
+                  To the maximum extent permitted by Indian law, Aptro shall not be liable for any indirect, incidental, special, or punitive damages. This includes, but is not limited to, loss of profits, tax penalties, audit liabilities, or business interruptions arising from your use of the app.
                 </p>
                 <p>
-                  Upon termination, your right to use the Services will cease immediately. If you wish to terminate your account, you may simply discontinue using the Services or delete your account from your dashboard.
+                  The platform is provided on an "AS IS" basis. We do not guarantee that the app will be completely free of bugs, downtime, or network errors.
                 </p>
               </div>
             </motion.section>
 
-            {/* Section 8 (Contact) */}
+            {/* Section 8 */}
             <motion.section variants={fadeUpItem}>
               <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
-                8. Contact Legal Counsel
+                8. Termination
+              </h2>
+              <div className="space-y-4 text-sm text-zinc-600 font-medium leading-relaxed">
+                <p>
+                  We reserve the right to suspend or permanently ban your business profile without prior notice if we detect suspicious activity, a violation of these Terms, or requests from law enforcement agencies. 
+                </p>
+                <p>
+                  You may terminate your account at any time by utilizing the "Delete Account" option within the app settings. Upon deletion, your business data will be purged according to our Privacy Policy protocols.
+                </p>
+              </div>
+            </motion.section>
+
+            {/* Section 9 (Contact) */}
+            <motion.section variants={fadeUpItem}>
+              <h2 className="text-lg font-semibold mb-6 border-b border-zinc-100 pb-4 text-zinc-950">
+                9. Contact & Legal Disputes
               </h2>
               <div className="space-y-6 text-sm text-zinc-600 font-medium leading-relaxed">
                 <p>
-                  If you have any questions, disputes, or require specific clarifications regarding these Terms of Service, please reach out to our legal department.
+                  These Terms are governed by the laws of India. Any disputes shall be subject to the exclusive jurisdiction of the courts located in Gujarat, India.
                 </p>
                 
                 <a 
@@ -236,7 +250,7 @@ export default function TermsPage() {
                     <Mail size={18} />
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-0.5">Legal Department</p>
+                    <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-0.5">Legal & Compliance</p>
                     <p className="text-sm font-semibold text-zinc-950 group-hover:text-zinc-600 transition-colors">
                       legal@aptro.app
                     </p>
@@ -252,9 +266,9 @@ export default function TermsPage() {
             variants={fadeUpItem}
             className="mt-20 pt-8 border-t border-zinc-100 text-xs font-medium text-zinc-500 flex flex-col md:flex-row justify-between items-center gap-4"
           >
-            <p>© {new Date().getFullYear()} Aptro Technologies Inc. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Aptro App. All rights reserved.</p>
             <div className="flex gap-6">
-              <Link href="/privacy" className="hover:text-zinc-950 transition-colors">Privacy Protocol</Link>
+              <Link href="/privacy" className="hover:text-zinc-950 transition-colors">Privacy Policy</Link>
               <Link href="/contact" className="hover:text-zinc-950 transition-colors">Contact Support</Link>
             </div>
           </motion.footer>
