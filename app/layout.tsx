@@ -6,18 +6,63 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://aptro.vercel.app"),
 
   title: {
-    default: "Aptro – Business Management & Invoice App",
-    template: "%s | Aptro App",
+    default: "Aptro | GST Billing, Inventory & Business Management App",
+    template: "%s | Aptro",
   },
 
   description:
-    "Aptro helps you manage orders, create invoices, and grow your business. Best app for small businesses in India.",
+    "Grow your business with Aptro. Easily generate GST invoices, track inventory, manage orders, and handle payroll in one app. Built for Indian SMEs.",
 
   keywords: [
+    // Brand & Core
+    "Aptro",
     "Aptro app",
     "business management app",
+    "business management software India",
+    "best business app 2026",
+    "best business app 2027",
+
+    // Invoicing, GST & Billing
     "invoice generator app",
+    "free invoice maker",
+    "GST billing app",
+    "GST invoice generator",
+    "billing software for small business",
+    "mobile billing app",
+    "e-invoicing software India",
+    "online invoice creator",
+    "quotation maker app",
+    "estimate generator",
+
+    // Order & Inventory Management
     "order management app India",
+    "order tracking software",
+    "sales tracking app",
+    "stock and inventory management",
+    "B2B order management app",
+
+    // Payroll & Staff Management
+    "payroll management app India",
+    "staff attendance tracker",
+    "employee management software",
+    "salary slip generator",
+    "attendance and payroll app",
+
+    // Target Audience & Niche (India Specific)
+    "billing app for retail shop",
+    "kirana store billing app",
+    "MSME business app India",
+    "freelancer invoice app",
+    "SME accounting app",
+    "vyapar app alternative",
+
+    // Long-tail & Action-Oriented SEO
+    "create GST bills online",
+    "send invoice via WhatsApp",
+    "business ledger app",
+    "expense tracking app for business",
+    "best billing app India",
+    "digital khata app"
   ],
 
   alternates: {
@@ -25,9 +70,9 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "Aptro – Business Management App",
+    title: "Aptro | GST Billing & Business Management App",
     description:
-      "Manage orders, generate invoices, and grow your business with Aptro.",
+      "Grow your business with Aptro. Easily generate GST invoices, track inventory, manage orders, and handle payroll in one powerful app.",
     url: "https://aptro.vercel.app",
     siteName: "Aptro",
     locale: "en_IN",
@@ -36,8 +81,8 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "Aptro App",
-    description: "Business management & invoice app for small businesses.",
+    title: "Aptro | GST Billing & Business App",
+    description: "Generate GST invoices, track inventory, and handle payroll in one app. Built for Indian SMEs.",
   },
 
   robots: {
@@ -64,7 +109,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
 
         {/* App Name */}
-        <meta name="application-name" content="Aptro App" />
+        <meta name="application-name" content="Aptro" />
 
         {/* Structured Data (SEO BOOST 🔥) */}
         <script
@@ -75,9 +120,9 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               name: "Aptro",
               applicationCategory: "BusinessApplication",
-              operatingSystem: "Android",
+              operatingSystem: "Android, Web",
               description:
-                "Aptro is a business management and invoice generator app for small businesses.",
+                "Grow your business with Aptro. Easily generate GST invoices, track inventory, manage orders, and handle payroll in one app. Built for Indian SMEs.",
               url: "https://aptro.vercel.app",
             }),
           }}
@@ -85,7 +130,6 @@ export default function RootLayout({
       </head>
 
       <body className="bg-[#050505] text-white selection:bg-blue-500/30">
-        {/* The new client wrapper handles the conditional Navbar and Footer */}
         <PageLayout>{children}</PageLayout>
       </body>
     </html>
