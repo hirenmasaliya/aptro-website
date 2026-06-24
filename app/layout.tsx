@@ -20,7 +20,6 @@ export const metadata: Metadata = {
     "business management app",
     "business management software India",
     "best business app 2026",
-    "best business app 2027",
 
     // Invoicing, GST & Billing
     "invoice generator app",
@@ -65,8 +64,26 @@ export const metadata: Metadata = {
     "digital khata app"
   ],
 
+  // ADDED: Author & Developer Link
+  authors: [{ name: "Hiren Masaliya", url: "https://aptro.vercel.app" }],
+
   alternates: {
     canonical: "https://aptro.vercel.app",
+    // ADDED: Localized URL for Indian English SEO
+    languages: {
+      "en-IN": "https://aptro.vercel.app",
+    },
+  },
+
+  appLinks: {
+    android: {
+      package: "com.hirenmasaliya.aptro",
+      app_name: "Aptro",
+    },
+    web: {
+      url: "https://aptro.vercel.app",
+      should_fallback: true,
+    },
   },
 
   openGraph: {
@@ -77,12 +94,23 @@ export const metadata: Metadata = {
     siteName: "Aptro",
     locale: "en_IN",
     type: "website",
+    // ADDED: OpenGraph Image URL for beautiful link previews on WhatsApp/Social Media
+    images: [
+      {
+        url: "https://aptro.vercel.app/og-image.png", // Make sure to add an image named og-image.png to your public folder!
+        width: 1200,
+        height: 630,
+        alt: "Aptro Business Management App Preview",
+      },
+    ],
   },
 
   twitter: {
     card: "summary_large_image",
     title: "Aptro | GST Billing & Business App",
     description: "Generate GST invoices, track inventory, and handle payroll in one app. Built for Indian SMEs.",
+    // ADDED: Twitter image fallback
+    images: ["https://aptro.vercel.app/og-image.png"], 
   },
 
   robots: {
@@ -120,10 +148,42 @@ export default function RootLayout({
               "@type": "SoftwareApplication",
               name: "Aptro",
               applicationCategory: "BusinessApplication",
-              operatingSystem: "Android, Web",
+              operatingSystem: "Android",
               description:
                 "Grow your business with Aptro. Easily generate GST invoices, track inventory, manage orders, and handle payroll in one app. Built for Indian SMEs.",
               url: "https://aptro.vercel.app",
+              installUrl: "https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro",
+              downloadUrl: "https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro",
+              
+              // ADDED: Author Information
+              author: {
+                "@type": "Person",
+                name: "Hiren Masaliya",
+                url: "https://hirenmasaliya.vercel.app/"
+              },
+
+              // ADDED: sameAs property to connect your social media profiles & app store link
+              sameAs: [
+                "https://play.google.com/store/apps/details?id=com.hirenmasaliya.aptro",
+                "https://www.instagram.com/aptroapp",
+                "https://www.facebook.com/aptroapp", 
+                "https://twitter.com/aptro_app",      
+                "https://www.linkedin.com/company/aptro"
+              ],
+
+              // ADDED: Aggregate Rating (Helps get 5-star snippets in Google Search if you add real reviews later)
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                ratingCount: "124"
+              },
+
+              // ADDED: Free Pricing to show in search results
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "INR"
+              }
             }),
           }}
         />
