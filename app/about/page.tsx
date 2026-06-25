@@ -61,14 +61,14 @@ const values = [
 const strategy = [
   {
     label: "Our Mission",
-    title: "Automate the Mundane",
-    desc: "To eliminate the administrative burden on independent business owners, giving them back 20 hours a week to focus entirely on their craft.",
+    title: "Effortless & Efficient",
+    desc: "To help business owners radically reduce operational costs and save capital by providing tools that are incredibly easy to manage.",
     icon: <Compass size={22} />
   },
   {
     label: "Our Vision",
-    title: "The Standard for Commerce",
-    desc: "To become the global operating system for modern entrepreneurship, where managing a brand is as seamless as sending a text message.",
+    title: "Accessible Commerce",
+    desc: "To become the ultimate, cost-effective operating system where managing a business is seamless, affordable, and stress-free for founders everywhere.",
     icon: <Eye size={22} />
   },
   {
