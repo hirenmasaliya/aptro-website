@@ -6,6 +6,8 @@ import {
   User,
   Building2,
   CheckCircle2,
+  Globe2,
+  MapPin
 } from "lucide-react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Plus_Jakarta_Sans } from "next/font/google";
@@ -31,6 +33,13 @@ const staggerContainer: Variants = {
   }
 };
 
+interface PriceDetails {
+  monthly: number;
+  yearly: number;
+  textMonthly: string;
+  textYearly: string;
+}
+
 interface Plan {
   id: string;
   name: string;
@@ -38,12 +47,8 @@ interface Plan {
   isPopular: boolean;
   features: string[];
   prices: {
-    IN: {
-      monthly: number;
-      yearly: number;
-      textMonthly: string;
-      textYearly: string;
-    };
+    IN: PriceDetails;
+    US?: PriceDetails;
   };
   specialOffer?: string;
 }
@@ -51,6 +56,7 @@ interface Plan {
 export default function PricingPage() {
   const [role, setRole] = useState<"freelancers" | "business">("freelancers");
   const [isYearly, setIsYearly] = useState(false);
+  const [region, setRegion] = useState<"IN" | "US">("IN");
   const [plans, setPlans] = useState<Plan[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -60,6 +66,7 @@ export default function PricingPage() {
         const response = await fetch("/api/plans");
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         const json = await response.json();
+        console.log(json.data);
         if (json.success) setPlans(json.data || []);
       } catch (error) {
         console.error("Fetch error:", error);
@@ -88,7 +95,7 @@ export default function PricingPage() {
         />
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-8xl mx-auto px-6 relative z-10">
         
         {/* --- HEADER --- */}
         <motion.div 
@@ -119,10 +126,10 @@ export default function PricingPage() {
             Choose the perfect plan for your scale. Always simple, clear, and without hidden fees.
           </motion.p>
 
-          {/* --- CONTROLS (ROLE & BILLING) --- */}
+          {/* --- CONTROLS --- */}
           <motion.div 
             variants={fadeUpItem}
-            className="flex flex-col items-center gap-10"
+            className="flex flex-col items-center gap-8"
           >
             {/* Elegant Role Switcher */}
             <div className="inline-flex p-1.5 bg-zinc-200/50 backdrop-blur-md rounded-full border border-zinc-200/80">
@@ -149,33 +156,63 @@ export default function PricingPage() {
               ))}
             </div>
 
-            {/* Premium Billing Toggle */}
-            <div className="flex items-center gap-4 text-sm font-medium">
-              <span className={!isYearly ? "text-zinc-950" : "text-zinc-400"}>Monthly</span>
-              <button
-                onClick={() => setIsYearly(!isYearly)}
-                className="relative w-12 h-7 bg-zinc-200 rounded-full p-1 transition-colors hover:bg-zinc-300 focus:outline-none"
-                aria-label="Toggle yearly billing"
-              >
-                <div className={`absolute inset-0 rounded-full transition-colors duration-500 ${isYearly ? "bg-zinc-950" : "bg-zinc-200"}`} />
-                <motion.div
-                  animate={{ x: isYearly ? 20 : 0 }}
-                  transition={{ duration: 0.5, ease: premiumEasing }}
-                  className="relative w-5 h-5 bg-white rounded-full shadow-sm"
-                />
-              </button>
-              <span className="flex items-center gap-2">
-                <span className={isYearly ? "text-zinc-950" : "text-zinc-400"}>Yearly</span>
-                <span className="bg-zinc-100 border border-zinc-200 text-zinc-600 text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full">
-                  Save 20%
+            {/* Region & Billing Controls */}
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 bg-white px-6 py-3 rounded-full border border-zinc-200/80 shadow-sm">
+              
+              {/* Region Toggle */}
+              <div className="flex items-center gap-3 text-sm font-medium">
+                <span className={`flex items-center gap-1 ${region === "IN" ? "text-zinc-950" : "text-zinc-400"}`}>
+                  <MapPin size={14} /> India
                 </span>
-              </span>
+                <button
+                  onClick={() => setRegion(region === "IN" ? "US" : "IN")}
+                  className="relative w-11 h-6 bg-zinc-200 rounded-full p-1 transition-colors hover:bg-zinc-300 focus:outline-none"
+                  aria-label="Toggle region"
+                >
+                  <div className={`absolute inset-0 rounded-full transition-colors duration-500 ${region === "US" ? "bg-zinc-950" : "bg-zinc-200"}`} />
+                  <motion.div
+                    animate={{ x: region === "US" ? 20 : 0 }}
+                    transition={{ duration: 0.5, ease: premiumEasing }}
+                    className="relative w-4 h-4 bg-white rounded-full shadow-sm"
+                  />
+                </button>
+                <span className={`flex items-center gap-1 ${region === "US" ? "text-zinc-950" : "text-zinc-400"}`}>
+                  <Globe2 size={14} /> Global
+                </span>
+              </div>
+
+              {/* Divider */}
+              <div className="hidden sm:block w-px h-5 bg-zinc-200" />
+
+              {/* Billing Toggle */}
+              <div className="flex items-center gap-3 text-sm font-medium">
+                <span className={!isYearly ? "text-zinc-950" : "text-zinc-400"}>Monthly</span>
+                <button
+                  onClick={() => setIsYearly(!isYearly)}
+                  className="relative w-11 h-6 bg-zinc-200 rounded-full p-1 transition-colors hover:bg-zinc-300 focus:outline-none"
+                  aria-label="Toggle yearly billing"
+                >
+                  <div className={`absolute inset-0 rounded-full transition-colors duration-500 ${isYearly ? "bg-zinc-950" : "bg-zinc-200"}`} />
+                  <motion.div
+                    animate={{ x: isYearly ? 20 : 0 }}
+                    transition={{ duration: 0.5, ease: premiumEasing }}
+                    className="relative w-4 h-4 bg-white rounded-full shadow-sm"
+                  />
+                </button>
+                <span className="flex items-center gap-2">
+                  <span className={isYearly ? "text-zinc-950" : "text-zinc-400"}>Yearly</span>
+                  <span className="bg-zinc-100 border border-zinc-200 text-zinc-600 text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full">
+                    Save 20%
+                  </span>
+                </span>
+              </div>
+
             </div>
           </motion.div>
         </motion.div>
 
         {/* --- PRICING GRID --- */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-start max-w-5xl mx-auto min-h-[400px]">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 items-start max-w-9xl mx-auto min-h-[400px]">
           {isLoading ? (
             // ELEGANT SKELETON LOADERS
             <>
@@ -207,6 +244,24 @@ export default function PricingPage() {
             <AnimatePresence mode="popLayout">
               {filteredPlans.map((tier, i) => {
                 const isPopular = tier.isPopular;
+                
+                // --- NEW LOGIC: Check for Free Trial ---
+                const activePriceData = tier.prices?.[region];
+                let displayPrice = "N/A";
+                let isFreePlan = false;
+                
+                if (activePriceData) {
+                  // Identify if this is a free plan based on the monthly price being 0
+                  if (activePriceData.monthly === 0 || activePriceData.textMonthly === "₹0" || activePriceData.textMonthly === "$0") {
+                    isFreePlan = true;
+                  }
+
+                  if (isYearly) {
+                    displayPrice = activePriceData.textYearly || (region === "IN" ? `₹${activePriceData.yearly}` : `$${activePriceData.yearly}`);
+                  } else {
+                    displayPrice = activePriceData.textMonthly || (region === "IN" ? `₹${activePriceData.monthly}` : `$${activePriceData.monthly}`);
+                  }
+                }
 
                 return (
                   <motion.div
@@ -243,12 +298,25 @@ export default function PricingPage() {
 
                     {/* PRICE */}
                     <div className="mb-6 flex items-baseline">
-                      <span className="text-4xl md:text-5xl font-semibold tracking-tight">
-                        {isYearly ? tier.prices.IN.textYearly : tier.prices.IN.textMonthly}
-                      </span>
-                      <span className={`text-sm font-medium ml-2 ${isPopular ? "text-zinc-500" : "text-zinc-400"}`}>
-                        {isYearly ? "/year" : "/month"}
-                      </span>
+                      {isFreePlan ? (
+                        <>
+                          <span className="text-4xl md:text-5xl font-semibold tracking-tight">
+                            15 Days
+                          </span>
+                          <span className={`text-sm font-medium ml-2 ${isPopular ? "text-zinc-500" : "text-zinc-400"}`}>
+                            Free Trial
+                          </span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-4xl md:text-5xl font-semibold tracking-tight">
+                            {displayPrice}
+                          </span>
+                          <span className={`text-sm font-medium ml-2 ${isPopular ? "text-zinc-500" : "text-zinc-400"}`}>
+                            {isYearly ? "/year" : "/month"}
+                          </span>
+                        </>
+                      )}
                     </div>
 
                     {/* DIVIDER */}
