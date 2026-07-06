@@ -7,11 +7,16 @@ import Footer from "./Footer";
 export default function PageLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
-  // Define the routes where you want to hide the Navbar and Footer
-  const hiddenRoutes = ["/privacy", "/terms"];
+  // 1. Exact routes to hide (e.g., exactly "/privacy")
+  const exactHiddenRoutes = ["/privacy", "/terms"];
   
-  // Check if the current pathname is in the hiddenRoutes array
-  const hideNavAndFooter = hiddenRoutes.includes(pathname);
+  // 2. Prefixes to hide (e.g., anything starting with "/partner")
+  const hiddenPrefixes = ["/partner", '/business'];
+
+  // 3. Check if the current path matches either condition
+  const hideNavAndFooter = 
+    exactHiddenRoutes.includes(pathname) || 
+    hiddenPrefixes.some((prefix) => pathname.startsWith(prefix));
 
   return (
     <>
