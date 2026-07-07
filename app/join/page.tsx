@@ -14,6 +14,7 @@ import {
     CheckCircle
 } from "lucide-react";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import { useRouter } from "next/navigation"; // 1. Imported useRouter
 
 // Plus Jakarta Sans acts as a great stand-in for Apple's San Francisco when tracked tightly
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
@@ -35,6 +36,7 @@ const faqs = [
 ];
 
 export default function JoinPage() {
+    const router = useRouter(); // 2. Initialized router
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     
     // Form State
@@ -86,7 +88,11 @@ export default function JoinPage() {
             if (response.ok) {
                 setSubmitStatus('success');
                 setTempId(data.tempId);
-                // Optionally reset form here if you don't want to show the success state forever
+                
+                // Optional: If you want an automatic redirect after 5 seconds instead of waiting for a click
+                setTimeout(() => {
+                    router.push('/partner/dashboard');
+                }, 5000);
             } else {
                 setSubmitStatus('error');
                 setErrorMessage(data.error || "Something went wrong.");
@@ -142,7 +148,7 @@ export default function JoinPage() {
                 </motion.div>
             </section>
 
-            {/* --- COMMISSION PLANS (Apple Comparison Grid Style) --- */}
+            {/* --- COMMISSION PLANS --- */}
             <section className="max-w-7xl mx-auto px-6 py-24 border-t border-[#D2D2D7]">
                 <div className="text-center mb-16">
                     <h2 className="text-[40px] md:text-[56px] font-bold text-[#1D1D1F] tracking-tight mb-4">Which plan is right for them?</h2>
@@ -183,7 +189,7 @@ export default function JoinPage() {
                 </div>
             </section>
 
-            {/* --- BENTO BENEFITS (Apple Style Grid) --- */}
+            {/* --- BENTO BENEFITS --- */}
             <section id="how-it-works" className="max-w-7xl mx-auto px-6 py-24">
                 <div className="grid md:grid-cols-2 gap-6">
                     
@@ -227,7 +233,7 @@ export default function JoinPage() {
                 </div>
             </section>
 
-            {/* --- REGISTRATION FORM (Apple Checkout Style) --- */}
+            {/* --- REGISTRATION FORM --- */}
             <section id="registration-form" className="max-w-[700px] mx-auto px-6 py-24">
                 <motion.div 
                     initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: appleEase }}
@@ -254,9 +260,17 @@ export default function JoinPage() {
                                 <p className="text-[14px] text-[#86868B] uppercase tracking-wider font-semibold mb-1">Your Temporary ID</p>
                                 <p className="text-[24px] font-bold text-[#1D1D1F] font-mono">{tempId}</p>
                             </div>
-                            <p className="text-[14px] text-[#86868B] mt-8 max-w-sm mx-auto">
+                            <p className="text-[14px] text-[#86868B] mt-8 mb-8 max-w-sm mx-auto">
                                 Keep this ID safe. You will receive an email once your final Partner ID is generated upon approval.
                             </p>
+                            
+                            {/* 3. Added Redirect Button */}
+                            <button
+                                onClick={() => router.push('/partner/dashboard')}
+                                className="px-8 py-4 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-[14px] font-medium text-[17px] transition-colors duration-300 inline-flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]"
+                            >
+                                Go to Dashboard <ArrowRight size={20} />
+                            </button>
                         </motion.div>
                     ) : (
                         <form className="space-y-8" onSubmit={handleSubmit}>
@@ -341,7 +355,7 @@ export default function JoinPage() {
                 </motion.div>
             </section>
 
-            {/* --- FAQS (Apple Accordion Style) --- */}
+            {/* --- FAQS --- */}
             <section className="max-w-[700px] mx-auto px-6 py-24 border-t border-[#D2D2D7]">
                 <div className="text-center mb-16">
                     <h2 className="text-[40px] font-bold text-[#1D1D1F] tracking-tight">Frequently Asked Questions</h2>
