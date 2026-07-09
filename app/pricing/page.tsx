@@ -80,19 +80,18 @@ export default function PricingPage() {
   const filteredPlans = plans.filter((plan) => plan.type === role);
 
   return (
-    <main className={`min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    // Removed the solid bg-[#FAFAFA] class here so the background image is visible
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* Premium Minimal Background */}
-      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center">
-        <div 
-          className="absolute inset-0 opacity-[0.15]" 
-          style={{
-            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
-          }}
+      {/* --- Server-side Background Image Layer --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
+          alt="Abstract Background"
+          className="w-full h-full object-cover opacity-[0.25]"
         />
+        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-[#FAFAFA]/90 to-[#FAFAFA]" />
       </div>
 
       <div className="max-w-8xl mx-auto px-6 relative z-10">
@@ -106,7 +105,7 @@ export default function PricingPage() {
         >
           <motion.div
             variants={fadeUpItem}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm"
           >
             Transparent Pricing
           </motion.div>
@@ -132,7 +131,7 @@ export default function PricingPage() {
             className="flex flex-col items-center gap-8"
           >
             {/* Elegant Role Switcher */}
-            <div className="inline-flex p-1.5 bg-zinc-200/50 backdrop-blur-md rounded-full border border-zinc-200/80">
+            <div className="inline-flex p-1.5 bg-white/50 backdrop-blur-md rounded-full border border-zinc-200/80 shadow-sm">
               {(["freelancers", "business"] as const).map((tab) => (
                 <button
                   key={tab}
@@ -144,7 +143,7 @@ export default function PricingPage() {
                   {role === tab && (
                     <motion.div
                       layoutId="activeRoleTab"
-                      className="absolute inset-0 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-zinc-200/60"
+                      className="absolute inset-0 bg-white rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.08)] border border-zinc-200/60"
                       transition={{ duration: 0.5, ease: premiumEasing }}
                     />
                   )}
@@ -157,7 +156,7 @@ export default function PricingPage() {
             </div>
 
             {/* Region & Billing Controls */}
-            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 bg-white px-6 py-3 rounded-full border border-zinc-200/80 shadow-sm">
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 bg-white/80 backdrop-blur-md px-6 py-3 rounded-full border border-zinc-200/80 shadow-sm">
               
               {/* Region Toggle */}
               <div className="flex items-center gap-3 text-sm font-medium">
@@ -201,7 +200,7 @@ export default function PricingPage() {
                 </button>
                 <span className="flex items-center gap-2">
                   <span className={isYearly ? "text-zinc-950" : "text-zinc-400"}>Yearly</span>
-                  <span className="bg-zinc-100 border border-zinc-200 text-zinc-600 text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full">
+                  <span className="bg-white border border-zinc-200 text-zinc-600 text-[10px] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-full shadow-sm">
                     Save 20%
                   </span>
                 </span>
@@ -217,23 +216,23 @@ export default function PricingPage() {
             // ELEGANT SKELETON LOADERS
             <>
               {[1, 2, 3].map((i) => (
-                <div key={i} className="p-10 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm animate-pulse h-[520px] flex flex-col">
-                  <div className="w-24 h-5 bg-zinc-100 rounded-full mb-8" />
-                  <div className="w-40 h-10 bg-zinc-100 rounded-xl mb-4" />
-                  <div className="w-full h-px bg-zinc-100 my-8" />
+                <div key={i} className="p-10 rounded-[2rem] bg-white/80 backdrop-blur-sm border border-zinc-200/60 shadow-sm animate-pulse h-[520px] flex flex-col">
+                  <div className="w-24 h-5 bg-zinc-200/60 rounded-full mb-8" />
+                  <div className="w-40 h-10 bg-zinc-200/60 rounded-xl mb-4" />
+                  <div className="w-full h-px bg-zinc-200/60 my-8" />
                   <div className="space-y-5 flex-1">
                     {[1, 2, 3, 4, 5].map((j) => (
-                      <div key={j} className="w-full h-3 bg-zinc-100 rounded-full" />
+                      <div key={j} className="w-full h-3 bg-zinc-200/60 rounded-full" />
                     ))}
                   </div>
-                  <div className="w-full h-12 bg-zinc-100 rounded-full mt-8" />
+                  <div className="w-full h-12 bg-zinc-200/60 rounded-full mt-8" />
                 </div>
               ))}
             </>
           ) : filteredPlans.length === 0 ? (
             // EMPTY STATE
             <div className="col-span-full py-24 text-center flex flex-col items-center">
-              <div className="w-12 h-12 bg-zinc-100 rounded-xl border border-zinc-200 flex items-center justify-center text-zinc-400 mb-6">
+              <div className="w-12 h-12 bg-white rounded-xl border border-zinc-200 shadow-sm flex items-center justify-center text-zinc-400 mb-6">
                 <Building2 size={20} />
               </div>
               <h3 className="text-xl font-semibold text-zinc-950 mb-2">No Plans Available</h3>
@@ -274,7 +273,7 @@ export default function PricingPage() {
                     className={`relative p-10 rounded-[2rem] flex flex-col h-full transition-all duration-500 group ${
                       isPopular
                         ? "bg-zinc-950 text-white shadow-2xl border border-zinc-900"
-                        : "bg-white text-zinc-900 border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300"
+                        : "bg-white/90 backdrop-blur-md text-zinc-900 border border-zinc-200/80 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:border-zinc-300 hover:bg-white"
                     }`}
                   >
                     {/* POPULAR BADGE */}
@@ -320,7 +319,7 @@ export default function PricingPage() {
                     </div>
 
                     {/* DIVIDER */}
-                    <div className={`w-full h-px mb-8 ${isPopular ? "bg-zinc-800" : "bg-zinc-100"}`} />
+                    <div className={`w-full h-px mb-8 ${isPopular ? "bg-zinc-800" : "bg-zinc-200/80"}`} />
 
                     {/* FEATURES */}
                     <div className="flex-1 space-y-4 mb-10">
@@ -339,7 +338,7 @@ export default function PricingPage() {
                       className={`w-full py-3.5 rounded-full font-medium text-sm flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.98] ${
                         isPopular
                           ? "bg-white text-zinc-950 hover:bg-zinc-200"
-                          : "bg-[#FAFAFA] border border-zinc-200 text-zinc-950 hover:bg-zinc-50"
+                          : "bg-zinc-50/50 border border-zinc-200 text-zinc-950 hover:bg-zinc-100"
                       }`}
                     >
                       Get Started <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />

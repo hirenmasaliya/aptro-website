@@ -40,19 +40,18 @@ const staggerContainer: Variants = {
 
 export default function SolutionsPage() {
   return (
-    <main className={`min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    // Removed bg-[#FAFAFA] to allow the background image to show
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* --- Premium Minimal Background (Matching Home) --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center">
-        <div 
-          className="absolute inset-0 opacity-[0.15]" 
-          style={{
-            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
-          }}
+      {/* --- Server-side Background Image Layer (Matching Pricing Page) --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
+          alt="Abstract Background"
+          className="w-full h-full object-cover opacity-[0.25]"
         />
+        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-[#FAFAFA]/90 to-[#FAFAFA]" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -66,7 +65,7 @@ export default function SolutionsPage() {
         >
           <motion.div 
             variants={fadeUpItem}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm"
           >
             Who We Help
           </motion.div>
@@ -94,12 +93,12 @@ export default function SolutionsPage() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-100px" }}
-            className="grid md:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200 rounded-[2rem] overflow-hidden"
+            className="grid md:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200 rounded-[2rem] overflow-hidden shadow-sm"
           >
             {/* The Problem */}
             <motion.div 
               variants={fadeUpItem}
-              className="p-10 md:p-14 bg-[#FAFAFA] relative overflow-hidden group"
+              className="p-10 md:p-14 bg-white/90 backdrop-blur-md relative overflow-hidden group"
             >
               <div className="absolute top-0 right-0 p-10 opacity-[0.03]"><AlertCircle size={120} /></div>
               <div className="inline-flex items-center gap-2 text-zinc-500 text-xs font-semibold uppercase tracking-widest mb-8">
@@ -159,16 +158,16 @@ export default function SolutionsPage() {
             {/* Freelancer Profile */}
             <motion.div 
               variants={fadeUpItem}
-              className="p-10 md:p-12 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500"
+              className="p-10 md:p-12 rounded-[2rem] bg-white/80 backdrop-blur-md border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:bg-white transition-all duration-500"
             >
-              <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 text-zinc-900 flex items-center justify-center mb-8">
+              <div className="w-12 h-12 rounded-xl bg-white border border-zinc-100 shadow-sm text-zinc-900 flex items-center justify-center mb-8">
                 <Laptop size={20} />
               </div>
               <h3 className="text-2xl font-semibold mb-3 text-zinc-950 tracking-tight">Independent Professionals</h3>
               <p className="text-zinc-500 font-medium leading-relaxed mb-10">
                 For the solo architect, designer, developer, or consultant who demands flawless execution without an assistant.
               </p>
-              <div className="bg-[#FAFAFA] rounded-xl p-6 border border-zinc-100">
+              <div className="bg-white/50 rounded-xl p-6 border border-zinc-100">
                 <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-400 mb-5">Capabilities</p>
                 <ul className="space-y-4">
                   <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
@@ -187,16 +186,16 @@ export default function SolutionsPage() {
             {/* Business Profile */}
             <motion.div 
               variants={fadeUpItem}
-              className="p-10 md:p-12 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500"
+              className="p-10 md:p-12 rounded-[2rem] bg-white/80 backdrop-blur-md border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:bg-white transition-all duration-500"
             >
-              <div className="w-12 h-12 rounded-xl bg-zinc-50 border border-zinc-100 text-zinc-900 flex items-center justify-center mb-8">
+              <div className="w-12 h-12 rounded-xl bg-white border border-zinc-100 shadow-sm text-zinc-900 flex items-center justify-center mb-8">
                 <Store size={20} />
               </div>
               <h3 className="text-2xl font-semibold mb-3 text-zinc-950 tracking-tight">Growing Businesses</h3>
               <p className="text-zinc-500 font-medium leading-relaxed mb-10">
                 For retail stores, agencies, and product sellers who require strict control over inventory, staff, and complex accounting.
               </p>
-              <div className="bg-[#FAFAFA] rounded-xl p-6 border border-zinc-100">
+              <div className="bg-white/50 rounded-xl p-6 border border-zinc-100">
                 <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-400 mb-5">Capabilities</p>
                 <ul className="space-y-4">
                   <li className="flex items-center gap-3 text-sm font-medium text-zinc-700">
@@ -220,7 +219,7 @@ export default function SolutionsPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1, ease: premiumEasing }}
-          className="relative p-10 md:p-16 rounded-[3rem] bg-white border border-zinc-200/60 shadow-sm mb-32"
+          className="relative p-10 md:p-16 rounded-[3rem] bg-white/90 backdrop-blur-md border border-zinc-200/60 shadow-sm mb-32"
         >
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="space-y-8">
@@ -232,12 +231,12 @@ export default function SolutionsPage() {
               </p>
               
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-6 rounded-2xl bg-[#FAFAFA] border border-zinc-100">
+                <div className="p-6 rounded-2xl bg-white/50 border border-zinc-100">
                   <PieChart className="text-zinc-900 mb-4" size={20} />
                   <p className="text-xs font-medium text-zinc-500 mb-1">Throughput</p>
                   <p className="text-3xl font-semibold text-zinc-950">+45%</p>
                 </div>
-                <div className="p-6 rounded-2xl bg-[#FAFAFA] border border-zinc-100">
+                <div className="p-6 rounded-2xl bg-white/50 border border-zinc-100">
                   <Users2 className="text-zinc-900 mb-4" size={20} />
                   <p className="text-xs font-medium text-zinc-500 mb-1">Time Saved</p>
                   <p className="text-3xl font-semibold text-zinc-950">12h/wk</p>
@@ -246,7 +245,7 @@ export default function SolutionsPage() {
             </div>
 
             {/* Clean Visual Abstract */}
-            <div className="relative aspect-square md:aspect-auto md:h-full min-h-[400px] bg-[#FAFAFA] rounded-[2rem] border border-zinc-100 flex items-center justify-center group">
+            <div className="relative aspect-square md:aspect-auto md:h-full min-h-[400px] bg-zinc-50/50 rounded-[2rem] border border-zinc-100 flex items-center justify-center group">
                {/* Abstract Grid Graphic */}
                <div className="relative z-10 grid grid-cols-2 gap-4 p-8 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105">
                   <div className="w-24 h-24 bg-white rounded-2xl shadow-sm border border-zinc-200/60 flex items-center justify-center text-zinc-400"><Briefcase size={28} /></div>

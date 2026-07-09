@@ -72,22 +72,21 @@ const platforms = [
 
 export default function DownloadPage() {
   return (
-    <main className={`min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    // Removed bg-[#FAFAFA] so the background image is visible
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* Premium Minimal Background */}
-      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center">
-        <div 
-          className="absolute inset-0 opacity-[0.15]" 
-          style={{
-            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
-          }}
+      {/* --- Server-side Background Image Layer --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
+          alt="Abstract Background"
+          className="w-full h-full object-cover opacity-[0.20]"
         />
+        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-[#FAFAFA]/90 to-[#FAFAFA]" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* --- Hero Section --- */}
         <motion.div 
@@ -98,7 +97,7 @@ export default function DownloadPage() {
         >
           <motion.div 
             variants={fadeUpItem}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm"
           >
             Universal Deployment
           </motion.div>
@@ -134,19 +133,19 @@ export default function DownloadPage() {
               className={`relative p-10 rounded-[2rem] transition-all duration-500 flex flex-col group ${
                 platform.featured 
                 ? 'bg-zinc-950 text-white shadow-2xl border border-zinc-900' 
-                : 'bg-white text-zinc-900 border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300'
+                : 'bg-white/70 backdrop-blur-xl text-zinc-900 border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 hover:bg-white'
               }`}
             >
               <div className="flex justify-between items-start mb-12">
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-colors duration-500 ${
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-colors duration-500 shadow-sm ${
                   platform.featured 
                     ? 'bg-zinc-900 text-zinc-100 border border-zinc-800' 
-                    : 'bg-[#FAFAFA] text-zinc-600 border border-zinc-100 group-hover:bg-zinc-100 group-hover:text-zinc-950'
+                    : 'bg-white text-zinc-600 border border-zinc-200/80 group-hover:bg-zinc-50 group-hover:text-zinc-950'
                 }`}>
                   {platform.icon}
                 </div>
                 <div className="text-right">
-                  <span className={`text-xs font-semibold px-3 py-1.5 rounded-md ${platform.featured ? 'bg-zinc-900 text-zinc-300' : 'bg-zinc-100 text-zinc-600'}`}>
+                  <span className={`text-xs font-semibold px-3 py-1.5 rounded-md shadow-sm border ${platform.featured ? 'bg-zinc-900 text-zinc-300 border-zinc-800' : 'bg-white text-zinc-600 border-zinc-200/60'}`}>
                     {platform.version}
                   </span>
                 </div>
@@ -155,7 +154,7 @@ export default function DownloadPage() {
               <h3 className={`text-2xl font-semibold mb-2 tracking-tight ${platform.featured ? 'text-white' : 'text-zinc-950'}`}>
                 {platform.name}
               </h3>
-              <p className={`text-sm font-medium mb-10 ${platform.featured ? 'text-zinc-500' : 'text-zinc-500'}`}>
+              <p className={`text-sm font-medium mb-10 ${platform.featured ? 'text-zinc-400' : 'text-zinc-500'}`}>
                 {platform.size} • {platform.tag}
               </p>
 
@@ -164,8 +163,8 @@ export default function DownloadPage() {
                   href={platform.href}
                   className={`w-full py-4 rounded-full font-medium text-sm flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.98] ${
                     platform.featured 
-                    ? 'bg-white text-zinc-950 hover:bg-zinc-200' 
-                    : 'bg-[#FAFAFA] border border-zinc-200 text-zinc-950 hover:bg-zinc-50'
+                    ? 'bg-white text-zinc-950 hover:bg-zinc-200 shadow-[0_0_20px_rgba(255,255,255,0.1)]' 
+                    : 'bg-white/50 border border-zinc-200 text-zinc-950 hover:bg-white shadow-sm'
                   }`}
                 >
                   <Download size={16} /> {platform.cta}
@@ -198,20 +197,20 @@ export default function DownloadPage() {
                 Point your lens to install and bridge your workspace instantly. Enterprise verification included.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                <div className="px-4 py-1.5 bg-zinc-900 border border-zinc-800 rounded-full text-[10px] font-semibold uppercase tracking-widest text-zinc-400">v14.0+ Ready</div>
-                <div className="px-4 py-1.5 bg-zinc-900 border border-zinc-800 rounded-full text-[10px] font-semibold uppercase tracking-widest text-zinc-400">E2E Encrypted</div>
+                <div className="px-4 py-1.5 bg-zinc-900 border border-zinc-800 rounded-full text-[10px] font-semibold uppercase tracking-widest text-zinc-400 shadow-sm">v14.0+ Ready</div>
+                <div className="px-4 py-1.5 bg-zinc-900 border border-zinc-800 rounded-full text-[10px] font-semibold uppercase tracking-widest text-zinc-400 shadow-sm">E2E Encrypted</div>
               </div>
             </div>
           </div>
 
           {/* Infrastructure Card */}
-          <div className="lg:col-span-5 p-10 md:p-14 rounded-[2.5rem] bg-white border border-zinc-200/60 flex flex-col justify-center relative overflow-hidden group shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500">
+          <div className="lg:col-span-5 p-10 md:p-14 rounded-[2.5rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 flex flex-col justify-center relative overflow-hidden group shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white transition-all duration-500">
             <div className="absolute top-0 right-0 p-8 opacity-[0.03] pointer-events-none group-hover:scale-105 transition-transform duration-700">
               <ShieldCheck size={180} strokeWidth={1} />
             </div>
             
             <div className="relative z-10">
-              <div className="w-14 h-14 bg-[#FAFAFA] rounded-xl flex items-center justify-center text-zinc-900 border border-zinc-100 mb-8">
+              <div className="w-14 h-14 bg-white shadow-sm rounded-xl flex items-center justify-center text-zinc-900 border border-zinc-200/60 mb-8">
                 <Server size={24} />
               </div>
               <h2 className="text-2xl font-semibold tracking-tight mb-4 text-zinc-950">Sovereign Security</h2>
@@ -243,19 +242,19 @@ export default function DownloadPage() {
               <h2 className="text-3xl font-semibold tracking-tight text-zinc-950 mb-4">Device Specifications</h2>
               <p className="text-zinc-500 font-medium text-lg">Aptro is optimized for low-latency performance on modern hardware ecosystems.</p>
             </div>
-            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 bg-zinc-100 px-3 py-1.5 rounded-md border border-zinc-200/60">
+            <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500 bg-white/80 backdrop-blur-md px-3 py-1.5 rounded-md border border-zinc-200/60 shadow-sm">
               <Info size={14} /> Spec v2.0
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-[2rem] border border-zinc-200/60 bg-white shadow-sm">
+          <div className="overflow-hidden rounded-[2rem] border border-zinc-200/60 bg-white/70 backdrop-blur-xl shadow-sm">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
-                <thead className="bg-[#FAFAFA] border-b border-zinc-200/60">
+                <thead className="bg-zinc-50/50 border-b border-zinc-200/60">
                   <tr>
-                    <th className="px-8 py-5 text-xs font-semibold text-zinc-500">Environment</th>
-                    <th className="px-8 py-5 text-xs font-semibold text-zinc-500">Base Build</th>
-                    <th className="px-8 py-5 text-xs font-semibold text-zinc-900">Recommended</th>
+                    <th className="px-8 py-5 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Environment</th>
+                    <th className="px-8 py-5 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Base Build</th>
+                    <th className="px-8 py-5 text-xs font-semibold text-zinc-900 uppercase tracking-wider">Recommended</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-zinc-100">
@@ -264,7 +263,7 @@ export default function DownloadPage() {
                     { p: "iOS / iPadOS", m: "Version 15.0", r: "Version 17.4+" },
                     { p: "Windows Desktop", m: "Win 10 (Build 19041)", r: "Windows 11 Pro" }
                   ].map((row) => (
-                    <tr key={row.p} className="hover:bg-zinc-50/50 transition-colors">
+                    <tr key={row.p} className="hover:bg-white transition-colors duration-300">
                       <td className="px-8 py-6 font-semibold text-zinc-950 text-sm whitespace-nowrap">{row.p}</td>
                       <td className="px-8 py-6 text-zinc-500 text-sm font-medium whitespace-nowrap">{row.m}</td>
                       <td className="px-8 py-6 text-zinc-950 text-sm font-semibold whitespace-nowrap">{row.r}</td>

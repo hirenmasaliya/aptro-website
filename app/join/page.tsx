@@ -14,7 +14,8 @@ import {
     CheckCircle
 } from "lucide-react";
 import { Plus_Jakarta_Sans } from "next/font/google";
-import { useRouter } from "next/navigation"; // 1. Imported useRouter
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 // Plus Jakarta Sans acts as a great stand-in for Apple's San Francisco when tracked tightly
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
@@ -36,7 +37,7 @@ const faqs = [
 ];
 
 export default function JoinPage() {
-    const router = useRouter(); // 2. Initialized router
+    const router = useRouter(); 
     const [openFaq, setOpenFaq] = useState<number | null>(null);
     
     // Form State
@@ -109,47 +110,70 @@ export default function JoinPage() {
         <main className={`min-h-screen bg-white pt-24 pb-20 selection:bg-[#0071E3] selection:text-white ${jakarta.className}`}>
             
             {/* --- HERO SECTION --- */}
-            <section className="max-w-7xl mx-auto px-6 pt-16 md:pt-32 pb-24 text-center flex flex-col items-center">
-                <motion.h2 
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase }}
-                    className="text-[#E57A00] font-semibold tracking-wide text-sm md:text-base mb-4"
-                >
-                    Student Business Partner Program
-                </motion.h2>
+            {/* Changed wrapper to w-full so the background spans the entire screen */}
+            <section className="relative w-full pt-16 md:pt-32 pb-24 flex flex-col items-center overflow-hidden">
                 
-                <motion.h1 
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase, delay: 0.1 }}
-                    className="text-5xl md:text-[80px] font-bold tracking-tight text-[#1D1D1F] mb-6 leading-[1.05]"
-                >
-                    Earn while you learn. <br className="hidden md:block" />
-                    <span className="text-[#86868B]">On your own terms.</span>
-                </motion.h1>
-                
-                <motion.p 
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase, delay: 0.2 }}
-                    className="text-[19px] md:text-[21px] text-[#1D1D1F] max-w-3xl mx-auto mb-10 font-medium leading-relaxed"
-                >
-                    Help local businesses digitize their operations with Aptro. Turn your free time into income with industry-leading commissions and zero upfront investment.
-                </motion.p>
-                
+                {/* Background Image Container */}
                 <motion.div 
-                    initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase, delay: 0.3 }}
-                    className="flex flex-col sm:flex-row items-center gap-6"
+                    initial={{ opacity: 0, scale: 0.95 }} 
+                    animate={{ opacity: 1, scale: 1 }} 
+                    transition={{ duration: 1.2, ease: appleEase }}
+                    className="absolute inset-0 z-0"
                 >
-                    <button 
-                        onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
-                        className="px-8 py-3.5 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-full font-medium text-[17px] transition-colors duration-300"
-                    >
-                        Apply Now
-                    </button>
-                    <a href="#how-it-works" className="text-[#0066CC] hover:underline text-[17px] font-medium flex items-center gap-1 group">
-                        See how it works <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </a>
+                    <Image
+                        src="/images/students_banner.png"
+                        alt="A group of diverse college students collaborating happily on a modern campus, using laptops and smartphones."
+                        fill
+                        className="object-cover object-top opacity-60" /* Increased opacity so it's visible */
+                        priority
+                    />
+                    {/* Fixed Gradient: Fades perfectly so the image shows in the middle, but blends into the page below */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white via-white/50 to-white" />
                 </motion.div>
+
+                {/* Content Container */}
+                <div className="relative z-10 text-center flex flex-col items-center max-w-4xl mx-auto px-6">
+                    <motion.h2 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase }}
+                        className="text-[#E57A00] font-semibold tracking-wide text-sm md:text-base mb-4"
+                    >
+                        Student Business Partner Program
+                    </motion.h2>
+                    
+                    <motion.h1 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase, delay: 0.1 }}
+                        className="text-5xl md:text-[80px] font-bold tracking-tight text-[#1D1D1F] mb-6 leading-[1.05]"
+                    >
+                        Earn while you learn. <br className="hidden md:block" />
+                        <span className="text-[#86868B]">On your own terms.</span>
+                    </motion.h1>
+                    
+                    <motion.p 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase, delay: 0.2 }}
+                        className="text-[19px] md:text-[21px] text-[#1D1D1F] max-w-3xl mx-auto mb-10 font-medium leading-relaxed"
+                    >
+                        Help local businesses digitize their operations with Aptro. Turn your free time into income with industry-leading commissions and zero upfront investment.
+                    </motion.p>
+                    
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: appleEase, delay: 0.3 }}
+                        className="flex flex-col sm:flex-row items-center gap-6"
+                    >
+                        <button 
+                            onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="px-8 py-3.5 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-full font-medium text-[17px] transition-colors duration-300 shadow-lg shadow-blue-500/20"
+                        >
+                            Apply Now
+                        </button>
+                        <a href="#how-it-works" className="text-[#0066CC] hover:underline text-[17px] font-medium flex items-center gap-1 group">
+                            See how it works <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                        </a>
+                    </motion.div>
+                </div>
             </section>
 
             {/* --- COMMISSION PLANS --- */}
-            <section className="max-w-7xl mx-auto px-6 py-24 border-t border-[#D2D2D7]">
+            <section className="max-w-7xl mx-auto px-6 py-24 border-t border-[#D2D2D7] relative z-10 bg-white">
                 <div className="text-center mb-16">
                     <h2 className="text-[40px] md:text-[56px] font-bold text-[#1D1D1F] tracking-tight mb-4">Which plan is right for them?</h2>
                     <p className="text-[21px] text-[#86868B] font-medium">Earn up to 50% commission for every business you onboard.</p>
@@ -190,7 +214,7 @@ export default function JoinPage() {
             </section>
 
             {/* --- BENTO BENEFITS --- */}
-            <section id="how-it-works" className="max-w-7xl mx-auto px-6 py-24">
+            <section id="how-it-works" className="max-w-7xl mx-auto px-6 py-24 relative z-10 bg-white">
                 <div className="grid md:grid-cols-2 gap-6">
                     
                     {/* Big Tile */}
@@ -234,7 +258,7 @@ export default function JoinPage() {
             </section>
 
             {/* --- REGISTRATION FORM --- */}
-            <section id="registration-form" className="max-w-[700px] mx-auto px-6 py-24">
+            <section id="registration-form" className="max-w-[700px] mx-auto px-6 py-24 relative z-10 bg-white">
                 <motion.div 
                     initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: appleEase }}
                 >
@@ -264,7 +288,6 @@ export default function JoinPage() {
                                 Keep this ID safe. You will receive an email once your final Partner ID is generated upon approval.
                             </p>
                             
-                            {/* 3. Added Redirect Button */}
                             <button
                                 onClick={() => router.push('/partner/dashboard')}
                                 className="px-8 py-4 bg-[#0071E3] hover:bg-[#0077ED] text-white rounded-[14px] font-medium text-[17px] transition-colors duration-300 inline-flex items-center gap-2 shadow-lg shadow-blue-500/20 active:scale-[0.98]"
@@ -356,7 +379,7 @@ export default function JoinPage() {
             </section>
 
             {/* --- FAQS --- */}
-            <section className="max-w-[700px] mx-auto px-6 py-24 border-t border-[#D2D2D7]">
+            <section className="max-w-[700px] mx-auto px-6 py-24 border-t border-[#D2D2D7] relative z-10 bg-white">
                 <div className="text-center mb-16">
                     <h2 className="text-[40px] font-bold text-[#1D1D1F] tracking-tight">Frequently Asked Questions</h2>
                 </div>

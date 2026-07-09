@@ -16,112 +16,102 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-// Premium smooth easing
-const premiumEasing = [0.22, 1, 0.36, 1] as const;
+// Apple-style smooth continuous easing
+const appleEase = [0.16, 1, 0.3, 1] as const;
 
 const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: premiumEasing } }
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: appleEase } }
 };
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 }
   }
 };
 
 const roleContent = {
   freelancer: {
-    badge: "Solo Architect",
+    badge: "Solo Workspace",
     title: "Refined for the individual.",
-    desc: "A smart suite of tools designed to organize your projects, automate administrative tasks, and keep your finances clear.",
+    desc: "A singular environment designed to minimize administrative cognitive load, automate tracking, and keep execution frictionless.",
     spotlight: [
       {
         title: "Smart Dashboard & Project Hub",
-        desc: "Your entire freelance business at a glance. Manage clients, track specific project details, and monitor your operational health in real-time.",
-        icon: <BarChart3 className="w-6 h-6" />,
-        details: ["Live Dashboard Insights", "Project & Work Information Tracking", "Client Directory Management"],
+        desc: "Your entire freelance business at a single glance. Manage clients, track specific project milestones, and monitor operational health in real-time.",
+        icon: <BarChart3 className="w-5 h-5" />,
+        details: ["Live Dashboard Insights", "Project Information Tracking", "Client Directory Management"],
+        gridSize: "md:col-span-2"
       },
       {
-        title: "Comprehensive Payment Tracking",
-        desc: "Keep meticulous records of your cash flow. Easily check complete payment histories, add new payment details manually, and track outstanding project dues.",
-        icon: <Wallet className="w-6 h-6" />,
-        details: ["Payment History Logs", "Manual Payment Entry", "Outstanding Balance Tracking"],
+        title: "Payment Tracking",
+        desc: "Meticulous records of your cash flow with manual entry and balance logs.",
+        icon: <Wallet className="w-5 h-5" />,
+        details: ["Payment History Logs", "Manual Entry Hub"],
+        gridSize: "md:col-span-1"
       },
       {
-        title: "Daily Task Engine & Notes",
-        desc: "A dedicated workspace for your day-to-day. Write detailed project notes, manage a separate daily task list, and stay focused on execution.",
-        icon: <CheckSquare className="w-6 h-6" />,
-        details: ["Separate Daily Task Page", "Rich Text Project Notes", "Task Prioritization"],
-      },
-      {
-        title: "Automated Reminders",
-        desc: "Never miss a follow-up or deadline. Get intelligent push notifications and reminders for pending tasks, project milestones, and overdue payments.",
-        icon: <Bell className="w-6 h-6" />,
-        details: ["Customizable Reminders", "Push Notifications", "Deadline Tracking"],
+        title: "Task Engine & Notes",
+        desc: "Write comprehensive project specs, manage your daily agenda, and prioritize output without jumping between fragmented applications.",
+        icon: <CheckSquare className="w-5 h-5" />,
+        details: ["Dedicated Tasks View", "Rich Project Documentation"],
+        gridSize: "md:col-span-1"
       },
       {
         title: "Billing & Quotations",
-        desc: "Win more work and get paid faster. Generate professional quotations instantly and convert them into final bills with a single click.",
-        icon: <Receipt className="w-6 h-6" />,
-        details: ["Instant Quotation Generation", "One-Click Invoicing", "PDF Export Capabilities"],
+        desc: "Win more opportunities and get paid instantly. Construct professional estimates and convert them into clean invoices with a single gesture.",
+        icon: <Receipt className="w-5 h-5" />,
+        details: ["Instant Quote Builder", "One-Click PDF Billing"],
+        gridSize: "md:col-span-2"
       }
     ]
   },
   business: {
     badge: "Enterprise Infrastructure",
     title: "Orchestrate your growth.",
-    desc: "Advanced architecture designed for managing complex inventory, robust GST billing, dual-sided ledgers, and your entire workforce.",
+    desc: "Advanced ledger systems designed for automated inventory synchronization, robust tax compliance, and unified workforce administration.",
     spotlight: [
       {
-        title: "Dual-Sided CRM",
-        desc: "Manage your complete business network. Add, update, and segment both B2B clients (vendors/suppliers) and B2C customers in one unified database.",
-        icon: <Users className="w-6 h-6" />,
-        details: ["B2B & B2C Segmentation", "Unified Contact Directory", "Interaction History"],
+        title: "Dual-Sided CRM Architecture",
+        desc: "Segment suppliers, track client behaviors, and register customer directories in one database ecosystem.",
+        icon: <Users className="w-5 h-5" />,
+        details: ["B2B & B2C Isolation", "Global Log History"],
+        gridSize: "md:col-span-1"
       },
       {
-        title: "Comprehensive Inventory",
-        desc: "Total visibility over your stock. Add new products, update existing SKUs, track real-time stock summaries, and receive automated low-stock alerts.",
-        icon: <Package className="w-6 h-6" />,
-        details: ["Live Stock Summaries", "Automated Low Stock Alerts", "Product Update Logs"],
+        title: "Real-time Stock Ledger",
+        desc: "Total inventory control. Create instant product summaries, adjust stock levels on the fly, and receive automatic notification thresholds when item counts drop low.",
+        icon: <Package className="w-5 h-5" />,
+        details: ["Live SKU Counters", "Smart Lower Threshold Alerts", "Product Registry Audits"],
+        gridSize: "md:col-span-2"
       },
       {
-        title: "Order Processing",
-        desc: "Streamline your trade operations. Create detailed purchase orders for suppliers and sales orders for customers within the same intuitive interface.",
-        icon: <Box className="w-6 h-6" />,
-        details: ["Purchase Order Creation", "Sales Order Management", "Order Status Tracking"],
+        title: "GST Compliance Core",
+        desc: "Automate accounting with native tax computation frameworks and instant reporting matrix parameters.",
+        icon: <Calculator className="w-5 h-5" />,
+        details: ["Compliant Local Invoicing", "Automated Sales Reports"],
+        gridSize: "md:col-span-2"
       },
       {
-        title: "Full-Spectrum Ledgers",
-        desc: "Track money in and money out. Record dual-sided payment entries for both client receivables and supplier payables to maintain perfect cash flow clarity.",
-        icon: <Wallet className="w-6 h-6" />,
-        details: ["Supplier Payable Entries", "Customer Receivable Entries", "Cash Flow Balancing"],
-      },
-      {
-        title: "GST Billing & Reports",
-        desc: "Tax season made simple. Generate robust, GST-compliant invoices and automatically compile detailed financial, operational, and sales reports.",
-        icon: <Calculator className="w-6 h-6" />,
-        details: ["GST Compliant Invoicing", "Detailed Sales Reports", "Automated Tax Calculation"],
-      },
-      {
-        title: "Workforce Management",
-        desc: "Scale your team effortlessly. Track daily staff attendance and automate monthly payroll processing directly from your administrative dashboard.",
-        icon: <ClipboardList className="w-6 h-6" />,
-        details: ["Daily Attendance Tracking", "Automated Payroll Processing", "Staff Management"],
+        title: "Workforce & Payroll",
+        desc: "Track internal attendance metrics and manage automated balance payroll schedules natively.",
+        icon: <ClipboardList className="w-5 h-5" />,
+        details: ["Daily Shift Tracking", "Instant Compensation Auditing"],
+        gridSize: "md:col-span-1"
       }
     ]
   }
 };
 
 const commonFeatures = [
-  { title: "Bank-Grade Encryption", icon: <Lock size={20} />, desc: "AES-256 standard security with secure key management." },
-  { title: "Cross-Platform Sync", icon: <Smartphone size={20} />, desc: "Native experiences across iOS, Android, and Web." },
-  { title: "Global Settlement", icon: <Globe size={20} />, desc: "Multi-currency reconciliation and localized tax engines." },
-  { title: "Universal API", icon: <Layers size={20} />, desc: "Connect effortlessly with 2000+ existing ecosystems." },
-  { title: "Real-Time Webhooks", icon: <Zap size={20} />, desc: "Zero-latency data propagation across your stack." },
-  { title: "Enterprise SLA", icon: <Briefcase size={20} />, desc: "Dedicated 24/7 priority engineering support." },
+  { title: "Bank-Grade Encryption", icon: <Lock size={18} />, desc: "AES-256 protocol standard architecture with hardware-isolated security key management modules." },
+  { title: "Cross-Platform Sync", icon: <Smartphone size={18} />, desc: "Unified synchronization states across fully native iOS, Android, and desktop ecosystems." },
+  { title: "Global Settlement", icon: <Globe size={18} />, desc: "Multi-currency reconciliation algorithms supported by localized tax balancing parameters." },
+  { title: "Universal API Layer", icon: <Layers size={18} />, desc: "Connect external processing clusters natively with over 2,000 existing business platforms." },
+  { title: "Real-Time Webhooks", icon: <Zap size={18} />, desc: "Zero-latency payload distribution maps keeping internal and external tables completely synchronous." },
+  { title: "Enterprise SLA Support", icon: <Briefcase size={18} />, desc: "Direct engineering communication access and constant proactive operational up-time protection frameworks." },
 ];
 
 export default function FeaturesPage() {
@@ -129,191 +119,197 @@ export default function FeaturesPage() {
   const activeContent = roleContent[role];
 
   return (
-    <main className={`min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-indigo-200 selection:text-indigo-900 overflow-x-hidden relative ${jakarta.className}`}>
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-indigo-600 selection:text-white overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
 
-      {/* Premium Minimal Background with Ambient Glow */}
-      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center overflow-hidden">
-        <div className="absolute top-[10%] left-[-10%] w-[40%] h-[40%] bg-indigo-50 blur-[120px] rounded-full mix-blend-multiply" />
-        <div className="absolute top-[40%] right-[-10%] w-[30%] h-[50%] bg-blue-50 blur-[120px] rounded-full mix-blend-multiply" />
-        <div
-          className="absolute inset-0 opacity-[0.2]"
-          style={{
-            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
-          }}
+      {/* --- Server-side Background Image Layer --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
+          alt="Abstract Geometric Background"
+          className="w-full h-full object-cover opacity-[0.18]"
         />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-[#FAFAFA]/80 to-[#FAFAFA]" />
+        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-indigo-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* --- Header Section --- */}
-        <div className="max-w-5xl mb-24">
+        {/* --- Header Section (Now Centered) --- */}
+        <section className="max-w-4xl mx-auto mb-28 flex flex-col items-center text-center">
           <motion.div
-            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: premiumEasing }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-widest border border-indigo-100 mb-8 shadow-sm"
+            initial={{ opacity: 0, y: -10 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6, ease: appleEase }}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-indigo-600 text-xs font-semibold tracking-wider uppercase border border-zinc-200/80 mb-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]"
           >
-            <Sparkles size={14} className="text-indigo-400" />
-            Core Capabilities
+            <Sparkles size={12} className="text-indigo-500" />
+            Capabilities
           </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: premiumEasing, delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[6rem] font-bold tracking-tighter mb-6 leading-[1.05] text-zinc-950"
+            transition={{ duration: 0.8, ease: appleEase, delay: 0.05 }}
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter mb-8 leading-[1.02] text-zinc-900"
           >
             Built for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500 italic pr-2">
-              modern operations.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-indigo-950 to-indigo-600">
+              modern workflows.
             </span>
           </motion.h1>
 
-          {/* Elegant Role Switcher */}
+          {/* Elegant Segmented Switcher Control */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: premiumEasing, delay: 0.2 }}
-            className="inline-flex p-1.5 bg-white/60 backdrop-blur-md rounded-full border border-zinc-200 shadow-sm"
+            initial={{ opacity: 0, y: 15 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.8, ease: appleEase, delay: 0.12 }}
+            className="inline-flex p-1 bg-zinc-200/60 backdrop-blur-xl rounded-full border border-zinc-200/40 shadow-inner"
           >
             {(["freelancer", "business"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setRole(tab)}
-                className={`relative flex items-center gap-2 px-8 py-3 rounded-full text-sm font-semibold transition-colors z-10 ${
+                className={`relative flex items-center gap-2 px-7 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors z-10 ${
                   role === tab ? "text-indigo-600" : "text-zinc-500 hover:text-zinc-900"
                 }`}
               >
                 {role === tab && (
                   <motion.div
                     layoutId="featuresTab"
-                    className="absolute inset-0 bg-indigo-50 rounded-full shadow-[0_2px_8px_rgba(79,70,229,0.15)] border border-indigo-100/50"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    className="absolute inset-0 bg-white rounded-full shadow-[0_3px_12px_rgba(0,0,0,0.06)] border border-zinc-200/50"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10 flex items-center gap-2">
-                  {tab === "freelancer" ? <User size={16} /> : <Building2 size={16} />}
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                <span className="relative z-10 flex items-center gap-1.5">
+                  {tab === "freelancer" ? <User size={13} /> : <Building2 size={13} />}
+                  {tab}
                 </span>
               </button>
             ))}
           </motion.div>
-        </div>
+        </section>
 
-        {/* --- Spotlight Content --- */}
-        <div className="min-h-[1200px]">
+        {/* --- Spotlight Bento Content --- */}
+        <section className="mb-32">
           <AnimatePresence mode="wait">
             <motion.div
               key={role}
-              initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -10, filter: "blur(4px)" }}
-              transition={{ duration: 0.5, ease: premiumEasing }}
-              className="space-y-32 mb-32"
+              exit={{ opacity: 0, y: -20, filter: "blur(6px)" }}
+              transition={{ duration: 0.6, ease: appleEase }}
             >
-              {/* Introduction Text */}
-              <div className="mb-16 border-b border-zinc-200 pb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-zinc-950 mb-4">{activeContent.title}</h2>
-                <p className="text-lg text-zinc-500 max-w-2xl leading-relaxed font-medium">{activeContent.desc}</p>
+              {/* Profile Intro Context */}
+              <div className="mb-14 border-b border-zinc-200/60 pb-12">
+                <span className="text-xs font-bold uppercase tracking-widest text-indigo-500 block mb-2">{activeContent.badge}</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight mb-4">{activeContent.title}</h2>
+                <p className="text-base md:text-lg text-zinc-500 max-w-2xl leading-relaxed font-medium">{activeContent.desc}</p>
               </div>
 
-              {/* Dynamic Feature Sections */}
-              {activeContent.spotlight.map((feature, i) => (
-                <div key={i} className={`flex flex-col lg:flex-row items-center gap-16 lg:gap-24 ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
-
-                  {/* Text Content */}
-                  <div className="flex-1 space-y-6">
-                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 shadow-inner flex items-center justify-center text-indigo-600">
-                      {feature.icon}
+              {/* Bento System Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {activeContent.spotlight.map((feature, i) => (
+                  <div
+                    key={i}
+                    className={`group relative p-8 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-[0_4px_30px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.03)] hover:border-zinc-300 transition-all duration-500 flex flex-col justify-between overflow-hidden ${feature.gridSize}`}
+                  >
+                    <div className="space-y-5">
+                      <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200/80 shadow-sm flex items-center justify-center text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                        {feature.icon}
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold tracking-tight mb-2 text-zinc-900">{feature.title}</h3>
+                        <p className="text-sm text-zinc-500 leading-relaxed font-medium max-w-xl">{feature.desc}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-2xl md:text-3xl font-bold tracking-tight mb-4 text-zinc-950">{feature.title}</h3>
-                      <p className="text-base text-zinc-500 leading-relaxed">{feature.desc}</p>
-                    </div>
 
-                    <div className="space-y-4 pt-4">
+                    <div className="mt-8 flex flex-wrap gap-2.5 z-10">
                       {feature.details.map((detail, idx) => (
-                        <motion.div
-                          initial={{ opacity: 0, x: -10 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.1 * idx, ease: premiumEasing }} viewport={{ once: true }}
-                          key={detail}
-                          className="flex items-center gap-3 text-sm font-medium text-zinc-700"
+                        <div
+                          key={idx}
+                          className="flex items-center gap-2 px-3 py-1.5 bg-white border border-zinc-100 rounded-full shadow-sm text-xs text-zinc-700 font-medium"
                         >
-                          <CheckCircle2 size={18} className="text-indigo-500" />
-                          {detail}
-                        </motion.div>
+                          <CheckCircle2 size={13} className="text-indigo-500" />
+                          <span>{detail}</span>
+                        </div>
                       ))}
                     </div>
+
+                    {/* Minimal Ambient Highlight Line */}
+                    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-200/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                  </div>
+                ))}
+
+                {/* Hero Abstract Live UI Mockup Card inside Bento */}
+                <div className="md:col-span-3 rounded-[2.5rem] border border-zinc-200/80 bg-white/40 backdrop-blur-xl p-8 lg:p-12 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 shadow-[0_10px_50px_rgba(0,0,0,0.02)] overflow-hidden relative group mt-4">
+                  <div className="absolute -left-12 -top-12 w-64 h-64 bg-indigo-500/5 blur-[100px] rounded-full pointer-events-none" />
+                  
+                  <div className="flex-1 space-y-6 relative z-10">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 bg-white px-2.5 py-1 rounded-full border border-zinc-200/60 shadow-sm">Interactive Model</span>
+                    <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 tracking-tight">The Architecture in Practice.</h3>
+                    <p className="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
+                      Every panel, telemetry line, and data map operates inside a single unified window space. No loading steps, no secondary authentication loops—just real-time rendering.
+                    </p>
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold text-zinc-700">
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Global View States</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Continuous Local Cache</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Background Delta Syncing</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Instant Compilation Engine</li>
+                    </ul>
                   </div>
 
-                  {/* Premium Abstract UI Mockup */}
-                  <div className="flex-1 w-full relative">
-                    <div className="relative aspect-[4/3] rounded-[2rem] border border-zinc-200/80 bg-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] flex items-center justify-center overflow-hidden p-6 group">
+                  <div className="flex-1 w-full relative max-w-xl">
+                    <div className="relative w-full aspect-[16/10] bg-white rounded-2xl border border-zinc-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.06)] flex flex-col p-4 gap-4 overflow-hidden group-hover:border-zinc-300 transition-colors duration-500">
+                      
+                      <div className="w-full flex justify-between items-center border-b border-zinc-100 pb-3">
+                        <div className="flex gap-1.5">
+                          <div className="w-2.5 h-2.5 bg-zinc-200 rounded-full" />
+                          <div className="w-2.5 h-2.5 bg-zinc-200 rounded-full" />
+                          <div className="w-2.5 h-2.5 bg-zinc-200 rounded-full" />
+                        </div>
+                        <div className="w-24 h-2 bg-zinc-100 rounded-full" />
+                      </div>
 
-                      {/* Dashboard Skeleton with Indigo Accents */}
-                      <div className="w-full h-full bg-[#FAFAFA] rounded-xl border border-zinc-100 flex flex-col p-4 gap-4 relative">
-                        {/* Top bar */}
-                        <div className="w-full flex justify-between items-center border-b border-zinc-100 pb-3">
-                          <div className="w-24 h-2.5 bg-zinc-200 rounded-full" />
-                          <div className="flex gap-2">
-                            <div className="w-6 h-6 bg-zinc-200 rounded-full" />
-                            <div className="w-6 h-6 bg-indigo-100 rounded-full border border-indigo-200" />
-                          </div>
+                      <div className="flex flex-1 gap-4">
+                        <div className="w-1/4 h-full hidden sm:flex flex-col gap-3 border-r border-zinc-100 pr-3">
+                          <div className="w-full h-2 bg-indigo-50 rounded-full" />
+                          <div className="w-4/5 h-1.5 bg-zinc-100 rounded-full" />
+                          <div className="w-2/3 h-1.5 bg-zinc-100 rounded-full" />
+                          <div className="w-3/4 h-1.5 bg-zinc-100 rounded-full" />
                         </div>
 
-                        {/* Layout */}
-                        <div className="flex flex-1 gap-4">
-                          {/* Sidebar */}
-                          <div className="w-1/4 h-full bg-white border border-zinc-100 rounded-lg hidden sm:flex flex-col gap-3 p-3 shadow-sm">
-                            <div className="w-full h-2 bg-indigo-100 rounded-full mb-2" />
-                            <div className="w-3/4 h-1.5 bg-zinc-200 rounded-full" />
-                            <div className="w-full h-1.5 bg-zinc-200 rounded-full" />
-                            <div className="w-2/3 h-1.5 bg-zinc-200 rounded-full" />
-                            <div className="mt-auto w-full h-8 bg-indigo-50 rounded-md border border-indigo-100/50" />
+                        <div className="flex-1 h-full flex flex-col gap-3">
+                          <div className="w-full h-24 rounded-xl border border-zinc-100 bg-[#FAFAFA] p-3 flex flex-col justify-between relative overflow-hidden">
+                            <LineChart className="absolute -bottom-2 -right-2 opacity-5 w-20 h-20 text-indigo-900" />
+                            <div className="w-12 h-1.5 bg-zinc-200 rounded-full" />
+                            <div className="w-20 h-3 bg-indigo-600 rounded-full shadow-sm shadow-indigo-600/10" />
                           </div>
-
-                          {/* Main Content */}
-                          <div className="flex-1 h-full flex flex-col gap-4">
-                            <div className="w-full h-32 rounded-lg border border-zinc-200/60 bg-white shadow-sm p-4 flex flex-col justify-end relative overflow-hidden group-hover:border-indigo-200 group-hover:shadow-[0_0_20px_rgba(79,70,229,0.08)] transition-all duration-700">
-                              <LineChart className="absolute top-4 right-4 opacity-5 w-24 h-24 text-indigo-900" />
-                              <div className="absolute inset-0 bg-gradient-to-t from-indigo-50/50 to-transparent" />
-                              <div className="w-1/3 h-2 bg-indigo-200 rounded-full mb-2 relative z-10" />
-                              <div className="w-1/2 h-4 bg-indigo-500 rounded-full relative z-10" />
+                          <div className="grid grid-cols-2 gap-3 flex-1">
+                            <div className="rounded-xl border border-zinc-100 p-3 flex flex-col gap-2 bg-white">
+                              <div className="w-8 h-1.5 bg-zinc-200 rounded-full" />
+                              <div className="w-12 h-1.5 bg-zinc-100 rounded-full" />
                             </div>
-
-                            <div className="flex-1 flex gap-4">
-                              <div className="flex-1 bg-white rounded-lg border border-zinc-200/60 shadow-sm p-4 flex flex-col justify-center gap-3 group-hover:border-indigo-100 transition-colors duration-700">
-                                <div className="w-full h-1.5 bg-zinc-200 rounded-full" />
-                                <div className="w-4/5 h-1.5 bg-zinc-200 rounded-full" />
-                                <div className="w-2/3 h-1.5 bg-zinc-200 rounded-full" />
-                              </div>
-                              <div className="flex-1 bg-white rounded-lg border border-zinc-200/60 shadow-sm p-4 flex flex-col justify-center gap-3">
-                                <div className="w-full h-1.5 bg-zinc-200 rounded-full" />
-                                <div className="w-3/4 h-1.5 bg-indigo-100 rounded-full" />
-                              </div>
+                            <div className="rounded-xl border border-zinc-100 p-3 flex flex-col gap-2 bg-white">
+                              <div className="w-10 h-1.5 bg-zinc-200 rounded-full" />
+                              <div className="w-6 h-1.5 bg-indigo-100 rounded-full" />
                             </div>
-                          </div>
-                        </div>
-
-                        {/* Floating Decorative Icon */}
-                        <div className="absolute -right-4 -bottom-4 w-28 h-28 bg-white rounded-2xl shadow-[0_20px_40px_-15px_rgba(79,70,229,0.15)] border border-indigo-50 flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-3 group-hover:-translate-x-3">
-                          <div className="w-12 h-12 rounded-xl bg-indigo-600 shadow-inner flex items-center justify-center text-white">
-                            {feature.icon}
                           </div>
                         </div>
                       </div>
+
                     </div>
                   </div>
-
                 </div>
-              ))}
+              </div>
             </motion.div>
           </AnimatePresence>
-        </div>
+        </section>
 
         {/* --- Standard Infrastructure Grid (Bento Style) --- */}
-        <section className="pt-24 border-t border-zinc-200">
+        <section className="pt-24 border-t border-zinc-200/80">
           <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-zinc-950">Universal Baseline</h2>
-            <p className="text-lg text-zinc-500 font-medium">Foundational protocols built into every workspace, ensuring absolute security, speed, and connectivity regardless of your plan.</p>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">Universal Baseline</h2>
+            <p className="text-base text-zinc-500 font-medium leading-relaxed">Foundational layers compiled natively into every node cluster, protecting privacy, sync fidelity, and integration reach across standard runtimes.</p>
           </div>
 
           <motion.div
@@ -327,55 +323,53 @@ export default function FeaturesPage() {
               <motion.div
                 key={i}
                 variants={fadeUpItem}
-                className="group relative p-8 md:p-10 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_-4px_rgba(79,70,229,0.08)] hover:border-indigo-200 flex flex-col"
+                className="group relative p-8 bg-white/70 backdrop-blur-xl border border-zinc-200/60 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:border-zinc-300 hover:bg-white flex flex-col justify-between h-64"
               >
-                {/* Hover Gradient Base */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/0 to-blue-50/0 group-hover:from-indigo-50/50 group-hover:to-blue-50/50 transition-colors duration-500 -z-10" />
-
-                <div className="mb-8 inline-flex w-12 h-12 items-center justify-center rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-600 shadow-sm transition-all duration-500 group-hover:-translate-y-1 group-hover:bg-indigo-600 group-hover:text-white group-hover:shadow-indigo-500/25 group-hover:border-indigo-500">
-                  {f.icon}
+                <div>
+                  <div className="mb-5 inline-flex w-9 h-9 items-center justify-center rounded-lg bg-white border border-zinc-200 text-zinc-500 shadow-sm transition-all duration-500 group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900">
+                    {f.icon}
+                  </div>
+                  <h3 className="text-lg font-bold mb-2 tracking-tight text-zinc-900">{f.title}</h3>
+                  <p className="text-zinc-500 leading-relaxed text-xs font-medium">{f.desc}</p>
                 </div>
-                
-                <h3 className="text-xl font-bold mb-3 tracking-tight text-zinc-950">{f.title}</h3>
-                <p className="text-zinc-500 leading-relaxed text-sm flex-1">{f.desc}</p>
               </motion.div>
             ))}
           </motion.div>
         </section>
 
-        {/* --- THE EXECUTIVE CTA SECTION (Blue Gradient Theme) --- */}
+        {/* --- THE EXECUTIVE CTA SECTION (Premium Dark Slate Alignment) --- */}
         <section className="mt-32 w-full pb-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: premiumEasing }}
-            className="relative px-8 py-20 lg:p-24 rounded-[3.5rem] overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-950 text-center shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)]"
+            transition={{ duration: 1, ease: appleEase }}
+            className="relative px-8 py-24 rounded-[3rem] overflow-hidden bg-zinc-950 text-center shadow-2xl shadow-zinc-950/20"
           >
-            {/* Vibrant Blue Glow Layer */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90%] h-[400px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-300/40 via-blue-500/10 to-transparent blur-[80px] pointer-events-none" />
+            {/* Elegant Radial Top Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[350px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/30 via-transparent to-transparent blur-[80px] pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white leading-tight">
-                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 via-white to-blue-200 italic pr-2">scale?</span>
+              <h2 className="text-4xl md:text-6xl font-bold mb-5 tracking-tight text-white leading-tight">
+                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-300 via-white to-zinc-400 italic pr-1">scale?</span>
               </h2>
-              <p className="text-blue-100 text-lg mb-12 leading-relaxed font-light">
-                Join thousands of {role === "freelancer" ? "independent professionals" : "growing enterprises"} managing their operations on Aptro.
+              <p className="text-zinc-400 text-base md:text-lg mb-10 leading-relaxed font-medium">
+                Join thousands of independent operators and growing networks establishing operations directly on Aptro.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
                 <Link
                   href="/download"
-                  className="w-full sm:w-auto px-8 py-4 bg-white text-blue-900 rounded-full font-bold text-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] flex items-center justify-center gap-2 group"
+                  className="w-full sm:w-auto px-7 py-3.5 bg-white text-zinc-950 rounded-full font-semibold text-sm transition-transform duration-300 hover:scale-[0.98] flex items-center justify-center gap-1.5 group shadow-md"
                 >
                   Download App
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300 text-blue-600" />
+                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300 text-zinc-900" />
                 </Link>
                 <Link
                   href="/pricing"
-                  className="w-full sm:w-auto px-8 py-4 bg-blue-900/30 border border-blue-400/20 text-white rounded-full font-medium text-sm transition-all duration-300 hover:bg-blue-800/50 hover:border-blue-400/40 hover:scale-[0.98] flex items-center justify-center backdrop-blur-md"
+                  className="w-full sm:w-auto px-7 py-3.5 bg-zinc-900/50 border border-zinc-800 text-white rounded-full font-semibold text-sm transition-all duration-300 hover:bg-zinc-800/60 hover:scale-[0.98] flex items-center justify-center backdrop-blur-md"
                 >
-                  View Pricing
+                  View Plans
                 </Link>
               </div>
             </div>

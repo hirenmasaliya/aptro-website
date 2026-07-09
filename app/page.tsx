@@ -42,23 +42,22 @@ const floatingAnimation: Variants = {
 
 export default function Home() {
   return (
-    <main className={`relative min-h-screen bg-[#FAFAFA] text-zinc-950 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden ${jakarta.className}`}>
+    // Removed bg-[#FAFAFA] so the background image is visible
+    <main className={`relative min-h-screen text-zinc-950 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden ${jakarta.className}`}>
       
-      {/* --- Premium Minimal Background with Ambient Gradients --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center overflow-hidden">
+      {/* --- Server-side Background Image Layer --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
+          alt="Abstract Background"
+          className="w-full h-full object-cover opacity-[0.25]"
+        />
+        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-[#FAFAFA]/90 to-[#FAFAFA]" />
+        
         {/* Subtle ambient gradient orbs in the background */}
         <div className="absolute top-[20%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 blur-[120px] rounded-full mix-blend-multiply" />
         <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-indigo-400/10 blur-[100px] rounded-full mix-blend-multiply" />
-        
-        <div 
-          className="absolute inset-0 opacity-[0.15]" 
-          style={{
-            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
-          }}
-        />
       </div>
 
       <div className="relative z-10 pt-20">

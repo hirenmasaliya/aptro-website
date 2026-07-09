@@ -71,19 +71,18 @@ const featuredGuides = [
 
 export default function ResourcesPage() {
   return (
-    <main className={`min-h-screen pt-36 pb-32 bg-[#FAFAFA] text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    // Removed bg-[#FAFAFA] so the background image is visible
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* Premium Minimal Background */}
-      <div className="fixed inset-0 pointer-events-none -z-10 flex justify-center">
-        <div 
-          className="absolute inset-0 opacity-[0.15]" 
-          style={{
-            backgroundImage: `radial-gradient(circle at center, #18181b 1px, transparent 1px)`,
-            backgroundSize: '32px 32px',
-            maskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, black 20%, transparent 80%)'
-          }}
+      {/* --- Server-side Background Image Layer --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <img
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
+          alt="Abstract Background"
+          className="w-full h-full object-cover opacity-[0.20]"
         />
+        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-[#FAFAFA]/90 to-[#FAFAFA]" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -95,7 +94,7 @@ export default function ResourcesPage() {
           animate="show"
           className="max-w-3xl mx-auto text-center mb-24"
         >
-          <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8">
+          <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm">
             Knowledge Base
           </motion.div>
 
@@ -112,7 +111,7 @@ export default function ResourcesPage() {
             <input 
               type="text" 
               placeholder="Search guides, tutorials, or APIs..." 
-              className="w-full bg-white border border-zinc-200/80 rounded-full py-4 pl-14 pr-6 focus:outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100 transition-all text-sm font-medium shadow-[0_2px_10px_rgba(0,0,0,0.02)] placeholder:text-zinc-400 text-zinc-950"
+              className="w-full bg-white/90 backdrop-blur-xl border border-zinc-200/80 rounded-full py-4 pl-14 pr-6 focus:outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100/50 transition-all text-sm font-medium shadow-[0_8px_30px_rgba(0,0,0,0.04)] placeholder:text-zinc-400 text-zinc-950"
             />
           </motion.div>
         </motion.header>
@@ -130,9 +129,9 @@ export default function ResourcesPage() {
               <motion.div 
                 key={i} 
                 variants={fadeUpItem}
-                className="p-10 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500 group flex flex-col"
+                className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white hover:border-zinc-300 transition-all duration-500 group flex flex-col"
               >
-                <div className="w-12 h-12 bg-[#FAFAFA] border border-zinc-100 rounded-xl flex items-center justify-center mb-8 text-zinc-900 group-hover:-translate-y-1 transition-transform duration-500">
+                <div className="w-12 h-12 bg-white border border-zinc-200/80 rounded-xl flex items-center justify-center mb-8 text-zinc-900 group-hover:-translate-y-1 transition-transform duration-500 shadow-sm">
                   {cat.icon}
                 </div>
                 <h3 className="text-xl font-semibold mb-4 text-zinc-950 tracking-tight">{cat.title}</h3>
@@ -173,7 +172,7 @@ export default function ResourcesPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Main Video */}
-            <div className="rounded-[2rem] overflow-hidden bg-white border border-zinc-200/60 shadow-sm group">
+            <div className="rounded-[2rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm group hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 transition-all duration-500">
               <div className="aspect-video bg-zinc-100 relative flex items-center justify-center overflow-hidden">
                 <iframe 
                   className="w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
@@ -182,14 +181,14 @@ export default function ResourcesPage() {
                   allowFullScreen
                 ></iframe>
               </div>
-              <div className="p-8 bg-[#FAFAFA]">
+              <div className="p-8 border-t border-zinc-200/60">
                 <h4 className="text-lg font-semibold text-zinc-950 mb-1 tracking-tight">The Aptro Masterclass</h4>
                 <p className="text-sm font-medium text-zinc-500">Official Guide • 03:45</p>
               </div>
             </div>
 
             {/* Second Video */}
-            <div className="rounded-[2rem] overflow-hidden bg-white border border-zinc-200/60 shadow-sm group">
+            <div className="rounded-[2rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm group hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 transition-all duration-500">
               <div className="aspect-video bg-zinc-100 relative flex items-center justify-center overflow-hidden">
                 <iframe 
                   className="w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
@@ -198,7 +197,7 @@ export default function ResourcesPage() {
                   allowFullScreen
                 ></iframe>
               </div>
-              <div className="p-8 bg-[#FAFAFA]">
+              <div className="p-8 border-t border-zinc-200/60">
                 <h4 className="text-lg font-semibold text-zinc-950 mb-1 tracking-tight">Ledger Deep Dive</h4>
                 <p className="text-sm font-medium text-zinc-500">Tutorial • 08:22</p>
               </div>
@@ -221,15 +220,15 @@ export default function ResourcesPage() {
           
           <div className="grid md:grid-cols-2 gap-6">
             {featuredGuides.map((guide, i) => (
-              <div key={i} className="p-10 rounded-[2rem] bg-white border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500 flex flex-col justify-between group">
+              <div key={i} className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white hover:border-zinc-300 transition-all duration-500 flex flex-col justify-between group">
                 <div>
-                  <span className="inline-block px-3 py-1.5 rounded-full bg-zinc-100 text-zinc-600 border border-zinc-200/50 text-xs font-semibold mb-6 tracking-wide">
+                  <span className="inline-block px-3 py-1.5 rounded-full bg-white text-zinc-600 border border-zinc-200/80 shadow-sm text-xs font-semibold mb-6 tracking-wide">
                     {guide.tag}
                   </span>
                   <h3 className="text-xl font-semibold mb-3 text-zinc-950 tracking-tight">{guide.title}</h3>
                   <p className="text-zinc-500 text-sm font-medium leading-relaxed mb-10">{guide.desc}</p>
                 </div>
-                <div className="flex items-center justify-between pt-6 border-t border-zinc-100">
+                <div className="flex items-center justify-between pt-6 border-t border-zinc-200/60">
                   <span className="text-sm font-medium text-zinc-400">{guide.readTime}</span>
                   <Link href="#" className="text-sm font-semibold text-zinc-950 flex items-center gap-1 group-hover:gap-2 transition-all">
                     Read article <ArrowRight size={16} className="text-zinc-400" />
@@ -253,7 +252,7 @@ export default function ResourcesPage() {
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/40 via-transparent to-transparent blur-[80px] pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
-              <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mb-8 text-white">
+              <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mb-8 text-white shadow-inner">
                 <Headphones size={24} />
               </div>
               <h2 className="text-3xl md:text-5xl font-semibold mb-6 tracking-tight text-white leading-tight">
@@ -265,7 +264,7 @@ export default function ResourcesPage() {
               
               <Link
                 href="/contact"
-                className="px-8 py-4 bg-white text-zinc-950 rounded-full font-medium text-sm transition-all duration-300 hover:scale-[0.98] flex items-center justify-center gap-2 group"
+                className="px-8 py-4 bg-white text-zinc-950 rounded-full font-medium text-sm transition-all duration-300 hover:scale-[0.98] flex items-center justify-center gap-2 group shadow-lg shadow-white/5"
               >
                 Contact Support
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300 text-zinc-400" />

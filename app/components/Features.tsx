@@ -98,7 +98,7 @@ export default function Features() {
   ];
 
   return (
-    <section id="features" className="relative py-32 bg-[#FAFAFA] overflow-hidden">
+    <section id="features" className="relative py-32 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] bg-indigo-50 blur-[120px] rounded-full pointer-events-none -z-10" />
 
