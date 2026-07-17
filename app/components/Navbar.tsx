@@ -57,16 +57,14 @@ export default function Navbar() {
 
     return (
         <header
-            className={`fixed top-0 w-full z-[100] transition-all duration-500 ease-out flex justify-center ${
-                isScrolled ? "pt-4 px-4 sm:px-6" : "pt-6 px-6"
-            } ${jakarta.className}`}
+            className={`fixed top-0 w-full z-[100] transition-all duration-500 ease-out flex justify-center ${isScrolled ? "pt-4 px-4 sm:px-6" : "pt-6 px-6"
+                } ${jakarta.className}`}
         >
             <nav
-                className={`w-full max-w-7xl mx-auto flex items-center justify-between transition-all duration-500 ease-out ${
-                    isScrolled
+                className={`w-full max-w-7xl mx-auto flex items-center justify-between transition-all duration-500 ease-out ${isScrolled
                         ? "bg-white/70 backdrop-blur-xl rounded-full py-2.5 px-4 sm:px-6 border border-zinc-200/60 shadow-[0_8px_30px_rgba(0,0,0,0.06)]"
                         : "bg-transparent py-2 px-2"
-                }`}
+                    }`}
             >
                 {/* --- LOGO SECTION --- */}
                 <Link
@@ -95,11 +93,10 @@ export default function Navbar() {
                             <Link
                                 key={link.name}
                                 href={link.href}
-                                className={`relative px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
-                                    isActive
+                                className={`relative px-5 py-2 rounded-full text-sm font-medium transition-colors duration-300 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${isActive
                                         ? "text-zinc-900"
                                         : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200/30"
-                                }`}
+                                    }`}
                             >
                                 {isActive && (
                                     <motion.div
@@ -124,18 +121,18 @@ export default function Navbar() {
                         Log in
                     </Link>
                     <Link
-                        href="/download"
-                        className="group relative px-6 py-2.5 rounded-full font-medium text-sm text-white overflow-hidden transition-all duration-300 active:scale-[0.98] flex items-center gap-2 shadow-md shadow-indigo-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-                    >
-                        {/* Unified Gradient Background to match logo hover glow */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-fuchsia-500 transition-transform duration-300 group-hover:scale-105" />
-                        <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    href="/download"
+    className="group relative px-6 py-2.5 rounded-full font-medium text-sm text-white overflow-hidden transition-all duration-300 active:scale-[0.98] flex items-center gap-2 shadow-md shadow-blue-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+>
+    {/* Unified Gradient Background to match the professional blue theme */}
+    <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-blue-400 transition-transform duration-300 group-hover:scale-105" />
+    <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                        <span className="relative z-10 flex items-center gap-2">
-                            <Sparkles size={14} className="text-white" />
-                            Get Started
-                        </span>
-                    </Link>
+    <span className="relative z-10 flex items-center gap-2">
+        <Sparkles size={14} className="text-white" />
+        Get Started
+    </span>
+</Link>
                 </div>
 
                 {/* --- MOBILE MENU TOGGLE --- */}
@@ -188,14 +185,13 @@ export default function Navbar() {
                                         <Link
                                             href={link.href}
                                             onClick={() => setIsMobileMenuOpen(false)}
-                                            className={`text-3xl font-semibold tracking-tight flex items-center justify-between group ${
-                                                isActive ? "text-indigo-600" : "text-zinc-900"
-                                            }`}
+                                            className={`text-3xl font-semibold tracking-tight flex items-center justify-between group ${isActive ? "text-indigo-600" : "text-zinc-900"
+                                                }`}
                                         >
                                             <span className="flex items-center gap-3">
                                                 {link.name}
                                                 {isActive && (
-                                                    <motion.div 
+                                                    <motion.div
                                                         layoutId="mobile-active-dot"
                                                         className="w-2 h-2 rounded-full bg-indigo-600"
                                                     />
@@ -226,7 +222,7 @@ export default function Navbar() {
                             <Link
                                 href="/download"
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex items-center justify-center w-full py-4 bg-gradient-to-r from-indigo-600 to-fuchsia-500 text-white shadow-[0_8px_20px_-6px_rgba(99,102,241,0.4)] rounded-full text-sm font-bold active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                                className="flex items-center justify-center w-full py-4 bg-gradient-to-r from-blue-600 to-blue-400 text-white shadow-[0_8px_20px_-6px_rgba(37,99,235,0.4)] rounded-full text-sm font-bold active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                             >
                                 Get Started Free
                             </Link>

@@ -102,18 +102,13 @@ const journeySteps = [
 
 export default function AboutPage() {
   return (
-    // Removed bg-[#FAFAFA] so the background image is visible
-    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* --- Server-side Background Image Layer --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
-          alt="Abstract Background"
-          className="w-full h-full object-cover opacity-[0.20]"
-        />
-        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-[#FAFAFA]/90 to-[#FAFAFA]" />
+      {/* --- Background Layer Updated to Clean Blue Theme --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAFAFA]/80 to-[#FAFAFA]" />
+        {/* Abstract glowing orb - Professional Blue */}
+        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -127,9 +122,9 @@ export default function AboutPage() {
         >
           <motion.div 
             variants={fadeUpItem}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-blue-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm"
           >
-            <Sparkles size={14} className="text-zinc-400" /> Established 2024
+            <Sparkles size={14} className="text-blue-500" /> Established 2024
           </motion.div>
           
           <motion.h1 
@@ -194,15 +189,15 @@ export default function AboutPage() {
                     className="relative pl-0 md:pl-20"
                   >
                     {/* Timeline Node */}
-                    <div className="hidden md:flex absolute left-0 top-0 w-12 h-12 bg-white/90 backdrop-blur-md rounded-xl border border-zinc-200/80 shadow-sm items-center justify-center z-10 text-zinc-600">
+                    <div className="hidden md:flex absolute left-0 top-0 w-12 h-12 bg-white/90 backdrop-blur-md rounded-xl border border-zinc-200/80 shadow-sm items-center justify-center z-10 text-zinc-600 transition-colors group-hover:text-blue-600">
                       {step.icon}
                     </div>
                     
-                    <div className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white hover:border-zinc-300 transition-all duration-500 group">
-                      <span className="inline-block px-3 py-1.5 bg-zinc-100 text-zinc-500 rounded-md border border-zinc-200/50 shadow-sm text-[10px] font-semibold uppercase tracking-widest mb-6">
+                    <div className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(37,99,235,0.04)] hover:bg-white hover:border-blue-200 transition-all duration-500 group">
+                      <span className="inline-block px-3 py-1.5 bg-zinc-100 text-zinc-500 rounded-md border border-zinc-200/50 shadow-sm text-[10px] font-semibold uppercase tracking-widest mb-6 group-hover:text-blue-600 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
                         Phase 0{i + 1} • {step.year}
                       </span>
-                      <h3 className="text-2xl font-semibold text-zinc-950 mb-4 tracking-tight">{step.title}</h3>
+                      <h3 className="text-2xl font-semibold text-zinc-950 mb-4 tracking-tight group-hover:text-blue-600 transition-colors">{step.title}</h3>
                       <p className="text-zinc-500 leading-relaxed font-medium">
                         {step.desc}
                       </p>
@@ -232,13 +227,13 @@ export default function AboutPage() {
               <motion.div 
                 key={i} 
                 variants={fadeUpItem}
-                className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white hover:border-zinc-300 transition-all duration-500 flex flex-col h-full group"
+                className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(37,99,235,0.04)] hover:bg-white hover:border-blue-200 transition-all duration-500 flex flex-col h-full group"
               >
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-8 bg-white border border-zinc-200/80 shadow-sm text-zinc-950 transition-transform group-hover:-translate-y-1 duration-500">
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-8 bg-white border border-zinc-200/80 shadow-sm text-zinc-950 transition-all group-hover:-translate-y-1 group-hover:text-blue-600 group-hover:border-blue-200 duration-500">
                   {item.icon}
                 </div>
-                <span className="block text-[10px] font-semibold uppercase tracking-widest text-zinc-400 mb-3">{item.label}</span>
-                <h3 className="text-2xl font-semibold mb-4 tracking-tight text-zinc-950">{item.title}</h3>
+                <span className="block text-[10px] font-semibold uppercase tracking-widest text-zinc-400 mb-3 group-hover:text-blue-500 transition-colors">{item.label}</span>
+                <h3 className="text-2xl font-semibold mb-4 tracking-tight text-zinc-950 group-hover:text-blue-600 transition-colors">{item.title}</h3>
                 <p className="text-zinc-500 font-medium leading-relaxed mt-auto">
                   {item.desc}
                 </p>
@@ -254,8 +249,8 @@ export default function AboutPage() {
               <h2 className="text-3xl md:text-5xl font-semibold mb-6 tracking-tight text-zinc-950">The Philosophy</h2>
               <p className="text-zinc-500 font-medium leading-relaxed text-lg">Fundamental principles that strictly dictate our technical architecture and product design.</p>
             </div>
-            <Link href="/careers" className="text-xs font-semibold text-zinc-500 uppercase tracking-widest flex items-center gap-2 group hover:text-zinc-950 transition-colors">
-              Join the Mission <ArrowUpRight size={16} className="text-zinc-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            <Link href="/careers" className="text-xs font-semibold text-zinc-500 uppercase tracking-widest flex items-center gap-2 group hover:text-blue-600 transition-colors">
+              Join the Mission <ArrowUpRight size={16} className="text-zinc-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-blue-500 transition-all" />
             </Link>
           </div>
           
@@ -270,12 +265,12 @@ export default function AboutPage() {
               <motion.div 
                 key={i}
                 variants={fadeUpItem}
-                className="group p-10 rounded-[2rem] bg-white/40 backdrop-blur-md border border-zinc-200/60 hover:bg-white hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 transition-all duration-500"
+                className="group p-10 rounded-[2rem] bg-white/40 backdrop-blur-md border border-zinc-200/60 hover:bg-white hover:shadow-[0_8px_30px_rgba(37,99,235,0.04)] hover:border-blue-200 transition-all duration-500"
               >
-                <div className="mb-8 p-3 bg-white rounded-xl shadow-sm border border-zinc-100 w-fit text-zinc-950 group-hover:border-zinc-200 transition-colors">
+                <div className="mb-8 p-3 bg-white rounded-xl shadow-sm border border-zinc-100 w-fit text-zinc-950 group-hover:border-blue-200 group-hover:text-blue-600 transition-colors">
                   {v.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-zinc-950 mb-3 tracking-tight">{v.title}</h3>
+                <h3 className="text-xl font-semibold text-zinc-950 mb-3 tracking-tight group-hover:text-blue-600 transition-colors">{v.title}</h3>
                 <p className="text-zinc-500 text-sm leading-relaxed font-medium">{v.desc}</p>
               </motion.div>
             ))}
@@ -291,8 +286,8 @@ export default function AboutPage() {
             transition={{ duration: 1, ease: premiumEasing }}
             className="relative px-8 py-20 lg:p-24 rounded-[3rem] overflow-hidden bg-zinc-950 text-center shadow-2xl"
           >
-            {/* Subtle Dark Glow Layer */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/40 via-transparent to-transparent blur-[80px] pointer-events-none" />
+            {/* Subtle Dark Blue Glow Layer */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/30 via-transparent to-transparent blur-[80px] pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
               <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mb-8 text-white shadow-inner">

@@ -16,17 +16,17 @@ import {
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link"; 
 
-// Plus Jakarta Sans acts as a great stand-in for Apple's San Francisco when tracked tightly
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
 
-// Explicitly cast as a const tuple so TS knows it's exactly 4 numbers (Cubic Bezier)
 const appleEase = [0.16, 1, 0.3, 1] as const;
 
+// Updated to reflect the final Two-Tier Commission Structure
 const commissionPlans = [
-    { plan: "Standard Plan", price: "₹99", rate: "30%", earn: "₹29.70", icon: Star },
-    { plan: "Pro Plan", price: "₹199", rate: "40%", earn: "₹79.60", icon: Zap, popular: true },
-    { plan: "Max Plan", price: "₹249", rate: "50%", earn: "₹124.50", icon: Crown },
+    { plan: "Standard Plan", price: "₹99", activation: "₹50", recurring: "₹10", icon: Star },
+    { plan: "Pro Plan", price: "₹199", activation: "₹100", recurring: "₹20", icon: Zap, popular: true },
+    { plan: "Max Plan", price: "₹249", activation: "₹150", recurring: "₹50", icon: Crown },
 ];
 
 const faqs = [
@@ -90,7 +90,6 @@ export default function JoinPage() {
                 setSubmitStatus('success');
                 setTempId(data.tempId);
                 
-                // Optional: If you want an automatic redirect after 5 seconds instead of waiting for a click
                 setTimeout(() => {
                     router.push('/partner/dashboard');
                 }, 5000);
@@ -110,7 +109,6 @@ export default function JoinPage() {
         <main className={`min-h-screen bg-white pt-24 pb-20 selection:bg-[#0071E3] selection:text-white ${jakarta.className}`}>
             
             {/* --- HERO SECTION --- */}
-            {/* Changed wrapper to w-full so the background spans the entire screen */}
             <section className="relative w-full pt-16 md:pt-32 pb-24 flex flex-col items-center overflow-hidden">
                 
                 {/* Background Image Container */}
@@ -124,10 +122,9 @@ export default function JoinPage() {
                         src="/images/students_banner.png"
                         alt="A group of diverse college students collaborating happily on a modern campus, using laptops and smartphones."
                         fill
-                        className="object-cover object-top opacity-60" /* Increased opacity so it's visible */
+                        className="object-cover object-top opacity-60"
                         priority
                     />
-                    {/* Fixed Gradient: Fades perfectly so the image shows in the middle, but blends into the page below */}
                     <div className="absolute inset-0 bg-gradient-to-b from-white via-white/50 to-white" />
                 </motion.div>
 
@@ -165,9 +162,10 @@ export default function JoinPage() {
                         >
                             Apply Now
                         </button>
-                        <a href="#how-it-works" className="text-[#0066CC] hover:underline text-[17px] font-medium flex items-center gap-1 group">
+
+                        <Link href="/how-it-works" className="text-[#0066CC] hover:underline text-[17px] font-medium flex items-center gap-1 group">
                             See how it works <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                        </a>
+                        </Link>
                     </motion.div>
                 </div>
             </section>
@@ -175,8 +173,8 @@ export default function JoinPage() {
             {/* --- COMMISSION PLANS --- */}
             <section className="max-w-7xl mx-auto px-6 py-24 border-t border-[#D2D2D7] relative z-10 bg-white">
                 <div className="text-center mb-16">
-                    <h2 className="text-[40px] md:text-[56px] font-bold text-[#1D1D1F] tracking-tight mb-4">Which plan is right for them?</h2>
-                    <p className="text-[21px] text-[#86868B] font-medium">Earn up to 50% commission for every business you onboard.</p>
+                    <h2 className="text-[40px] md:text-[56px] font-bold text-[#1D1D1F] tracking-tight mb-4">Final Commission Structure</h2>
+                    <p className="text-[21px] text-[#86868B] font-medium max-w-2xl mx-auto">Earn a massive one-time activation reward, plus recurring passive income every time they renew.</p>
                 </div>
                 
                 <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
@@ -189,23 +187,29 @@ export default function JoinPage() {
                                 viewport={{ once: true, margin: "-50px" }} 
                                 transition={{ duration: 0.8, ease: appleEase, delay: idx * 0.1 }}
                                 key={plan.plan}
-                                className="flex flex-col items-center text-center p-10 pt-12 rounded-[24px] bg-[#F5F5F7]"
+                                className={`flex flex-col items-center text-center p-10 pt-12 rounded-[24px] ${plan.popular ? 'bg-white shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-[#0071E3]/20 relative' : 'bg-[#F5F5F7]'}`}
                             >
-                                <Icon size={32} className="text-[#1D1D1F] mb-6" strokeWidth={1.5} />
+                                {plan.popular && (
+                                    <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0071E3] text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                                        Most Popular
+                                    </div>
+                                )}
+                                
+                                <Icon size={32} className={`${plan.popular ? 'text-[#0071E3]' : 'text-[#1D1D1F]'} mb-6`} strokeWidth={1.5} />
                                 <h3 className="text-[24px] font-semibold text-[#1D1D1F] mb-1">{plan.plan}</h3>
                                 <p className="text-[#1D1D1F] mb-8">{plan.price} membership</p>
                                 
                                 <div className="w-full h-[1px] bg-[#D2D2D7] mb-8" />
                                 
-                                <p className="text-[#86868B] font-semibold text-[14px] uppercase tracking-widest mb-2">You Earn</p>
+                                <p className="text-[#86868B] font-semibold text-[14px] uppercase tracking-widest mb-2">Activation</p>
                                 <div className="text-[48px] font-bold text-[#1D1D1F] tracking-tighter leading-none mb-2">
-                                    {plan.rate}
+                                    {plan.activation}
                                 </div>
-                                <p className="text-[#1D1D1F] font-medium mb-8">Commission Cut</p>
+                                <p className="text-[#1D1D1F] font-medium mb-8">One-time per business</p>
                                 
-                                <div className="mt-auto">
-                                    <p className="text-[#86868B] text-[14px] mb-1">Example per sale</p>
-                                    <p className="text-[#1D1D1F] font-semibold text-[21px]">{plan.earn}</p>
+                                <div className="mt-auto w-full pt-6 border-t border-[#D2D2D7]/50">
+                                    <p className="text-[#86868B] text-[14px] mb-1">Plus Recurring</p>
+                                    <p className="text-[#0071E3] font-semibold text-[21px]">{plan.recurring} <span className="text-[#86868B] text-[15px] font-medium">/ renewal</span></p>
                                 </div>
                             </motion.div>
                         )
@@ -214,7 +218,7 @@ export default function JoinPage() {
             </section>
 
             {/* --- BENTO BENEFITS --- */}
-            <section id="how-it-works" className="max-w-7xl mx-auto px-6 py-24 relative z-10 bg-white">
+            <section className="max-w-7xl mx-auto px-6 py-24 relative z-10 bg-white">
                 <div className="grid md:grid-cols-2 gap-6">
                     
                     {/* Big Tile */}

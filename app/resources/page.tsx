@@ -71,18 +71,13 @@ const featuredGuides = [
 
 export default function ResourcesPage() {
   return (
-    // Removed bg-[#FAFAFA] so the background image is visible
-    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* --- Server-side Background Image Layer --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
-          alt="Abstract Background"
-          className="w-full h-full object-cover opacity-[0.20]"
-        />
-        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-[#FAFAFA]/90 to-[#FAFAFA]" />
+      {/* --- Server-side Background Image Layer Removed --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAFAFA]/80 to-[#FAFAFA]" />
+        {/* Abstract glowing orb - Professional Blue */}
+        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -94,7 +89,7 @@ export default function ResourcesPage() {
           animate="show"
           className="max-w-3xl mx-auto text-center mb-24"
         >
-          <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-zinc-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm">
+          <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 backdrop-blur-md text-blue-600 text-xs font-medium border border-zinc-200/60 mb-8 shadow-sm">
             Knowledge Base
           </motion.div>
 
@@ -107,11 +102,11 @@ export default function ResourcesPage() {
           </motion.p>
 
           <motion.div variants={fadeUpItem} className="relative max-w-2xl mx-auto group">
-            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-400 transition-colors group-focus-within:text-zinc-950" size={20} />
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-400 transition-colors group-focus-within:text-blue-500" size={20} />
             <input 
               type="text" 
               placeholder="Search guides, tutorials, or APIs..." 
-              className="w-full bg-white/90 backdrop-blur-xl border border-zinc-200/80 rounded-full py-4 pl-14 pr-6 focus:outline-none focus:border-zinc-400 focus:ring-4 focus:ring-zinc-100/50 transition-all text-sm font-medium shadow-[0_8px_30px_rgba(0,0,0,0.04)] placeholder:text-zinc-400 text-zinc-950"
+              className="w-full bg-white/90 backdrop-blur-xl border border-zinc-200/80 rounded-full py-4 pl-14 pr-6 focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 transition-all text-sm font-medium shadow-[0_8px_30px_rgba(0,0,0,0.04)] placeholder:text-zinc-400 text-zinc-950"
             />
           </motion.div>
         </motion.header>
@@ -129,23 +124,23 @@ export default function ResourcesPage() {
               <motion.div 
                 key={i} 
                 variants={fadeUpItem}
-                className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white hover:border-zinc-300 transition-all duration-500 group flex flex-col"
+                className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(37,99,235,0.04)] hover:bg-white hover:border-blue-200 transition-all duration-500 group flex flex-col"
               >
-                <div className="w-12 h-12 bg-white border border-zinc-200/80 rounded-xl flex items-center justify-center mb-8 text-zinc-900 group-hover:-translate-y-1 transition-transform duration-500 shadow-sm">
+                <div className="w-12 h-12 bg-white border border-zinc-200/80 rounded-xl flex items-center justify-center mb-8 text-zinc-900 group-hover:-translate-y-1 group-hover:text-blue-600 transition-all duration-500 shadow-sm">
                   {cat.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-4 text-zinc-950 tracking-tight">{cat.title}</h3>
+                <h3 className="text-xl font-semibold mb-4 text-zinc-950 tracking-tight group-hover:text-blue-600 transition-colors">{cat.title}</h3>
                 <ul className="space-y-4 mb-8 flex-1">
                   {cat.links.map(link => (
                     <li key={link}>
-                      <Link href="#" className="text-sm font-medium text-zinc-500 hover:text-zinc-950 transition-colors">
+                      <Link href="#" className="text-sm font-medium text-zinc-500 hover:text-blue-600 transition-colors">
                         {link}
                       </Link>
                     </li>
                   ))}
                 </ul>
-                <Link href="#" className="text-sm font-semibold text-zinc-950 flex items-center gap-1 hover:gap-2 transition-all">
-                  View all {cat.count} <ArrowRight size={16} className="text-zinc-400" />
+                <Link href="#" className="text-sm font-semibold text-zinc-950 flex items-center gap-1 hover:gap-2 hover:text-blue-600 transition-all">
+                  View all {cat.count} <ArrowRight size={16} className="text-zinc-400 group-hover:text-blue-600 transition-colors" />
                 </Link>
               </motion.div>
             ))}
@@ -165,14 +160,14 @@ export default function ResourcesPage() {
               <h2 className="text-3xl font-semibold tracking-tight mb-2 text-zinc-950">Video Tutorials</h2>
               <p className="text-zinc-500 font-medium">Step-by-step visual documentation.</p>
             </div>
-            <a href="#" className="text-sm font-semibold text-zinc-950 hover:text-zinc-600 transition-colors flex items-center gap-2 group">
-              YouTube Channel <ArrowRight size={16} className="text-zinc-400 group-hover:translate-x-1 transition-transform" />
+            <a href="#" className="text-sm font-semibold text-zinc-950 hover:text-blue-600 transition-colors flex items-center gap-2 group">
+              YouTube Channel <ArrowRight size={16} className="text-zinc-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
             {/* Main Video */}
-            <div className="rounded-[2rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm group hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 transition-all duration-500">
+            <div className="rounded-[2rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm group hover:shadow-[0_8px_30px_rgba(37,99,235,0.06)] hover:border-blue-200 transition-all duration-500">
               <div className="aspect-video bg-zinc-100 relative flex items-center justify-center overflow-hidden">
                 <iframe 
                   className="w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
@@ -181,14 +176,14 @@ export default function ResourcesPage() {
                   allowFullScreen
                 ></iframe>
               </div>
-              <div className="p-8 border-t border-zinc-200/60">
+              <div className="p-8 border-t border-zinc-200/60 group-hover:border-blue-100 transition-colors">
                 <h4 className="text-lg font-semibold text-zinc-950 mb-1 tracking-tight">The Aptro Masterclass</h4>
                 <p className="text-sm font-medium text-zinc-500">Official Guide • 03:45</p>
               </div>
             </div>
 
             {/* Second Video */}
-            <div className="rounded-[2rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm group hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 transition-all duration-500">
+            <div className="rounded-[2rem] overflow-hidden bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm group hover:shadow-[0_8px_30px_rgba(37,99,235,0.06)] hover:border-blue-200 transition-all duration-500">
               <div className="aspect-video bg-zinc-100 relative flex items-center justify-center overflow-hidden">
                 <iframe 
                   className="w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
@@ -197,7 +192,7 @@ export default function ResourcesPage() {
                   allowFullScreen
                 ></iframe>
               </div>
-              <div className="p-8 border-t border-zinc-200/60">
+              <div className="p-8 border-t border-zinc-200/60 group-hover:border-blue-100 transition-colors">
                 <h4 className="text-lg font-semibold text-zinc-950 mb-1 tracking-tight">Ledger Deep Dive</h4>
                 <p className="text-sm font-medium text-zinc-500">Tutorial • 08:22</p>
               </div>
@@ -220,18 +215,18 @@ export default function ResourcesPage() {
           
           <div className="grid md:grid-cols-2 gap-6">
             {featuredGuides.map((guide, i) => (
-              <div key={i} className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:bg-white hover:border-zinc-300 transition-all duration-500 flex flex-col justify-between group">
+              <div key={i} className="p-10 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(37,99,235,0.04)] hover:bg-white hover:border-blue-200 transition-all duration-500 flex flex-col justify-between group">
                 <div>
-                  <span className="inline-block px-3 py-1.5 rounded-full bg-white text-zinc-600 border border-zinc-200/80 shadow-sm text-xs font-semibold mb-6 tracking-wide">
+                  <span className="inline-block px-3 py-1.5 rounded-full bg-white text-zinc-600 border border-zinc-200/80 shadow-sm text-xs font-semibold mb-6 tracking-wide group-hover:text-blue-600 transition-colors">
                     {guide.tag}
                   </span>
-                  <h3 className="text-xl font-semibold mb-3 text-zinc-950 tracking-tight">{guide.title}</h3>
+                  <h3 className="text-xl font-semibold mb-3 text-zinc-950 tracking-tight group-hover:text-blue-600 transition-colors">{guide.title}</h3>
                   <p className="text-zinc-500 text-sm font-medium leading-relaxed mb-10">{guide.desc}</p>
                 </div>
-                <div className="flex items-center justify-between pt-6 border-t border-zinc-200/60">
+                <div className="flex items-center justify-between pt-6 border-t border-zinc-200/60 group-hover:border-blue-100 transition-colors">
                   <span className="text-sm font-medium text-zinc-400">{guide.readTime}</span>
-                  <Link href="#" className="text-sm font-semibold text-zinc-950 flex items-center gap-1 group-hover:gap-2 transition-all">
-                    Read article <ArrowRight size={16} className="text-zinc-400" />
+                  <Link href="#" className="text-sm font-semibold text-zinc-950 flex items-center gap-1 group-hover:gap-2 hover:text-blue-600 transition-all">
+                    Read article <ArrowRight size={16} className="text-zinc-400 group-hover:text-blue-500 transition-colors" />
                   </Link>
                 </div>
               </div>
@@ -248,8 +243,8 @@ export default function ResourcesPage() {
             transition={{ duration: 1, ease: premiumEasing }}
             className="relative px-8 py-20 lg:p-24 rounded-[3rem] overflow-hidden bg-zinc-950 text-center shadow-2xl"
           >
-            {/* Subtle Dark Glow Layer */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/40 via-transparent to-transparent blur-[80px] pointer-events-none" />
+            {/* Subtle Dark Glow Layer - Swapped to a deep blue glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/30 via-transparent to-transparent blur-[80px] pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto flex flex-col items-center">
               <div className="w-16 h-16 bg-zinc-900 border border-zinc-800 rounded-2xl flex items-center justify-center mb-8 text-white shadow-inner">

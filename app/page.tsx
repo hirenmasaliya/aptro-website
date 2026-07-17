@@ -42,22 +42,19 @@ const floatingAnimation: Variants = {
 
 export default function Home() {
   return (
-    // Removed bg-[#FAFAFA] so the background image is visible
-    <main className={`relative min-h-screen text-zinc-950 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden ${jakarta.className}`}>
+    <main className={`relative min-h-screen bg-slate-50 text-zinc-950 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden ${jakarta.className}`}>
       
-      {/* --- Server-side Background Image Layer --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
-          alt="Abstract Background"
-          className="w-full h-full object-cover opacity-[0.25]"
-        />
-        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-[#FAFAFA]/90 to-[#FAFAFA]" />
+      {/* --- Professional Clean Background Layer --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-slate-50">
+        {/* Subtle architectural grid pattern for a premium tech feel */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
+        
+        {/* Radial gradient overlay to soften the grid towards the edges */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#f8fafc_100%)]"></div>
         
         {/* Subtle ambient gradient orbs in the background */}
-        <div className="absolute top-[20%] left-[-10%] w-[40%] h-[40%] bg-blue-400/10 blur-[120px] rounded-full mix-blend-multiply" />
-        <div className="absolute bottom-[10%] right-[-5%] w-[30%] h-[30%] bg-indigo-400/10 blur-[100px] rounded-full mix-blend-multiply" />
+        <div className="absolute top-[10%] left-[-10%] w-[50%] h-[50%] bg-blue-300/20 blur-[120px] rounded-full mix-blend-multiply" />
+        <div className="absolute bottom-[10%] right-[-5%] w-[40%] h-[40%] bg-indigo-300/20 blur-[100px] rounded-full mix-blend-multiply" />
       </div>
 
       <div className="relative z-10 pt-20">
@@ -75,10 +72,7 @@ export default function Home() {
               transition={{ duration: 1, ease: premiumEasing }}
               className="relative rounded-[2.5rem] lg:rounded-[3.5rem] overflow-visible"
             >
-              {/* 
-                We use an inner div for the background so the floating widgets 
-                can break outside the borders of the container.
-              */}
+              {/* Background container for the CTA */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-950 rounded-[2.5rem] lg:rounded-[3.5rem] shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)] overflow-hidden">
                  {/* Vibrant Inner Glow Layer */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[90%] h-[400px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-300/40 via-blue-500/10 to-transparent blur-[80px] pointer-events-none" />
@@ -103,7 +97,7 @@ export default function Home() {
               <motion.div 
                 variants={floatingAnimation}
                 animate="animate"
-                style={{ animationDelay: "2s" }} // Offset the floating timing
+                style={{ animationDelay: "2s" }}
                 className="hidden lg:flex absolute -right-6 bottom-32 z-20 items-center gap-3 p-3 pr-5 rounded-2xl bg-[#0B0A10]/40 backdrop-blur-xl border border-blue-400/20 shadow-2xl"
               >
                 <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-300 flex items-center justify-center shadow-inner">

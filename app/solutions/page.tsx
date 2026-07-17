@@ -40,18 +40,13 @@ const staggerContainer: Variants = {
 
 export default function SolutionsPage() {
   return (
-    // Removed bg-[#FAFAFA] to allow the background image to show
-    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-zinc-200 selection:text-zinc-900 overflow-x-hidden relative ${jakarta.className}`}>
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative ${jakarta.className}`}>
       
-      {/* --- Server-side Background Image Layer (Matching Pricing Page) --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
-          alt="Abstract Background"
-          className="w-full h-full object-cover opacity-[0.25]"
-        />
-        {/* Overlay gradient to blend the image smoothly into the page and keep text readable */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-[#FAFAFA]/90 to-[#FAFAFA]" />
+      {/* --- Server-side Background Image Layer Removed --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAFAFA]/80 to-[#FAFAFA]" />
+        {/* Abstract glowing orb - Professional Blue */}
+        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">

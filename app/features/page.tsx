@@ -119,30 +119,26 @@ export default function FeaturesPage() {
   const activeContent = roleContent[role];
 
   return (
-    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-indigo-600 selection:text-white overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
 
-      {/* --- Server-side Background Image Layer --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <img
-          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2064&auto=format&fit=crop"
-          alt="Abstract Geometric Background"
-          className="w-full h-full object-cover opacity-[0.18]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-[#FAFAFA]/80 to-[#FAFAFA]" />
-        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-indigo-400/5 blur-[140px] rounded-full mix-blend-screen" />
+      {/* --- Server-side Background Image Layer Removed --- */}
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAFAFA]/80 to-[#FAFAFA]" />
+        {/* Abstract glowing orb - Updated to Blue */}
+        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* --- Header Section (Now Centered) --- */}
+        {/* --- Header Section --- */}
         <section className="max-w-4xl mx-auto mb-28 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, ease: appleEase }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-indigo-600 text-xs font-semibold tracking-wider uppercase border border-zinc-200/80 mb-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-blue-600 text-xs font-semibold tracking-wider uppercase border border-zinc-200/80 mb-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]"
           >
-            <Sparkles size={12} className="text-indigo-500" />
+            <Sparkles size={12} className="text-blue-500" />
             Capabilities
           </motion.div>
 
@@ -153,7 +149,7 @@ export default function FeaturesPage() {
             className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter mb-8 leading-[1.02] text-zinc-900"
           >
             Built for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-indigo-950 to-indigo-600">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-blue-950 to-blue-600">
               modern workflows.
             </span>
           </motion.h1>
@@ -170,7 +166,7 @@ export default function FeaturesPage() {
                 key={tab}
                 onClick={() => setRole(tab)}
                 className={`relative flex items-center gap-2 px-7 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors z-10 ${
-                  role === tab ? "text-indigo-600" : "text-zinc-500 hover:text-zinc-900"
+                  role === tab ? "text-blue-600" : "text-zinc-500 hover:text-zinc-900"
                 }`}
               >
                 {role === tab && (
@@ -201,7 +197,7 @@ export default function FeaturesPage() {
             >
               {/* Profile Intro Context */}
               <div className="mb-14 border-b border-zinc-200/60 pb-12">
-                <span className="text-xs font-bold uppercase tracking-widest text-indigo-500 block mb-2">{activeContent.badge}</span>
+                <span className="text-xs font-bold uppercase tracking-widest text-blue-500 block mb-2">{activeContent.badge}</span>
                 <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight mb-4">{activeContent.title}</h2>
                 <p className="text-base md:text-lg text-zinc-500 max-w-2xl leading-relaxed font-medium">{activeContent.desc}</p>
               </div>
@@ -214,7 +210,7 @@ export default function FeaturesPage() {
                     className={`group relative p-8 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-[0_4px_30px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.03)] hover:border-zinc-300 transition-all duration-500 flex flex-col justify-between overflow-hidden ${feature.gridSize}`}
                   >
                     <div className="space-y-5">
-                      <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200/80 shadow-sm flex items-center justify-center text-zinc-900 group-hover:text-indigo-600 transition-colors">
+                      <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200/80 shadow-sm flex items-center justify-center text-zinc-900 group-hover:text-blue-600 transition-colors">
                         {feature.icon}
                       </div>
                       <div>
@@ -229,7 +225,7 @@ export default function FeaturesPage() {
                           key={idx}
                           className="flex items-center gap-2 px-3 py-1.5 bg-white border border-zinc-100 rounded-full shadow-sm text-xs text-zinc-700 font-medium"
                         >
-                          <CheckCircle2 size={13} className="text-indigo-500" />
+                          <CheckCircle2 size={13} className="text-blue-500" />
                           <span>{detail}</span>
                         </div>
                       ))}
@@ -242,19 +238,19 @@ export default function FeaturesPage() {
 
                 {/* Hero Abstract Live UI Mockup Card inside Bento */}
                 <div className="md:col-span-3 rounded-[2.5rem] border border-zinc-200/80 bg-white/40 backdrop-blur-xl p-8 lg:p-12 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 shadow-[0_10px_50px_rgba(0,0,0,0.02)] overflow-hidden relative group mt-4">
-                  <div className="absolute -left-12 -top-12 w-64 h-64 bg-indigo-500/5 blur-[100px] rounded-full pointer-events-none" />
+                  <div className="absolute -left-12 -top-12 w-64 h-64 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
                   
                   <div className="flex-1 space-y-6 relative z-10">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-indigo-600 bg-white px-2.5 py-1 rounded-full border border-zinc-200/60 shadow-sm">Interactive Model</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-white px-2.5 py-1 rounded-full border border-zinc-200/60 shadow-sm">Interactive Model</span>
                     <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 tracking-tight">The Architecture in Practice.</h3>
                     <p className="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
                       Every panel, telemetry line, and data map operates inside a single unified window space. No loading steps, no secondary authentication loops—just real-time rendering.
                     </p>
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold text-zinc-700">
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Global View States</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Continuous Local Cache</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Background Delta Syncing</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-indigo-500" /> Instant Compilation Engine</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Global View States</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Continuous Local Cache</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Background Delta Syncing</li>
+                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Instant Compilation Engine</li>
                     </ul>
                   </div>
 
@@ -272,7 +268,7 @@ export default function FeaturesPage() {
 
                       <div className="flex flex-1 gap-4">
                         <div className="w-1/4 h-full hidden sm:flex flex-col gap-3 border-r border-zinc-100 pr-3">
-                          <div className="w-full h-2 bg-indigo-50 rounded-full" />
+                          <div className="w-full h-2 bg-blue-50 rounded-full" />
                           <div className="w-4/5 h-1.5 bg-zinc-100 rounded-full" />
                           <div className="w-2/3 h-1.5 bg-zinc-100 rounded-full" />
                           <div className="w-3/4 h-1.5 bg-zinc-100 rounded-full" />
@@ -280,9 +276,9 @@ export default function FeaturesPage() {
 
                         <div className="flex-1 h-full flex flex-col gap-3">
                           <div className="w-full h-24 rounded-xl border border-zinc-100 bg-[#FAFAFA] p-3 flex flex-col justify-between relative overflow-hidden">
-                            <LineChart className="absolute -bottom-2 -right-2 opacity-5 w-20 h-20 text-indigo-900" />
+                            <LineChart className="absolute -bottom-2 -right-2 opacity-5 w-20 h-20 text-blue-900" />
                             <div className="w-12 h-1.5 bg-zinc-200 rounded-full" />
-                            <div className="w-20 h-3 bg-indigo-600 rounded-full shadow-sm shadow-indigo-600/10" />
+                            <div className="w-20 h-3 bg-blue-600 rounded-full shadow-sm shadow-blue-600/10" />
                           </div>
                           <div className="grid grid-cols-2 gap-3 flex-1">
                             <div className="rounded-xl border border-zinc-100 p-3 flex flex-col gap-2 bg-white">
@@ -291,7 +287,7 @@ export default function FeaturesPage() {
                             </div>
                             <div className="rounded-xl border border-zinc-100 p-3 flex flex-col gap-2 bg-white">
                               <div className="w-10 h-1.5 bg-zinc-200 rounded-full" />
-                              <div className="w-6 h-1.5 bg-indigo-100 rounded-full" />
+                              <div className="w-6 h-1.5 bg-blue-100 rounded-full" />
                             </div>
                           </div>
                         </div>
@@ -337,7 +333,7 @@ export default function FeaturesPage() {
           </motion.div>
         </section>
 
-        {/* --- THE EXECUTIVE CTA SECTION (Premium Dark Slate Alignment) --- */}
+        {/* --- THE EXECUTIVE CTA SECTION --- */}
         <section className="mt-32 w-full pb-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}

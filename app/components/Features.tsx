@@ -66,9 +66,9 @@ export default function Features() {
       className: "md:col-span-2 lg:col-span-2",
       visual: (
         <div className="absolute right-8 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0 hidden sm:block">
-          <div className="w-32 h-24 bg-gradient-to-t from-indigo-50 to-white rounded-t-2xl border border-b-0 border-indigo-100 shadow-sm flex flex-col justify-end p-4">
-             <div className="w-full h-8 bg-indigo-100/50 rounded-lg flex items-center justify-center">
-                <ShieldCheck size={14} className="text-indigo-500" />
+          <div className="w-32 h-24 bg-gradient-to-t from-blue-50 to-white rounded-t-2xl border border-b-0 border-blue-100 shadow-sm flex flex-col justify-end p-4">
+             <div className="w-full h-8 bg-blue-100/50 rounded-lg flex items-center justify-center">
+                <ShieldCheck size={14} className="text-blue-500" />
              </div>
           </div>
         </div>
@@ -100,7 +100,7 @@ export default function Features() {
   return (
     <section id="features" className="relative py-32 overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] bg-indigo-50 blur-[120px] rounded-full pointer-events-none -z-10" />
+      <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] bg-blue-50 blur-[120px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -114,7 +114,7 @@ export default function Features() {
         >
           <motion.h2 variants={fadeUpItem} className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-zinc-950">
             Engineering for <br/> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-500 italic pr-2">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 italic pr-2">
               operations.
             </span>
           </motion.h2>
@@ -137,20 +137,20 @@ export default function Features() {
             <motion.div 
               key={i} 
               variants={fadeUpItem}
-              className={`group relative p-8 md:p-10 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_-4px_rgba(79,70,229,0.08)] hover:border-indigo-200 flex flex-col ${f.className}`}
+              className={`group relative p-8 md:p-10 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.08)] hover:border-blue-200 flex flex-col ${f.className}`}
             >
               {/* Subtle Gradient Hover Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/0 to-blue-50/0 group-hover:from-indigo-50/50 group-hover:to-blue-50/50 transition-colors duration-500 -z-10" />
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-sky-50/0 group-hover:from-blue-50/50 group-hover:to-sky-50/50 transition-colors duration-500 -z-10" />
               
               {/* Icon Container */}
-              <div className="mb-8 inline-flex w-12 h-12 items-center justify-center rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-600 shadow-sm transition-all duration-500 group-hover:-translate-y-1 group-hover:bg-indigo-600 group-hover:text-white group-hover:shadow-indigo-500/25 group-hover:border-indigo-500 relative z-10">
+              <div className="mb-8 inline-flex w-12 h-12 items-center justify-center rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-600 shadow-sm transition-all duration-500 group-hover:-translate-y-1 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-blue-500/25 group-hover:border-blue-500 relative z-10">
                 {f.icon}
               </div>
               
               <div className="relative z-10 mt-auto">
                 <h3 className="text-xl font-bold mb-3 tracking-tight text-zinc-950 flex items-center justify-between">
                   {f.title}
-                  <ArrowUpRight size={18} className="text-zinc-300 opacity-0 -translate-x-2 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-indigo-500" />
+                  <ArrowUpRight size={18} className="text-zinc-300 opacity-0 -translate-x-2 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-blue-500" />
                 </h3>
                 
                 <p className="text-zinc-500 leading-relaxed text-sm max-w-sm">

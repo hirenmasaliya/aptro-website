@@ -34,8 +34,8 @@ const floatAnimation: Variants = {
 export default function Hero() {
   return (
     <section className="relative pt-24 pb-32 overflow-hidden text-zinc-950 flex flex-col items-center justify-center">
-      {/* Ambient Background Blur */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-b from-indigo-50/50 to-transparent blur-3xl pointer-events-none -z-10" />
+      {/* Ambient Background Blur - Updated to blue */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] bg-gradient-to-b from-blue-50/50 to-transparent blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
 
@@ -46,12 +46,12 @@ export default function Hero() {
           animate="show"
           className="text-center max-w-4xl mx-auto flex flex-col items-center justify-center"
         >
-          {/* Refined Status Badge */}
+          {/* Refined Status Badge - Updated to blue */}
           <motion.div variants={fadeUpItem} className="mb-8 flex justify-center">
-            <span className="px-3 py-1.5 text-xs font-semibold bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100 uppercase tracking-widest flex items-center gap-2 shadow-sm transition-colors hover:bg-indigo-100/80 cursor-default">
+            <span className="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-600 rounded-full border border-blue-100 uppercase tracking-widest flex items-center gap-2 shadow-sm transition-colors hover:bg-blue-100/80 cursor-default">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
               Aptro v2.0 Live
             </span>
@@ -74,7 +74,7 @@ export default function Hero() {
           <motion.div variants={fadeUpItem} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-16 z-20 mx-auto">
             <Link
               href="/download"
-              className="group relative w-full sm:w-auto px-8 py-4 bg-zinc-950 text-white rounded-full font-medium text-sm hover:bg-zinc-800 transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(79,70,229,0.3)] overflow-hidden"
+              className="group relative w-full sm:w-auto px-8 py-4 bg-zinc-950 text-white rounded-full font-medium text-sm hover:bg-zinc-800 transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(37,99,235,0.3)] overflow-hidden"
               aria-label="Initialize Platform"
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -90,8 +90,8 @@ export default function Hero() {
               className="group w-full sm:w-auto px-8 py-4 bg-white border border-zinc-200 rounded-full font-medium text-sm text-zinc-700 hover:text-zinc-950 hover:border-zinc-300 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2"
               aria-label="Watch Architecture Video"
             >
-              <div className="w-6 h-6 rounded-full bg-zinc-100 group-hover:bg-indigo-50 flex items-center justify-center transition-colors">
-                <Play size={12} className="text-zinc-500 group-hover:text-indigo-600 transition-colors ml-0.5" />
+              <div className="w-6 h-6 rounded-full bg-zinc-100 group-hover:bg-blue-50 flex items-center justify-center transition-colors">
+                <Play size={12} className="text-zinc-500 group-hover:text-blue-600 transition-colors ml-0.5" />
               </div>
               Watch Architecture
             </a>
@@ -113,8 +113,8 @@ export default function Hero() {
           transition={{ duration: 1, ease: premiumEasing }}
           className="relative max-w-5xl mx-auto perspective-1000"
         >
-          {/* Decorative Glow Behind Mockup */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
+          {/* Decorative Glow Behind Mockup - Updated to blue */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-blue-500/10 blur-[100px] rounded-full pointer-events-none -z-10" />
 
           {/* Main Dashboard Container */}
           <div className="relative aspect-auto md:aspect-[16/10] rounded-[2rem] border border-zinc-200/80 bg-white shadow-[0_20px_80px_-20px_rgba(0,0,0,0.08)] overflow-hidden flex flex-col ring-1 ring-black/5">
@@ -128,8 +128,9 @@ export default function Hero() {
               </div>
               <div className="flex items-center gap-3">
                 <div className="w-32 h-2 rounded-full bg-zinc-100" />
-                <div className="w-8 h-8 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center">
-                  <div className="w-4 h-4 rounded-full bg-indigo-200" />
+                {/* Updated to blue */}
+                <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
+                  <div className="w-4 h-4 rounded-full bg-blue-200" />
                 </div>
               </div>
             </div>
@@ -143,7 +144,7 @@ export default function Hero() {
 
                 <div className="flex flex-col gap-4 pl-2">
                   <div className="flex items-center gap-3">
-                    <div className="w-4 h-4 rounded bg-indigo-100" />
+                    <div className="w-4 h-4 rounded bg-blue-100" /> {/* Updated to blue */}
                     <div className="w-3/4 h-2.5 rounded-full bg-zinc-200" />
                   </div>
                   <div className="flex items-center gap-3">
@@ -160,10 +161,10 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Abstract Payroll/Order Summary Card */}
-                <div className="mt-auto p-5 rounded-2xl border border-indigo-100/50 bg-indigo-50/30">
-                  <div className="w-1/2 h-2 rounded-full bg-indigo-200 mb-4" />
-                  <div className="w-full h-10 rounded-lg bg-indigo-600 shadow-sm" />
+                {/* Abstract Payroll/Order Summary Card - Updated to blue */}
+                <div className="mt-auto p-5 rounded-2xl border border-blue-100/50 bg-blue-50/30">
+                  <div className="w-1/2 h-2 rounded-full bg-blue-200 mb-4" />
+                  <div className="w-full h-10 rounded-lg bg-blue-600 shadow-sm" />
                 </div>
               </div>
 
@@ -175,8 +176,9 @@ export default function Hero() {
                   {[1, 2, 3].map((item) => (
                     <div key={item} className={`rounded-2xl bg-white border border-zinc-100 shadow-sm p-5 flex flex-col justify-between transition-transform hover:-translate-y-1 duration-300 ${item === 3 ? 'hidden lg:flex' : ''}`}>
                       <div className="flex justify-between items-start">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${item === 1 ? 'bg-indigo-50' : 'bg-zinc-50'}`}>
-                          <Activity size={18} className={item === 1 ? 'text-indigo-500' : 'text-zinc-400'} />
+                        {/* Updated to blue */}
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${item === 1 ? 'bg-blue-50' : 'bg-zinc-50'}`}>
+                          <Activity size={18} className={item === 1 ? 'text-blue-500' : 'text-zinc-400'} />
                         </div>
                         {item === 1 && <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-1 rounded-md"><TrendingUp size={10} /> +14%</span>}
                       </div>
@@ -195,7 +197,7 @@ export default function Hero() {
                     <div className="w-1/6 h-6 rounded-full bg-zinc-100" />
                   </div>
 
-                  {/* Abstract Line/Bar Chart with Focus State */}
+                  {/* Abstract Line/Bar Chart with Focus State - Updated to blue */}
                   <div className="flex-1 flex items-end gap-3 z-10">
                     {[30, 50, 40, 70, 55, 85, 100, 60, 75, 45, 80].map((height, i) => (
                       <motion.div
@@ -204,7 +206,7 @@ export default function Hero() {
                         whileInView={{ height: `${height}%` }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: i * 0.05, ease: premiumEasing }}
-                        className={`flex-1 rounded-t-md relative group cursor-pointer ${i === 6 ? 'bg-indigo-500 shadow-[0_0_15px_-3px_rgba(99,102,241,0.4)]' : 'bg-zinc-100 hover:bg-zinc-200'}`}
+                        className={`flex-1 rounded-t-md relative group cursor-pointer ${i === 6 ? 'bg-blue-500 shadow-[0_0_15px_-3px_rgba(59,130,246,0.4)]' : 'bg-zinc-100 hover:bg-zinc-200'}`}
                       >
                         {/* Tooltip abstraction on hover/active */}
                         {i === 6 && (
