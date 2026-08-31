@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   ShieldCheck, Smartphone, Layers, Users,
   ArrowRight, CheckCircle2, User, Building2, Briefcase, Globe, Zap,
-  BarChart3, Lock, Package, Bell, Calculator, ClipboardList,
-  Wallet, Receipt, Box, LineChart, CheckSquare, Sparkles
+  BarChart3, Lock, Package, Calculator, ClipboardList,
+  Wallet, Receipt, CheckSquare, Sparkles
 } from "lucide-react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import Link from "next/link";
@@ -16,7 +17,7 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-// Apple-style smooth continuous easing
+// Smooth continuous easing
 const appleEase = [0.16, 1, 0.3, 1] as const;
 
 const fadeUpItem: Variants = {
@@ -32,86 +33,87 @@ const staggerContainer: Variants = {
   }
 };
 
+// Simplified, easy-to-understand text & Mobile Image Paths
 const roleContent = {
   freelancer: {
-    badge: "Solo Workspace",
-    title: "Refined for the individual.",
-    desc: "A singular environment designed to minimize administrative cognitive load, automate tracking, and keep execution frictionless.",
+    badge: "Solo Worker",
+    title: "Perfect for independent workers.",
+    desc: "Everything you need to run your daily work easily, so you can spend less time on paperwork and more time earning.",
     spotlight: [
       {
-        title: "Smart Dashboard & Project Hub",
-        desc: "Your entire freelance business at a single glance. Manage clients, track specific project milestones, and monitor operational health in real-time.",
+        title: "Easy Dashboard",
+        desc: "See your whole business at a glance. Manage your clients and track your ongoing projects without getting confused.",
         icon: <BarChart3 className="w-5 h-5" />,
-        details: ["Live Dashboard Insights", "Project Information Tracking", "Client Directory Management"],
-        gridSize: "md:col-span-2"
+        details: ["Live Daily Updates", "Track Project Progress", "Client Contact List"],
+        image: "/images/dashboard.png", // Replace with your portrait mobile screenshot
       },
       {
-        title: "Payment Tracking",
-        desc: "Meticulous records of your cash flow with manual entry and balance logs.",
-        icon: <Wallet className="w-5 h-5" />,
-        details: ["Payment History Logs", "Manual Entry Hub"],
-        gridSize: "md:col-span-1"
-      },
-      {
-        title: "Task Engine & Notes",
-        desc: "Write comprehensive project specs, manage your daily agenda, and prioritize output without jumping between fragmented applications.",
-        icon: <CheckSquare className="w-5 h-5" />,
-        details: ["Dedicated Tasks View", "Rich Project Documentation"],
-        gridSize: "md:col-span-1"
-      },
-      {
-        title: "Billing & Quotations",
-        desc: "Win more opportunities and get paid instantly. Construct professional estimates and convert them into clean invoices with a single gesture.",
+        title: "Quick Bills & Quotes",
+        desc: "Create professional bills for your customers in seconds. Send them quickly to get paid faster.",
         icon: <Receipt className="w-5 h-5" />,
-        details: ["Instant Quote Builder", "One-Click PDF Billing"],
-        gridSize: "md:col-span-2"
+        details: ["Make Quotes Instantly", "One-Click PDF Bills", "Easy Tax Setup"],
+        image: "/images/invoice.png", // Replace with your portrait mobile screenshot
+      },
+      {
+        title: "Track Your Money",
+        desc: "Keep a clear record of who paid you and who still owes you money, so nothing slips through the cracks.",
+        icon: <Wallet className="w-5 h-5" />,
+        details: ["Payment History", "Add Money In/Out", "See Total Balance"],
+        image: "/images/payments.png", // Replace with your portrait mobile screenshot
+      },
+      {
+        title: "To-Do Lists & Notes",
+        desc: "Write down important notes and manage your daily tasks in one simple place on your phone.",
+        icon: <CheckSquare className="w-5 h-5" />,
+        details: ["Daily Task List", "Save Important Notes"],
+        image: "/images/tasks.png", // Replace with your portrait mobile screenshot
       }
     ]
   },
   business: {
-    badge: "Enterprise Infrastructure",
-    title: "Orchestrate your growth.",
-    desc: "Advanced ledger systems designed for automated inventory synchronization, robust tax compliance, and unified workforce administration.",
+    badge: "Growing Business",
+    title: "Manage your entire shop or business.",
+    desc: "A complete mobile system to track your stock, manage your staff's salary, and automatically calculate your taxes.",
     spotlight: [
       {
-        title: "Dual-Sided CRM Architecture",
-        desc: "Segment suppliers, track client behaviors, and register customer directories in one database ecosystem.",
-        icon: <Users className="w-5 h-5" />,
-        details: ["B2B & B2C Isolation", "Global Log History"],
-        gridSize: "md:col-span-1"
-      },
-      {
-        title: "Real-time Stock Ledger",
-        desc: "Total inventory control. Create instant product summaries, adjust stock levels on the fly, and receive automatic notification thresholds when item counts drop low.",
+        title: "Live Stock Tracking",
+        desc: "Always know what's in your shop. Get a quick alert on your phone when an item is running low so you never run out of stock.",
         icon: <Package className="w-5 h-5" />,
-        details: ["Live SKU Counters", "Smart Lower Threshold Alerts", "Product Registry Audits"],
-        gridSize: "md:col-span-2"
+        details: ["Live Item Count", "Low Stock Alerts", "Easy Add/Remove"],
+        image: "/images/stock.png", // Replace with your portrait mobile screenshot
       },
       {
-        title: "GST Compliance Core",
-        desc: "Automate accounting with native tax computation frameworks and instant reporting matrix parameters.",
+        title: "Customer & Supplier List",
+        desc: "Keep all your customer and supplier phone numbers and details safely in one place, backed up automatically.",
+        icon: <Users className="w-5 h-5" />,
+        details: ["Separate Buyers & Sellers", "Full History Backup"],
+        image: "/images/customer.png", // Replace with your portrait mobile screenshot
+      },
+      {
+        title: "Easy Tax & GST Reports",
+        desc: "Automatically calculate your taxes and generate GST-ready reports without the math headache.",
         icon: <Calculator className="w-5 h-5" />,
-        details: ["Compliant Local Invoicing", "Automated Sales Reports"],
-        gridSize: "md:col-span-2"
+        details: ["Ready for GST", "Automatic Monthly Reports"],
+        image: "/images/gst.png", // Replace with your portrait mobile screenshot
       },
       {
-        title: "Workforce & Payroll",
-        desc: "Track internal attendance metrics and manage automated balance payroll schedules natively.",
+        title: "Staff Attendance & Salary",
+        desc: "Track your staff's daily attendance easily and let the app calculate their monthly salary automatically.",
         icon: <ClipboardList className="w-5 h-5" />,
-        details: ["Daily Shift Tracking", "Instant Compensation Auditing"],
-        gridSize: "md:col-span-1"
+        details: ["Daily Present/Absent", "Automatic Salary Math"],
+        image: "/images/payroll.png", // Replace with your portrait mobile screenshot
       }
     ]
   }
 };
 
 const commonFeatures = [
-  { title: "Bank-Grade Encryption", icon: <Lock size={18} />, desc: "AES-256 protocol standard architecture with hardware-isolated security key management modules." },
-  { title: "Cross-Platform Sync", icon: <Smartphone size={18} />, desc: "Unified synchronization states across fully native iOS, Android, and desktop ecosystems." },
-  { title: "Global Settlement", icon: <Globe size={18} />, desc: "Multi-currency reconciliation algorithms supported by localized tax balancing parameters." },
-  { title: "Universal API Layer", icon: <Layers size={18} />, desc: "Connect external processing clusters natively with over 2,000 existing business platforms." },
-  { title: "Real-Time Webhooks", icon: <Zap size={18} />, desc: "Zero-latency payload distribution maps keeping internal and external tables completely synchronous." },
-  { title: "Enterprise SLA Support", icon: <Briefcase size={18} />, desc: "Direct engineering communication access and constant proactive operational up-time protection frameworks." },
+  { title: "Safe & Secure", icon: <Lock size={18} />, desc: "Your data is locked with bank-level security so only you can access it." },
+  { title: "Works Everywhere", icon: <Smartphone size={18} />, desc: "Use it on your phone, tablet, or computer. Everything updates instantly." },
+  { title: "Multi-Currency", icon: <Globe size={18} />, desc: "Accept payments and track bills in different currencies easily." },
+  { title: "Easy Connections", icon: <Layers size={18} />, desc: "Connects smoothly with other tools you already use for your business." },
+  { title: "Instant Updates", icon: <Zap size={18} />, desc: "If you change something on your phone, it shows up on your computer instantly." },
+  { title: "24/7 Support", icon: <Briefcase size={18} />, desc: "Our team is always here to help you if you ever get stuck or need help." },
 ];
 
 export default function FeaturesPage() {
@@ -121,17 +123,16 @@ export default function FeaturesPage() {
   return (
     <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
 
-      {/* --- Server-side Background Image Layer Removed --- */}
+      {/* --- Ambient Background --- */}
       <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
         <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAFAFA]/80 to-[#FAFAFA]" />
-        {/* Abstract glowing orb - Updated to Blue */}
         <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
-        {/* --- Header Section --- */}
-        <section className="max-w-4xl mx-auto mb-28 flex flex-col items-center text-center">
+        {/* --- Header & Switcher --- */}
+        <section className="max-w-4xl mx-auto mb-20 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: -10 }} 
             animate={{ opacity: 1, y: 0 }} 
@@ -150,11 +151,10 @@ export default function FeaturesPage() {
           >
             Built for <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-blue-950 to-blue-600">
-              modern workflows.
+              everyday business.
             </span>
           </motion.h1>
 
-          {/* Elegant Segmented Switcher Control */}
           <motion.div
             initial={{ opacity: 0, y: 15 }} 
             animate={{ opacity: 1, y: 0 }} 
@@ -178,14 +178,14 @@ export default function FeaturesPage() {
                 )}
                 <span className="relative z-10 flex items-center gap-1.5">
                   {tab === "freelancer" ? <User size={13} /> : <Building2 size={13} />}
-                  {tab}
+                  {tab === "freelancer" ? "Individual" : "Business"}
                 </span>
               </button>
             ))}
           </motion.div>
         </section>
 
-        {/* --- Spotlight Bento Content --- */}
+        {/* --- One-by-One Feature Spotlight --- */}
         <section className="mb-32">
           <AnimatePresence mode="wait">
             <motion.div
@@ -194,118 +194,88 @@ export default function FeaturesPage() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               exit={{ opacity: 0, y: -20, filter: "blur(6px)" }}
               transition={{ duration: 0.6, ease: appleEase }}
+              className="flex flex-col gap-28 pt-10"
             >
-              {/* Profile Intro Context */}
-              <div className="mb-14 border-b border-zinc-200/60 pb-12">
+              
+              {/* Intro Title */}
+              <div className="text-center mb-4">
                 <span className="text-xs font-bold uppercase tracking-widest text-blue-500 block mb-2">{activeContent.badge}</span>
                 <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight mb-4">{activeContent.title}</h2>
-                <p className="text-base md:text-lg text-zinc-500 max-w-2xl leading-relaxed font-medium">{activeContent.desc}</p>
+                <p className="text-base md:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed font-medium">{activeContent.desc}</p>
               </div>
 
-              {/* Bento System Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {activeContent.spotlight.map((feature, i) => (
-                  <div
+              {/* Alternating Z-Pattern Layout for Mobile Phones */}
+              {activeContent.spotlight.map((feature, i) => {
+                const isEven = i % 2 === 0;
+                
+                return (
+                  <motion.div 
                     key={i}
-                    className={`group relative p-8 rounded-[2rem] bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-[0_4px_30px_rgba(0,0,0,0.01)] hover:shadow-[0_12px_40px_rgba(0,0,0,0.03)] hover:border-zinc-300 transition-all duration-500 flex flex-col justify-between overflow-hidden ${feature.gridSize}`}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: appleEase }}
+                    className={`flex flex-col gap-12 lg:gap-20 items-center group ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
                   >
-                    <div className="space-y-5">
-                      <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200/80 shadow-sm flex items-center justify-center text-zinc-900 group-hover:text-blue-600 transition-colors">
+                    {/* Text Content Block */}
+                    <div className="flex-1 w-full flex flex-col items-start text-left space-y-5">
+                      <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-2">
                         {feature.icon}
                       </div>
-                      <div>
-                        <h3 className="text-xl font-bold tracking-tight mb-2 text-zinc-900">{feature.title}</h3>
-                        <p className="text-sm text-zinc-500 leading-relaxed font-medium max-w-xl">{feature.desc}</p>
-                      </div>
-                    </div>
-
-                    <div className="mt-8 flex flex-wrap gap-2.5 z-10">
-                      {feature.details.map((detail, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-2 px-3 py-1.5 bg-white border border-zinc-100 rounded-full shadow-sm text-xs text-zinc-700 font-medium"
-                        >
-                          <CheckCircle2 size={13} className="text-blue-500" />
-                          <span>{detail}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Minimal Ambient Highlight Line */}
-                    <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-zinc-200/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                  </div>
-                ))}
-
-                {/* Hero Abstract Live UI Mockup Card inside Bento */}
-                <div className="md:col-span-3 rounded-[2.5rem] border border-zinc-200/80 bg-white/40 backdrop-blur-xl p-8 lg:p-12 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 shadow-[0_10px_50px_rgba(0,0,0,0.02)] overflow-hidden relative group mt-4">
-                  <div className="absolute -left-12 -top-12 w-64 h-64 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none" />
-                  
-                  <div className="flex-1 space-y-6 relative z-10">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-white px-2.5 py-1 rounded-full border border-zinc-200/60 shadow-sm">Interactive Model</span>
-                    <h3 className="text-3xl lg:text-4xl font-bold text-zinc-900 tracking-tight">The Architecture in Practice.</h3>
-                    <p className="text-sm lg:text-base text-zinc-500 leading-relaxed font-medium">
-                      Every panel, telemetry line, and data map operates inside a single unified window space. No loading steps, no secondary authentication loops—just real-time rendering.
-                    </p>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-semibold text-zinc-700">
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Global View States</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Continuous Local Cache</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Background Delta Syncing</li>
-                      <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500" /> Instant Compilation Engine</li>
-                    </ul>
-                  </div>
-
-                  <div className="flex-1 w-full relative max-w-xl">
-                    <div className="relative w-full aspect-[16/10] bg-white rounded-2xl border border-zinc-200/60 shadow-[0_20px_50px_rgba(0,0,0,0.06)] flex flex-col p-4 gap-4 overflow-hidden group-hover:border-zinc-300 transition-colors duration-500">
                       
-                      <div className="w-full flex justify-between items-center border-b border-zinc-100 pb-3">
-                        <div className="flex gap-1.5">
-                          <div className="w-2.5 h-2.5 bg-zinc-200 rounded-full" />
-                          <div className="w-2.5 h-2.5 bg-zinc-200 rounded-full" />
-                          <div className="w-2.5 h-2.5 bg-zinc-200 rounded-full" />
-                        </div>
-                        <div className="w-24 h-2 bg-zinc-100 rounded-full" />
-                      </div>
-
-                      <div className="flex flex-1 gap-4">
-                        <div className="w-1/4 h-full hidden sm:flex flex-col gap-3 border-r border-zinc-100 pr-3">
-                          <div className="w-full h-2 bg-blue-50 rounded-full" />
-                          <div className="w-4/5 h-1.5 bg-zinc-100 rounded-full" />
-                          <div className="w-2/3 h-1.5 bg-zinc-100 rounded-full" />
-                          <div className="w-3/4 h-1.5 bg-zinc-100 rounded-full" />
-                        </div>
-
-                        <div className="flex-1 h-full flex flex-col gap-3">
-                          <div className="w-full h-24 rounded-xl border border-zinc-100 bg-[#FAFAFA] p-3 flex flex-col justify-between relative overflow-hidden">
-                            <LineChart className="absolute -bottom-2 -right-2 opacity-5 w-20 h-20 text-blue-900" />
-                            <div className="w-12 h-1.5 bg-zinc-200 rounded-full" />
-                            <div className="w-20 h-3 bg-blue-600 rounded-full shadow-sm shadow-blue-600/10" />
+                      <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
+                        {feature.title}
+                      </h3>
+                      
+                      <p className="text-lg text-zinc-500 leading-relaxed font-medium max-w-xl">
+                        {feature.desc}
+                      </p>
+                      
+                      <div className="pt-2 flex flex-col gap-3 w-full">
+                        {feature.details.map((detail, idx) => (
+                          <div key={idx} className="flex items-center gap-3 text-zinc-700 font-medium bg-white/50 w-fit px-4 py-2 rounded-lg border border-zinc-100">
+                            <CheckCircle2 size={16} className="text-blue-500 shrink-0" />
+                            <span>{detail}</span>
                           </div>
-                          <div className="grid grid-cols-2 gap-3 flex-1">
-                            <div className="rounded-xl border border-zinc-100 p-3 flex flex-col gap-2 bg-white">
-                              <div className="w-8 h-1.5 bg-zinc-200 rounded-full" />
-                              <div className="w-12 h-1.5 bg-zinc-100 rounded-full" />
-                            </div>
-                            <div className="rounded-xl border border-zinc-100 p-3 flex flex-col gap-2 bg-white">
-                              <div className="w-10 h-1.5 bg-zinc-200 rounded-full" />
-                              <div className="w-6 h-1.5 bg-blue-100 rounded-full" />
-                            </div>
-                          </div>
-                        </div>
+                        ))}
                       </div>
-
                     </div>
-                  </div>
-                </div>
-              </div>
+
+                    {/* Mobile Phone Mockup Block */}
+                    <div className="flex-1 w-full flex justify-center items-center py-6 lg:py-0 relative">
+                      
+                      {/* Ambient Glow behind the phone */}
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[400px] bg-blue-500/20 blur-[70px] rounded-full pointer-events-none -z-10 transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
+
+                      {/* Phone Frame wrapper */}
+                      <div className="relative w-[260px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)] overflow-hidden transition-transform duration-700 group-hover:-translate-y-2 group-hover:shadow-[0_30px_80px_-20px_rgba(37,99,235,0.5)]">
+                        
+                        {/* Fake Phone Notch */}
+                        {/* <div className="absolute top-0 inset-x-0 h-6 bg-zinc-900 rounded-b-2xl w-[40%] mx-auto z-20" /> */}
+                        
+                        {/* NEXT.JS IMAGE GOES HERE */}
+                        <Image
+                          src={feature.image}
+                          alt={feature.title}
+                          fill
+                          className="object-cover"
+                        />
+                        
+                      </div>
+                    </div>
+
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </AnimatePresence>
         </section>
 
-        {/* --- Standard Infrastructure Grid (Bento Style) --- */}
+        {/* --- Standard Infrastructure Grid --- */}
         <section className="pt-24 border-t border-zinc-200/80">
-          <div className="max-w-2xl mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">Universal Baseline</h2>
-            <p className="text-base text-zinc-500 font-medium leading-relaxed">Foundational layers compiled natively into every node cluster, protecting privacy, sync fidelity, and integration reach across standard runtimes.</p>
+          <div className="max-w-2xl mb-16 text-center mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">Why choose Aptro?</h2>
+            <p className="text-base text-zinc-500 font-medium leading-relaxed">Built with the latest technology to ensure your data is safe, your app is fast, and your business never stops running.</p>
           </div>
 
           <motion.div
@@ -319,21 +289,21 @@ export default function FeaturesPage() {
               <motion.div
                 key={i}
                 variants={fadeUpItem}
-                className="group relative p-8 bg-white/70 backdrop-blur-xl border border-zinc-200/60 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:border-zinc-300 hover:bg-white flex flex-col justify-between h-64"
+                className="group relative p-8 bg-white/70 backdrop-blur-xl border border-zinc-200/60 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:border-zinc-300 hover:bg-white flex flex-col justify-between"
               >
                 <div>
-                  <div className="mb-5 inline-flex w-9 h-9 items-center justify-center rounded-lg bg-white border border-zinc-200 text-zinc-500 shadow-sm transition-all duration-500 group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900">
+                  <div className="mb-5 inline-flex w-12 h-12 items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-500 shadow-sm transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600">
                     {f.icon}
                   </div>
                   <h3 className="text-lg font-bold mb-2 tracking-tight text-zinc-900">{f.title}</h3>
-                  <p className="text-zinc-500 leading-relaxed text-xs font-medium">{f.desc}</p>
+                  <p className="text-zinc-500 leading-relaxed text-sm font-medium">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </section>
 
-        {/* --- THE EXECUTIVE CTA SECTION --- */}
+        {/* --- CTA SECTION --- */}
         <section className="mt-32 w-full pb-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -342,28 +312,27 @@ export default function FeaturesPage() {
             transition={{ duration: 1, ease: appleEase }}
             className="relative px-8 py-24 rounded-[3rem] overflow-hidden bg-zinc-950 text-center shadow-2xl shadow-zinc-950/20"
           >
-            {/* Elegant Radial Top Glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[350px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-800/30 via-transparent to-transparent blur-[80px] pointer-events-none" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[350px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent blur-[80px] pointer-events-none" />
 
             <div className="relative z-10 max-w-2xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-5 tracking-tight text-white leading-tight">
-                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-300 via-white to-zinc-400 italic pr-1">scale?</span>
+                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-zinc-200 italic pr-1">grow?</span>
               </h2>
               <p className="text-zinc-400 text-base md:text-lg mb-10 leading-relaxed font-medium">
-                Join thousands of independent operators and growing networks establishing operations directly on Aptro.
+                Join thousands of independent workers and growing businesses managing their daily tasks on Aptro.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
                 <Link
                   href="/download"
-                  className="w-full sm:w-auto px-7 py-3.5 bg-white text-zinc-950 rounded-full font-semibold text-sm transition-transform duration-300 hover:scale-[0.98] flex items-center justify-center gap-1.5 group shadow-md"
+                  className="w-full sm:w-auto px-7 py-3.5 bg-white text-zinc-950 rounded-full font-semibold text-sm transition-transform duration-300 hover:scale-[1.02] flex items-center justify-center gap-1.5 group shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
                 >
                   Download App
                   <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300 text-zinc-900" />
                 </Link>
                 <Link
                   href="/pricing"
-                  className="w-full sm:w-auto px-7 py-3.5 bg-zinc-900/50 border border-zinc-800 text-white rounded-full font-semibold text-sm transition-all duration-300 hover:bg-zinc-800/60 hover:scale-[0.98] flex items-center justify-center backdrop-blur-md"
+                  className="w-full sm:w-auto px-7 py-3.5 bg-white/5 border border-white/10 text-white rounded-full font-semibold text-sm transition-all duration-300 hover:bg-white/10 hover:scale-[0.98] flex items-center justify-center backdrop-blur-md"
                 >
                   View Plans
                 </Link>

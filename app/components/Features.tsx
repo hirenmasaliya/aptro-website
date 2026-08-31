@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { 
   ShoppingCart, 
   FileText, 
@@ -9,17 +10,9 @@ import {
   Globe,
   ArrowUpRight
 } from "lucide-react";
-import { Easing, motion, Variants } from "framer-motion";
+import { Easing, motion, Variants, useScroll, useTransform } from "framer-motion";
 
 const premiumEasing: Easing = [0.22, 1, 0.36, 1];
-
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
-  }
-};
 
 const fadeUpItem: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -27,12 +20,21 @@ const fadeUpItem: Variants = {
 };
 
 export default function Features() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  
+  // Track the scroll progress of the horizontal container
+  const { scrollXProgress } = useScroll({
+    container: scrollRef,
+  });
+
+  // Map the scroll progress to the width of the progress bar
+  const progressBarWidth = useTransform(scrollXProgress, [0, 1], ["0%", "100%"]);
+
   const features = [
     {
-      title: "Order Management",
-      desc: "Real-time visibility into your entire sales pipeline. From 'Pending' to 'Delivered', never lose track of a client.",
+      title: "Track Your Orders",
+      desc: "Know exactly where every order is. From the moment a customer buys to the moment it's delivered, you will never lose track of a sale.",
       icon: <ShoppingCart size={20} />,
-      className: "md:col-span-2 lg:col-span-2",
       visual: (
         <div className="absolute right-0 bottom-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0 hidden sm:block">
           <div className="flex gap-2 bg-white p-3 rounded-xl shadow-lg border border-zinc-100">
@@ -46,24 +48,21 @@ export default function Features() {
       )
     },
     {
-      title: "Invoice Generator",
-      desc: "Generate professional, brand-aligned invoices in seconds. Fully compliant with global tax standards.",
+      title: "Easy Invoicing",
+      desc: "Create clear, professional bills for your customers in seconds. Send them quickly and get paid faster without the headache.",
       icon: <FileText size={20} />,
-      className: "md:col-span-1 lg:col-span-1",
       visual: null
     },
     {
-      title: "Business Insights",
-      desc: "Deep-dive into your sales data with automated charts and monthly projections sent directly to you.",
+      title: "Simple Reports",
+      desc: "See how much money you are making at a glance. Easy-to-read charts help you understand your daily, monthly, and yearly profits.",
       icon: <BarChart3 size={20} />,
-      className: "md:col-span-1 lg:col-span-1",
       visual: null
     },
     {
-      title: "Secure Data",
-      desc: "Protected by AES-256 bank-grade encryption and daily redundant cloud backups for absolute peace of mind.",
+      title: "Safe & Secure",
+      desc: "Your business data is locked tight. We use bank-level security and automatically save your work so your numbers are never lost.",
       icon: <ShieldCheck size={20} />,
-      className: "md:col-span-2 lg:col-span-2",
       visual: (
         <div className="absolute right-8 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0 hidden sm:block">
           <div className="w-32 h-24 bg-gradient-to-t from-blue-50 to-white rounded-t-2xl border border-b-0 border-blue-100 shadow-sm flex flex-col justify-end p-4">
@@ -75,10 +74,9 @@ export default function Features() {
       )
     },
     {
-      title: "Instant Sync",
-      desc: "Manage your business across Mobile and Web with zero-latency cloud reconciliation and offline mode.",
+      title: "Works Everywhere",
+      desc: "Use the app on your mobile phone or computer. Everything updates instantly across all your devices, even if the internet drops.",
       icon: <Zap size={20} />,
-      className: "md:col-span-2 lg:col-span-2",
       visual: (
         <div className="absolute right-8 top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-4 group-hover:translate-x-0 hidden sm:block">
           <div className="flex items-center gap-3 bg-zinc-950 text-white py-2 px-4 rounded-full shadow-xl">
@@ -89,10 +87,9 @@ export default function Features() {
       )
     },
     {
-      title: "Global Commerce",
-      desc: "Support for 100+ currencies and localized tax zones to help you scale your brand to any corner of the globe.",
+      title: "Sell Anywhere",
+      desc: "Ready to grow? Accept payments in different currencies and manage taxes easily, no matter where your customers live.",
       icon: <Globe size={20} />,
-      className: "md:col-span-1 lg:col-span-1",
       visual: null
     },
   ];
@@ -106,38 +103,42 @@ export default function Features() {
         
         {/* Header Section */}
         <motion.div 
-          variants={staggerContainer}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="mb-20 text-left max-w-2xl"
+          className="mb-16 text-left max-w-2xl"
         >
           <motion.h2 variants={fadeUpItem} className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-zinc-950">
-            Engineering for <br/> 
+            Built for <br/> 
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 italic pr-2">
-              operations.
+              everyday business.
             </span>
           </motion.h2>
           
           <motion.p variants={fadeUpItem} className="text-lg text-zinc-500 leading-relaxed font-medium">
-            Aptro provides a comprehensive infrastructure designed to eliminate administrative 
-            overhead and focus purely on your brand's growth.
+            Aptro gives you everything you need to manage your daily tasks easily, so you can spend less time on paperwork and more time growing your business.
           </motion.p>
         </motion.div>
+      </div>
 
-        {/* Premium Bento Grid */}
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+      {/* Horizontal Scrolling Section */}
+      <div className="relative w-full">
+        <div 
+          ref={scrollRef}
+          className="flex overflow-x-auto gap-6 px-6 pb-12 pt-4 snap-x snap-mandatory hide-scrollbar"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
+          {/* Invisible spacer to align the first item with the container grid */}
+          <div className="w-[max(0px,calc((100vw-80rem)/2))] shrink-0 hidden xl:block" />
+
           {features.map((f, i) => (
             <motion.div 
               key={i} 
-              variants={fadeUpItem}
-              className={`group relative p-8 md:p-10 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.08)] hover:border-blue-200 flex flex-col ${f.className}`}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: premiumEasing }}
+              className="group relative w-[85vw] sm:w-[400px] md:w-[450px] shrink-0 snap-center p-8 md:p-10 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.08)] hover:border-blue-200 flex flex-col min-h-[320px]"
             >
               {/* Subtle Gradient Hover Background */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-sky-50/0 group-hover:from-blue-50/50 group-hover:to-sky-50/50 transition-colors duration-500 -z-10" />
@@ -153,7 +154,7 @@ export default function Features() {
                   <ArrowUpRight size={18} className="text-zinc-300 opacity-0 -translate-x-2 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-blue-500" />
                 </h3>
                 
-                <p className="text-zinc-500 leading-relaxed text-sm max-w-sm">
+                <p className="text-zinc-500 leading-relaxed text-sm">
                   {f.desc}
                 </p>
               </div>
@@ -162,8 +163,29 @@ export default function Features() {
               {f.visual}
             </motion.div>
           ))}
-        </motion.div>
+          
+          {/* Invisible spacer for padding at the end of the scroll */}
+          <div className="w-6 shrink-0 xl:w-[max(0px,calc((100vw-80rem)/2))] block" />
+        </div>
+
+        {/* Scroll Progress Bar Indicator */}
+        <div className="max-w-7xl mx-auto px-6 mt-4">
+          <div className="w-full h-1 bg-zinc-200 rounded-full overflow-hidden">
+            <motion.div 
+              className="h-full bg-blue-500 rounded-full"
+              style={{ width: progressBarWidth }}
+            />
+          </div>
+        </div>
+        
       </div>
+      
+      {/* Global styles to hide the default scrollbar but keep functionality */}
+      <style jsx global>{`
+        .hide-scrollbar::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
