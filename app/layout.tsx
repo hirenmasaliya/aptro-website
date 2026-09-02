@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import PageLayout from "./components/PageLayout";
+import DownloadBanner from "./components/DownloadBanner";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aptro.vercel.app"),
@@ -189,8 +190,11 @@ export default function RootLayout({
         />
       </head>
 
-      <body className="bg-[#050505] text-white selection:bg-blue-500/30">
+      <body className="bg-[#050505] text-white selection:bg-blue-500/30 pb-20">
         <PageLayout>{children}</PageLayout>
+        
+        {/* ADDED Banner */}
+        <DownloadBanner />
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ import { Menu, X, ArrowRight, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
+// Base font for UI
 const jakarta = Plus_Jakarta_Sans({
     subsets: ["latin"],
     display: "swap",
@@ -68,11 +69,11 @@ export default function Navbar() {
                         : "w-full max-w-7xl bg-transparent py-2 px-2"
                 }`}
             >
-                {/* --- LOGO --- */}
+                {/* --- LOGO & BRAND NAME --- */}
                 <Link
                     href="/"
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center group relative z-[120] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-xl"
+                    className="flex items-center gap-3 group relative z-[120] focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-xl px-1"
                     aria-label="Go to Aptro homepage"
                 >
                     <div className="relative w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-xl overflow-hidden transition-transform duration-500 group-hover:scale-105 group-active:scale-95">
@@ -86,6 +87,13 @@ export default function Navbar() {
                             priority
                         />
                     </div>
+                    
+                    {/* Website Font Text */}
+                    <span 
+                        className="text-xl font-bold tracking-tight text-zinc-900 transition-all duration-300 group-hover:text-blue-600"
+                    >
+                        Aptro
+                    </span>
                 </Link>
 
                 {/* --- DESKTOP NAVIGATION --- */}
