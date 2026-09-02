@@ -45,28 +45,28 @@ const roleContent = {
         desc: "See your whole business at a glance. Manage your clients and track your ongoing projects without getting confused.",
         icon: <BarChart3 className="w-5 h-5" />,
         details: ["Live Daily Updates", "Track Project Progress", "Client Contact List"],
-        image: "/images/dashboard.png", // Replace with your portrait mobile screenshot
+        image: "/images/dashboard.png",
       },
       {
         title: "Quick Bills & Quotes",
         desc: "Create professional bills for your customers in seconds. Send them quickly to get paid faster.",
         icon: <Receipt className="w-5 h-5" />,
         details: ["Make Quotes Instantly", "One-Click PDF Bills", "Easy Tax Setup"],
-        image: "/images/invoice.png", // Replace with your portrait mobile screenshot
+        image: "/images/invoice.png",
       },
       {
         title: "Track Your Money",
         desc: "Keep a clear record of who paid you and who still owes you money, so nothing slips through the cracks.",
         icon: <Wallet className="w-5 h-5" />,
         details: ["Payment History", "Add Money In/Out", "See Total Balance"],
-        image: "/images/payments.png", // Replace with your portrait mobile screenshot
+        image: "/images/payments.png",
       },
       {
         title: "To-Do Lists & Notes",
         desc: "Write down important notes and manage your daily tasks in one simple place on your phone.",
         icon: <CheckSquare className="w-5 h-5" />,
         details: ["Daily Task List", "Save Important Notes"],
-        image: "/images/tasks.png", // Replace with your portrait mobile screenshot
+        image: "/images/tasks.png",
       }
     ]
   },
@@ -80,28 +80,28 @@ const roleContent = {
         desc: "Always know what's in your shop. Get a quick alert on your phone when an item is running low so you never run out of stock.",
         icon: <Package className="w-5 h-5" />,
         details: ["Live Item Count", "Low Stock Alerts", "Easy Add/Remove"],
-        image: "/images/stock.png", // Replace with your portrait mobile screenshot
+        image: "/images/stock.png",
       },
       {
         title: "Customer & Supplier List",
         desc: "Keep all your customer and supplier phone numbers and details safely in one place, backed up automatically.",
         icon: <Users className="w-5 h-5" />,
         details: ["Separate Buyers & Sellers", "Full History Backup"],
-        image: "/images/customer.png", // Replace with your portrait mobile screenshot
+        image: "/images/customer.png",
       },
       {
         title: "Easy Tax & GST Reports",
         desc: "Automatically calculate your taxes and generate GST-ready reports without the math headache.",
         icon: <Calculator className="w-5 h-5" />,
         details: ["Ready for GST", "Automatic Monthly Reports"],
-        image: "/images/gst.png", // Replace with your portrait mobile screenshot
+        image: "/images/gst.png",
       },
       {
         title: "Staff Attendance & Salary",
         desc: "Track your staff's daily attendance easily and let the app calculate their monthly salary automatically.",
         icon: <ClipboardList className="w-5 h-5" />,
         details: ["Daily Present/Absent", "Automatic Salary Math"],
-        image: "/images/payroll.png", // Replace with your portrait mobile screenshot
+        image: "/images/payroll.png",
       }
     ]
   }
@@ -121,11 +121,11 @@ export default function FeaturesPage() {
   const activeContent = roleContent[role];
 
   return (
-    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
+    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
 
       {/* --- Ambient Background --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-[#FAFAFA]/80 to-[#FAFAFA]" />
+      <div className="fixed inset-0 pointer-events-none -z-10 bg-slate-50">
+        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-slate-50/80 to-slate-50" />
         <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
       </div>
 
@@ -137,7 +137,7 @@ export default function FeaturesPage() {
             initial={{ opacity: 0, y: -10 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.6, ease: appleEase }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-blue-600 text-xs font-semibold tracking-wider uppercase border border-zinc-200/80 mb-6 shadow-[0_2px_12px_rgba(0,0,0,0.02)]"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold tracking-wider uppercase border border-blue-100 mb-6 shadow-sm"
           >
             <Sparkles size={12} className="text-blue-500" />
             Capabilities
@@ -147,10 +147,10 @@ export default function FeaturesPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: appleEase, delay: 0.05 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter mb-8 leading-[1.02] text-zinc-900"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter mb-8 leading-[1.05] text-zinc-950"
           >
             Built for <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-900 via-blue-950 to-blue-600">
+            <span className="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent italic pr-2 pb-2">
               everyday business.
             </span>
           </motion.h1>
@@ -159,14 +159,14 @@ export default function FeaturesPage() {
             initial={{ opacity: 0, y: 15 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.8, ease: appleEase, delay: 0.12 }}
-            className="inline-flex p-1 bg-zinc-200/60 backdrop-blur-xl rounded-full border border-zinc-200/40 shadow-inner"
+            className="inline-flex p-1 bg-zinc-200/50 backdrop-blur-xl rounded-full border border-zinc-200/40 shadow-inner"
           >
             {(["freelancer", "business"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setRole(tab)}
                 className={`relative flex items-center gap-2 px-7 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors z-10 ${
-                  role === tab ? "text-blue-600" : "text-zinc-500 hover:text-zinc-900"
+                  role === tab ? "text-blue-600" : "text-zinc-500 hover:text-zinc-950"
                 }`}
               >
                 {role === tab && (
@@ -200,7 +200,7 @@ export default function FeaturesPage() {
               {/* Intro Title */}
               <div className="text-center mb-4">
                 <span className="text-xs font-bold uppercase tracking-widest text-blue-500 block mb-2">{activeContent.badge}</span>
-                <h2 className="text-3xl md:text-4xl font-bold text-zinc-900 tracking-tight mb-4">{activeContent.title}</h2>
+                <h2 className="text-3xl md:text-4xl font-bold text-zinc-950 tracking-tight mb-4">{activeContent.title}</h2>
                 <p className="text-base md:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed font-medium">{activeContent.desc}</p>
               </div>
 
@@ -223,7 +223,7 @@ export default function FeaturesPage() {
                         {feature.icon}
                       </div>
                       
-                      <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900">
+                      <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-950">
                         {feature.title}
                       </h3>
                       
@@ -248,12 +248,8 @@ export default function FeaturesPage() {
                       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[400px] bg-blue-500/20 blur-[70px] rounded-full pointer-events-none -z-10 transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
 
                       {/* Phone Frame wrapper */}
-                      <div className="relative w-[260px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)] overflow-hidden transition-transform duration-700 group-hover:-translate-y-2 group-hover:shadow-[0_30px_80px_-20px_rgba(37,99,235,0.5)]">
+                      <div className="relative w-[260px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-zinc-950 bg-zinc-950 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)] overflow-hidden transition-transform duration-700 group-hover:-translate-y-2 group-hover:shadow-[0_30px_80px_-20px_rgba(37,99,235,0.5)]">
                         
-                        {/* Fake Phone Notch */}
-                        {/* <div className="absolute top-0 inset-x-0 h-6 bg-zinc-900 rounded-b-2xl w-[40%] mx-auto z-20" /> */}
-                        
-                        {/* NEXT.JS IMAGE GOES HERE */}
                         <Image
                           src={feature.image}
                           alt={feature.title}
@@ -274,7 +270,7 @@ export default function FeaturesPage() {
         {/* --- Standard Infrastructure Grid --- */}
         <section className="pt-24 border-t border-zinc-200/80">
           <div className="max-w-2xl mb-16 text-center mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-900">Why choose Aptro?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-950">Why choose Aptro?</h2>
             <p className="text-base text-zinc-500 font-medium leading-relaxed">Built with the latest technology to ensure your data is safe, your app is fast, and your business never stops running.</p>
           </div>
 
@@ -295,7 +291,7 @@ export default function FeaturesPage() {
                   <div className="mb-5 inline-flex w-12 h-12 items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-500 shadow-sm transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600">
                     {f.icon}
                   </div>
-                  <h3 className="text-lg font-bold mb-2 tracking-tight text-zinc-900">{f.title}</h3>
+                  <h3 className="text-lg font-bold mb-2 tracking-tight text-zinc-950">{f.title}</h3>
                   <p className="text-zinc-500 leading-relaxed text-sm font-medium">{f.desc}</p>
                 </div>
               </motion.div>
@@ -316,7 +312,7 @@ export default function FeaturesPage() {
 
             <div className="relative z-10 max-w-2xl mx-auto">
               <h2 className="text-4xl md:text-6xl font-bold mb-5 tracking-tight text-white leading-tight">
-                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-zinc-200 italic pr-1">grow?</span>
+                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-blue-200 italic pr-1">grow?</span>
               </h2>
               <p className="text-zinc-400 text-base md:text-lg mb-10 leading-relaxed font-medium">
                 Join thousands of independent workers and growing businesses managing their daily tasks on Aptro.
@@ -328,7 +324,7 @@ export default function FeaturesPage() {
                   className="w-full sm:w-auto px-7 py-3.5 bg-white text-zinc-950 rounded-full font-semibold text-sm transition-transform duration-300 hover:scale-[1.02] flex items-center justify-center gap-1.5 group shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
                 >
                   Download App
-                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300 text-zinc-900" />
+                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300 text-zinc-950" />
                 </Link>
                 <Link
                   href="/pricing"

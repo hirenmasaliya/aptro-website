@@ -64,7 +64,7 @@ export default function Hero() {
             {/* Typography */}
             <motion.h1 variants={fadeUpItem} className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter mb-6 leading-[1.05] text-zinc-950">
               Manage your <br />
-              <span className="text-zinc-400 italic pr-2">
+              <span className="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent italic pr-2 pb-2">
                 entire business.
               </span>
             </motion.h1>
@@ -117,9 +117,8 @@ export default function Hero() {
             <motion.div variants={floatAnimation} animate="animate" className="relative">
               
               {/* Phone Mockup Frame */}
-              <div className="relative w-[240px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-zinc-900 bg-zinc-900 shadow-[0_20px_80px_-20px_rgba(37,99,235,0.4)] overflow-hidden">
+              <div className="relative w-[240px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-zinc-950 bg-zinc-950 shadow-[0_20px_80px_-20px_rgba(37,99,235,0.4)] overflow-hidden">
                 
-                {/* --- IMAGE SOURCED DIRECTLY FROM PUBLIC FOLDER --- */}
                 <Image
                   src="/images/dashboard.png"
                   alt="Aptro Dashboard Interface"
@@ -129,18 +128,18 @@ export default function Hero() {
                 />
               </div>
 
-              {/* Floating Notification Element overlapping the phone (Updated to match dashboard data) */}
+              {/* Floating Notification Element overlapping the phone */}
               <motion.div
                 initial={{ opacity: 0, x: 20, scale: 0.9 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.8, ease: premiumEasing }}
-                className="absolute -bottom-6 -left-6 sm:-left-12 z-20 p-4 rounded-2xl bg-white/95 backdrop-blur-md text-zinc-900 shadow-2xl flex items-center gap-4 border border-zinc-100"
+                className="absolute -bottom-6 -left-6 sm:-left-12 z-20 p-4 rounded-2xl bg-white/95 backdrop-blur-md text-zinc-950 shadow-2xl flex items-center gap-4 border border-zinc-100"
               >
-                <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center border border-blue-100">
+                <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
                   <Truck size={18} />
                 </div>
                 <div className="pr-2">
-                  <p className="text-sm font-bold mb-0.5 text-zinc-900">Order #18 Shipped</p>
+                  <p className="text-sm font-bold mb-0.5 text-zinc-950">Order #18 Shipped</p>
                   <p className="text-[11px] text-zinc-500 font-medium">Dwarkesh Creation • ₹472.50</p>
                 </div>
               </motion.div>

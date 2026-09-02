@@ -57,7 +57,7 @@ export default function Home() {
         <div className="flex flex-col gap-y-24 pb-32">
           <Features />
 
-          {/* --- NEW: PRODUCT SHOWCASE SECTION --- */}
+          {/* --- PRODUCT SHOWCASE SECTION --- */}
           <section className="max-w-7xl mx-auto px-6 w-full py-12">
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
@@ -66,10 +66,10 @@ export default function Home() {
               transition={{ duration: 0.8, ease: premiumEasing }}
               className="flex flex-col items-center text-center mb-16"
             >
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-zinc-950">
                 Everything you need, <span className="text-blue-600">in one view.</span>
               </h2>
-              <p className="text-zinc-500 max-w-2xl text-lg">
+              <p className="text-zinc-500 max-w-2xl text-lg font-medium">
                 Stop jumping between tabs. Aptro consolidates your payroll, revenue metrics, and order fulfillment into a single, elegant interface.
               </p>
             </motion.div>
@@ -81,16 +81,14 @@ export default function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 1, ease: premiumEasing }}
-                className="relative rounded-[2rem] bg-zinc-900 border-[8px] border-zinc-900 shadow-2xl overflow-hidden aspect-[4/3] flex items-center justify-center"
+                className="relative rounded-[2rem] overflow-hidden aspect-[4/3] flex items-center justify-center"
               >
                 <Image 
-                  src="/images/dashboard.png" 
+                  src="/images/everything.png" 
                   alt="Aptro App Interface" 
                   fill 
-                  className="object-cover object-top opacity-90 hover:opacity-100 transition-opacity duration-500" 
+                  className="object-cover duration-500" 
                 />
-                {/* Decorative Overlay Glow */}
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/40 to-transparent pointer-events-none" />
               </motion.div>
 
               {/* Contextual Features */}
@@ -107,12 +105,12 @@ export default function Home() {
                   { title: "Order Orchestration", desc: "Monitor active deliveries, stock levels, and fulfillment timelines automatically." }
                 ].map((feature, idx) => (
                   <motion.div key={idx} variants={itemVariants} className="flex gap-4">
-                    <div className="mt-1 w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                    <div className="mt-1 w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100">
                       <CheckCircle2 size={16} className="text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-semibold mb-2 text-zinc-900">{feature.title}</h3>
-                      <p className="text-zinc-500 leading-relaxed">{feature.desc}</p>
+                      <h3 className="text-xl font-semibold mb-2 text-zinc-950">{feature.title}</h3>
+                      <p className="text-zinc-500 leading-relaxed font-medium">{feature.desc}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -129,8 +127,8 @@ export default function Home() {
               transition={{ duration: 1, ease: premiumEasing }}
               className="relative rounded-[2.5rem] lg:rounded-[3.5rem] overflow-visible group"
             >
-              {/* Refined Deep Background with Mesh Glow */}
-              <div className="absolute inset-0 bg-[#0A0F1C] rounded-[2.5rem] lg:rounded-[3.5rem] shadow-[0_20px_60px_-15px_rgba(37,99,235,0.3)] overflow-hidden ring-1 ring-white/10">
+              {/* Refined Deep Background with Mesh Glow - Updated to zinc-950 */}
+              <div className="absolute inset-0 bg-zinc-950 rounded-[2.5rem] lg:rounded-[3.5rem] shadow-[0_20px_60px_-15px_rgba(37,99,235,0.3)] overflow-hidden ring-1 ring-white/10">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-500/30 via-indigo-600/10 to-transparent blur-[80px] pointer-events-none" />
                 
                 {/* Subtle Grid Overlay for Tech Vibe */}
@@ -144,7 +142,7 @@ export default function Home() {
                 className="hidden xl:flex absolute -left-10 top-20 z-20 items-center gap-4 p-4 pr-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-105"
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-teal-300 flex items-center justify-center shadow-[0_0_20px_rgba(52,211,153,0.3)]">
-                  <TrendingUp size={20} className="text-[#0A0F1C]" />
+                  <TrendingUp size={20} className="text-zinc-950" />
                 </div>
                 <div>
                   <p className="text-[11px] text-blue-200/70 font-semibold uppercase tracking-widest mb-0.5">Revenue Growth</p>
@@ -160,7 +158,7 @@ export default function Home() {
                 className="hidden xl:flex absolute -right-8 bottom-32 z-20 items-center gap-4 p-4 pr-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:-translate-y-2 group-hover:scale-105"
               >
                 <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-blue-400 to-indigo-300 flex items-center justify-center shadow-[0_0_20px_rgba(96,165,250,0.3)]">
-                  <Users size={20} className="text-[#0A0F1C]" />
+                  <Users size={20} className="text-zinc-950" />
                 </div>
                 <div>
                   <p className="text-[11px] text-blue-200/70 font-semibold uppercase tracking-widest mb-0.5">Team Payroll</p>
@@ -205,7 +203,7 @@ export default function Home() {
                   {/* Primary CTA: High Contrast, clear action */}
                   <Link
                     href="/download"
-                    className="w-full sm:w-auto px-8 py-4 bg-white text-[#0A0F1C] rounded-full font-bold text-sm md:text-base transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-100 shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] flex items-center justify-center gap-2 group"
+                    className="w-full sm:w-auto px-8 py-4 bg-white text-zinc-950 rounded-full font-bold text-sm md:text-base transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-100 shadow-[0_0_40px_-10px_rgba(255,255,255,0.5)] flex items-center justify-center gap-2 group"
                   >
                     Download the App
                     <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300 text-blue-600" />
