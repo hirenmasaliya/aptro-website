@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants, Easing } from "framer-motion";
 import { 
     ChevronDown, 
     ArrowRight,
@@ -12,7 +12,8 @@ import {
     Clock,
     CreditCard,
     CheckCircle,
-    Sparkles
+    Sparkles,
+    AlertCircle
 } from "lucide-react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import { useRouter } from "next/navigation";
@@ -21,23 +22,22 @@ import Link from "next/link";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
 
-// Premium smooth easing
-const premiumEasing = [0.22, 1, 0.36, 1] as const;
+// Material Design standard easing
+const materialEasing: Easing = [0.2, 0, 0, 1];
 
 const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: premiumEasing } }
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
 };
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+    transition: { staggerChildren: 0.05, delayChildren: 0.1 }
   }
 };
 
-// Updated to reflect the final Two-Tier Commission Structure
 const commissionPlans = [
     { plan: "Standard Plan", price: "₹99", activation: "₹50", recurring: "₹10", icon: Star },
     { plan: "Pro Plan", price: "₹199", activation: "₹100", recurring: "₹20", icon: Zap, popular: true },
@@ -121,33 +121,15 @@ export default function JoinPage() {
     };
 
     return (
-        <main className={`min-h-screen pt-24 pb-20 selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
+        <main className={`min-h-screen pt-20 pb-20 bg-[#F8F9FA] text-[#202124] selection:bg-[#D3E3FD] selection:text-[#041E49] overflow-x-hidden relative ${jakarta.className}`}>
             
-            {/* --- Ambient Background --- */}
-            <div className="fixed inset-0 pointer-events-none -z-10 bg-slate-50">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-            </div>
-
             {/* --- HERO SECTION --- */}
-            <section className="relative w-full pt-16 md:pt-32 pb-24 flex flex-col items-center">
+            <section className="relative w-full pt-12 md:pt-24 pb-20 flex flex-col items-center">
                 
-                {/* Background Image Container seamlessly blended into UI */}
-                <motion.div 
-                    initial={{ opacity: 0 }} 
-                    animate={{ opacity: 1 }} 
-                    transition={{ duration: 1.2, ease: premiumEasing }}
-                    className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
-                >
-                    <Image
-                        src="/images/students_banner.png"
-                        alt="A group of diverse college students collaborating happily on a modern campus."
-                        fill
-                        className="object-cover object-top opacity-50 mix-blend-luminosity"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-slate-50/60 via-slate-50/80 to-slate-50" />
-                    <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/20 blur-[120px] rounded-full mix-blend-multiply" />
-                </motion.div>
+                {/* Clean Google-style background */}
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                    <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-[#E8F0FE]/50 to-transparent" />
+                </div>
 
                 {/* Content Container */}
                 <motion.div 
@@ -156,95 +138,94 @@ export default function JoinPage() {
                     animate="show"
                     className="relative z-10 text-center flex flex-col items-center max-w-4xl mx-auto px-6"
                 >
-                    <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest border border-blue-100 mb-6 shadow-sm">
-                        <Sparkles size={12} className="text-blue-500" />
+                    <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium border border-[#D2E3FC] mb-6">
+                        <Sparkles size={16} className="text-[#1A73E8]" />
                         Student Business Partner Program
                     </motion.div>
                     
                     <motion.h1 
                         variants={fadeUpItem}
-                        className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter text-zinc-950 mb-6 leading-[1.05]"
+                        className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#1F1F1F] mb-6 leading-[1.15]"
                     >
                         Earn while you learn. <br className="hidden md:block" />
-                        <span className="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent italic pr-2 pb-2">On your own terms.</span>
+                        <span className="text-[#1A73E8]">On your own terms.</span>
                     </motion.h1>
                     
                     <motion.p 
                         variants={fadeUpItem}
-                        className="text-lg md:text-xl text-zinc-500 max-w-3xl mx-auto mb-10 font-medium leading-relaxed"
+                        className="text-[16px] md:text-[18px] text-[#5F6368] max-w-3xl mx-auto mb-10 leading-relaxed"
                     >
                         Help local businesses digitize their operations with Aptro. Turn your free time into income with industry-leading commissions and zero upfront investment.
                     </motion.p>
                     
                     <motion.div 
                         variants={fadeUpItem}
-                        className="flex flex-col sm:flex-row items-center gap-5"
+                        className="flex flex-col sm:flex-row items-center gap-4"
                     >
                         <button 
                             onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
-                            className="px-8 py-4 bg-zinc-950 hover:bg-zinc-800 text-white rounded-full font-bold text-sm md:text-base transition-all duration-300 shadow-[0_0_30px_-5px_rgba(0,0,0,0.3)] hover:scale-[1.02] active:scale-[0.98]"
+                            className="px-8 py-3.5 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
                         >
                             Apply Now
                         </button>
 
-                        <Link href="/how-it-works" className="px-8 py-4 bg-white/50 backdrop-blur-md border border-zinc-200/80 text-zinc-950 hover:bg-white hover:border-zinc-300 rounded-full font-bold text-sm md:text-base transition-all duration-300 flex items-center gap-2 group shadow-sm active:scale-[0.98]">
-                            See how it works <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform text-zinc-400 group-hover:text-blue-600" />
+                        <Link href="/how-it-works" className="px-8 py-3.5 bg-white border border-[#DADCE0] text-[#1A73E8] hover:bg-[#F8F9FA] rounded-full font-medium text-[15px] transition-colors flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2">
+                            See how it works <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </motion.div>
                 </motion.div>
             </section>
 
             {/* --- COMMISSION PLANS --- */}
-            <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold text-zinc-950 tracking-tight mb-4">Commission Structure</h2>
-                    <p className="text-lg text-zinc-500 font-medium max-w-2xl mx-auto">Earn a massive one-time activation reward, plus recurring passive income every time they renew.</p>
+            <section className="max-w-[1200px] mx-auto px-6 py-16 relative z-10">
+                <div className="text-center mb-14">
+                    <h2 className="text-3xl md:text-4xl font-normal text-[#1F1F1F] mb-4">Commission Structure</h2>
+                    <p className="text-[16px] text-[#5F6368] max-w-2xl mx-auto">Earn a massive one-time activation reward, plus recurring passive income every time they renew.</p>
                 </div>
                 
-                <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto">
+                <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
                     {commissionPlans.map((plan, idx) => {
                         const Icon = plan.icon;
                         const isPopular = plan.popular;
 
                         return (
                             <motion.div 
-                                initial={{ opacity: 0, y: 30 }} 
+                                initial={{ opacity: 0, y: 24 }} 
                                 whileInView={{ opacity: 1, y: 0 }} 
                                 viewport={{ once: true, margin: "-50px" }} 
-                                transition={{ duration: 0.8, ease: premiumEasing, delay: idx * 0.1 }}
+                                transition={{ duration: 0.5, ease: materialEasing, delay: idx * 0.1 }}
                                 key={plan.plan}
-                                className={`relative flex flex-col items-center text-center p-10 pt-12 rounded-[2rem] transition-all duration-500 group ${
+                                className={`relative flex flex-col items-center text-center p-8 rounded-[24px] bg-white transition-shadow duration-300 hover:shadow-md ${
                                     isPopular 
-                                    ? 'bg-zinc-950 text-white shadow-[0_20px_60px_-15px_rgba(37,99,235,0.3)] border-[8px] border-zinc-950 hover:-translate-y-1' 
-                                    : 'bg-white/70 backdrop-blur-xl border border-zinc-200/60 shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:border-zinc-300 hover:bg-white hover:-translate-y-1'
+                                    ? 'border-2 border-[#1A73E8] shadow-sm' 
+                                    : 'border border-[#DADCE0]'
                                 }`}
                             >
                                 {isPopular && (
-                                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/30 via-transparent to-transparent opacity-50 rounded-[1.5rem] pointer-events-none" />
-                                )}
-
-                                {isPopular && (
-                                    <div className="absolute -top-6 left-1/2 -translate-x-1/2 bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-widest px-4 py-1.5 rounded-full shadow-sm border border-blue-500/20 backdrop-blur-md">
+                                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#1A73E8] text-white text-[11px] font-medium uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
                                         Most Popular
                                     </div>
                                 )}
                                 
-                                <Icon size={32} className={`${isPopular ? 'text-blue-400' : 'text-zinc-950'} mb-6 relative z-10`} strokeWidth={1.5} />
-                                <h3 className={`text-2xl font-bold mb-2 relative z-10 ${isPopular ? "text-white" : "text-zinc-950"}`}>{plan.plan}</h3>
-                                <p className={`mb-8 relative z-10 font-medium ${isPopular ? "text-zinc-400" : "text-zinc-500"}`}>{plan.price} membership</p>
+                                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-6 ${isPopular ? 'bg-[#E8F0FE] text-[#1A73E8]' : 'bg-[#F1F3F4] text-[#5F6368]'}`}>
+                                    <Icon size={24} />
+                                </div>
+
+                                <h3 className="text-[20px] font-medium mb-1 text-[#1F1F1F]">{plan.plan}</h3>
+                                <p className="text-[14px] text-[#5F6368] mb-8">{plan.price} membership</p>
                                 
-                                <div className={`w-full h-px mb-8 relative z-10 ${isPopular ? "bg-white/10" : "bg-zinc-200/80"}`} />
+                                <div className="w-full h-px mb-8 bg-[#DADCE0]" />
                                 
-                                <p className={`font-semibold text-xs uppercase tracking-widest mb-2 relative z-10 ${isPopular ? "text-zinc-400" : "text-zinc-400"}`}>Activation</p>
-                                <div className={`text-5xl font-bold tracking-tighter leading-none mb-2 relative z-10 ${isPopular ? "text-white" : "text-zinc-950"}`}>
+                                <p className="font-medium text-[12px] uppercase tracking-wider mb-2 text-[#5F6368]">Activation</p>
+                                <div className="text-4xl font-normal text-[#1F1F1F] mb-2">
                                     {plan.activation}
                                 </div>
-                                <p className={`font-medium mb-8 relative z-10 ${isPopular ? "text-zinc-400" : "text-zinc-500"}`}>One-time per business</p>
+                                <p className="text-[14px] mb-8 text-[#5F6368]">One-time per business</p>
                                 
-                                <div className={`mt-auto w-full pt-6 border-t relative z-10 ${isPopular ? "border-white/10" : "border-zinc-200/80"}`}>
-                                    <p className={`text-sm font-medium mb-1 ${isPopular ? "text-zinc-400" : "text-zinc-500"}`}>Plus Recurring</p>
-                                    <p className={`font-bold text-xl ${isPopular ? "text-blue-400" : "text-blue-600"}`}>
-                                        {plan.recurring} <span className={`text-sm font-medium ${isPopular ? "text-zinc-400" : "text-zinc-500"}`}>/ renewal</span>
+                                <div className="mt-auto w-full pt-6 border-t border-[#DADCE0]">
+                                    <p className="text-[13px] text-[#5F6368] mb-1">Plus Recurring</p>
+                                    <p className="font-medium text-[18px] text-[#1A73E8]">
+                                        {plan.recurring} <span className="text-[13px] text-[#5F6368] font-normal">/ renewal</span>
                                     </p>
                                 </div>
                             </motion.div>
@@ -253,152 +234,200 @@ export default function JoinPage() {
                 </div>
             </section>
 
-            {/* --- BENTO BENEFITS --- */}
-            <section className="max-w-7xl mx-auto px-6 py-24 relative z-10">
+            {/* --- BENTO BENEFITS (Material Cards) --- */}
+            <section className="max-w-[1200px] mx-auto px-6 py-16 relative z-10">
                 <div className="grid md:grid-cols-2 gap-6">
                     
                     {/* Big Tile */}
                     <motion.div 
-                        initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: premiumEasing }}
-                        className="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-[2rem] border border-zinc-200/60 p-10 md:p-16 flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden shadow-sm hover:shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-500"
+                        initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing }}
+                        className="md:col-span-2 bg-white rounded-[24px] border border-[#DADCE0] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-10 shadow-sm hover:shadow-md transition-shadow duration-300"
                     >
                         <div className="max-w-xl">
-                            <h3 className="text-3xl md:text-5xl font-bold text-zinc-950 tracking-tight mb-4 leading-tight">
+                            <h3 className="text-3xl md:text-4xl font-normal text-[#1F1F1F] mb-4 leading-tight">
                                 Zero investment. <br/>
-                                <span className="text-blue-600">Infinite potential.</span>
+                                <span className="text-[#1A73E8]">Infinite potential.</span>
                             </h3>
-                            <p className="text-lg text-zinc-500 font-medium leading-relaxed">
+                            <p className="text-[16px] text-[#5F6368] leading-relaxed">
                                 Start earning immediately without spending a single rupee. All you need is your smartphone, communication skills, and a drive to succeed.
                             </p>
                         </div>
                         <div className="w-full md:w-auto flex justify-center">
-                           <CreditCard size={120} className="text-zinc-200" strokeWidth={1} />
+                           <div className="w-32 h-32 bg-[#E8F0FE] rounded-full flex items-center justify-center text-[#1A73E8]">
+                               <CreditCard size={64} />
+                           </div>
                         </div>
                     </motion.div>
 
                     {/* Small Tile 1 */}
                     <motion.div 
-                        initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: premiumEasing, delay: 0.1 }}
-                        className="bg-zinc-950 rounded-[2rem] p-10 md:p-12 text-center flex flex-col items-center shadow-xl border border-zinc-800 relative overflow-hidden"
+                        initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing, delay: 0.1 }}
+                        className="bg-[#E6F4EA] rounded-[24px] p-10 border border-[#CEEAD6] text-center flex flex-col items-center"
                     >
-                        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-blue-500/10 to-transparent opacity-50 pointer-events-none" />
-                        <Clock size={48} className="text-blue-400 mb-6 relative z-10" strokeWidth={1.5} />
-                        <h4 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-3 relative z-10">Work on your terms.</h4>
-                        <p className="text-zinc-400 font-medium relative z-10">No fixed hours. Fit it perfectly around your college classes and exams.</p>
+                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-[#1E8E3E] mb-6 shadow-sm">
+                            <Clock size={32} />
+                        </div>
+                        <h4 className="text-[22px] font-medium text-[#0D652D] mb-3">Work on your terms.</h4>
+                        <p className="text-[#137333] text-[15px]">No fixed hours. Fit it perfectly around your college classes and exams.</p>
                     </motion.div>
 
                     {/* Small Tile 2 */}
                     <motion.div 
-                        initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: premiumEasing, delay: 0.2 }}
-                        className="bg-blue-50 border border-blue-100 rounded-[2rem] p-10 md:p-12 text-center flex flex-col items-center shadow-sm"
+                        initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing, delay: 0.2 }}
+                        className="bg-white border border-[#DADCE0] rounded-[24px] p-10 text-center flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300"
                     >
-                        <Briefcase size={48} className="text-blue-600 mb-6" strokeWidth={1.5} />
-                        <h4 className="text-2xl md:text-3xl font-bold text-blue-950 tracking-tight mb-3">Real experience.</h4>
-                        <p className="text-blue-800/70 font-medium">Build your resume with practical B2B sales and networking skills.</p>
+                        <div className="w-16 h-16 bg-[#FCE8E6] rounded-full flex items-center justify-center text-[#D93025] mb-6">
+                            <Briefcase size={32} />
+                        </div>
+                        <h4 className="text-[22px] font-medium text-[#1F1F1F] mb-3">Real experience.</h4>
+                        <p className="text-[#5F6368] text-[15px]">Build your resume with practical B2B sales and networking skills.</p>
                     </motion.div>
                 </div>
             </section>
 
             {/* --- REGISTRATION FORM --- */}
-            <section id="registration-form" className="max-w-[700px] mx-auto px-6 py-24 relative z-10">
+            <section id="registration-form" className="max-w-[760px] mx-auto px-6 py-16 relative z-10">
                 <motion.div 
-                    initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease: premiumEasing }}
-                    className="bg-white/70 backdrop-blur-xl border border-zinc-200/60 rounded-[2.5rem] p-8 md:p-12 shadow-sm"
+                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing }}
+                    className="bg-white border border-[#DADCE0] rounded-[24px] p-8 md:p-12 shadow-sm"
                 >
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-zinc-950 tracking-tight mb-4">Create your Partner ID.</h2>
-                        <p className="text-lg text-zinc-500 font-medium">Please provide your details below.</p>
+                    <div className="text-center mb-10">
+                        <h2 className="text-3xl font-normal text-[#1F1F1F] mb-3">Create your Partner ID</h2>
+                        <p className="text-[15px] text-[#5F6368]">Please provide your details below.</p>
                     </div>
 
                     {submitStatus === 'success' ? (
                         <motion.div 
-                            initial={{ opacity: 0, scale: 0.95 }}
+                            initial={{ opacity: 0, scale: 0.98 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="bg-slate-50 p-10 rounded-[2rem] text-center border border-zinc-200/80"
+                            className="bg-[#F8F9FA] p-10 rounded-[16px] text-center border border-[#DADCE0]"
                         >
-                            <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-emerald-200">
+                            <div className="w-16 h-16 bg-[#E6F4EA] text-[#1E8E3E] rounded-full flex items-center justify-center mx-auto mb-6">
                                 <CheckCircle size={32} />
                             </div>
-                            <h3 className="text-3xl font-bold text-zinc-950 mb-4 tracking-tight">Application Received</h3>
-                            <p className="text-zinc-500 font-medium mb-8">
+                            <h3 className="text-2xl font-normal text-[#1F1F1F] mb-3">Application Received</h3>
+                            <p className="text-[#5F6368] text-[15px] mb-8">
                                 Thank you for applying. We are reviewing your application.
                             </p>
-                            <div className="bg-white p-6 rounded-2xl inline-block border border-zinc-200/80 shadow-sm">
-                                <p className="text-xs text-zinc-400 uppercase tracking-widest font-bold mb-2">Your Temporary ID</p>
-                                <p className="text-2xl font-bold text-zinc-950 font-mono tracking-wider">{tempId}</p>
+                            <div className="bg-white p-6 rounded-[12px] inline-block border border-[#DADCE0] shadow-sm">
+                                <p className="text-[12px] text-[#5F6368] uppercase tracking-wider font-medium mb-1">Your Temporary ID</p>
+                                <p className="text-2xl font-mono text-[#1F1F1F]">{tempId}</p>
                             </div>
-                            <p className="text-sm text-zinc-500 font-medium mt-8 mb-8 max-w-sm mx-auto leading-relaxed">
+                            <p className="text-[14px] text-[#5F6368] mt-8 mb-8 max-w-sm mx-auto leading-relaxed">
                                 Keep this ID safe. You will receive an email once your final Partner ID is generated upon approval.
                             </p>
                             
                             <button
                                 onClick={() => router.push('/partner/dashboard')}
-                                className="px-8 py-4 w-full bg-zinc-950 hover:bg-zinc-800 text-white rounded-full font-bold text-sm transition-all duration-300 inline-flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(0,0,0,0.3)] active:scale-[0.98]"
+                                className="px-6 py-2.5 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[14px] transition-colors inline-flex items-center justify-center gap-2"
                             >
-                                Go to Dashboard <ArrowRight size={18} className="text-zinc-400" />
+                                Go to Dashboard <ArrowRight size={18} />
                             </button>
                         </motion.div>
                     ) : (
                         <form className="space-y-8" onSubmit={handleSubmit}>
                             
                             {submitStatus === 'error' && (
-                                <div className="bg-rose-50 text-rose-600 p-5 rounded-2xl text-sm font-bold border border-rose-100 shadow-sm flex items-center gap-3">
-                                    <div className="w-2 h-2 rounded-full bg-rose-500 shrink-0" />
+                                <div className="bg-[#FCE8E6] text-[#C5221F] p-4 rounded-[8px] text-[14px] font-medium border border-[#FAD2CF] flex items-center gap-3">
+                                    <AlertCircle size={20} className="shrink-0" />
                                     {errorMessage}
                                 </div>
                             )}
 
                             {/* Section 1 */}
-                            <div className="space-y-4">
-                                <h3 className="text-xl font-bold text-zinc-950 tracking-tight mb-4 border-b border-zinc-200/80 pb-3">Personal Information</h3>
-                                <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} placeholder="Full Name" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
+                            <div className="space-y-5">
+                                <h3 className="text-[18px] font-medium text-[#1F1F1F] mb-2 border-b border-[#DADCE0] pb-2">Personal Information</h3>
                                 
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <input type="tel" name="mobile" value={formData.mobile} onChange={handleInputChange} placeholder="Mobile Number" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} placeholder="Email Address" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
+                                <div>
+                                    <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Full Name</label>
+                                    <input type="text" name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                </div>
+                                
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Mobile Number</label>
+                                        <input type="tel" name="mobile" value={formData.mobile} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Email Address</label>
+                                        <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
                                 </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                    <select name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all appearance-none shadow-sm" required disabled={isLoading}>
-                                        <option value="" disabled>Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
+                                <div className="grid grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Date of Birth</label>
+                                        <input type="date" name="dob" value={formData.dob} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Gender</label>
+                                        <select name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4] appearance-none bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%235F6368%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[position:right_12px_center] bg-[length:16px_16px] pr-10" required disabled={isLoading}>
+                                            <option value="" disabled>Select</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 
-                                <textarea name="address" value={formData.address} onChange={handleInputChange} placeholder="Full Address" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 min-h-[120px] resize-none shadow-sm" required disabled={isLoading}/>
+                                <div>
+                                    <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Full Address</label>
+                                    <textarea name="address" value={formData.address} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4] min-h-[100px] resize-none" required disabled={isLoading}/>
+                                </div>
                             </div>
 
                             {/* Section 2 */}
-                            <div className="space-y-4 pt-4">
-                                <h3 className="text-xl font-bold text-zinc-950 tracking-tight mb-4 border-b border-zinc-200/80 pb-3">Academic Details</h3>
-                                <input type="text" name="college" value={formData.college} onChange={handleInputChange} placeholder="College / University Name" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="course" value={formData.course} onChange={handleInputChange} placeholder="Course & Department" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                    <input type="text" name="studentId" value={formData.studentId} onChange={handleInputChange} placeholder="Student ID Number" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
+                            <div className="space-y-5 pt-2">
+                                <h3 className="text-[18px] font-medium text-[#1F1F1F] mb-2 border-b border-[#DADCE0] pb-2">Academic Details</h3>
+                                <div>
+                                    <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">College / University Name</label>
+                                    <input type="text" name="college" value={formData.college} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                </div>
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Course & Department</label>
+                                        <input type="text" name="course" value={formData.course} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Student ID Number</label>
+                                        <input type="text" name="studentId" value={formData.studentId} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Section 3 */}
-                            <div className="space-y-4 pt-4">
-                                <h3 className="text-xl font-bold text-zinc-950 tracking-tight mb-4 border-b border-zinc-200/80 pb-3">Payout Details</h3>
-                                <input type="text" name="accHolder" value={formData.accHolder} onChange={handleInputChange} placeholder="Account Holder Name" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="bankName" value={formData.bankName} onChange={handleInputChange} placeholder="Bank Name" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                    <input type="text" name="accNum" value={formData.accNum} onChange={handleInputChange} placeholder="Account Number" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
+                            <div className="space-y-5 pt-2">
+                                <h3 className="text-[18px] font-medium text-[#1F1F1F] mb-2 border-b border-[#DADCE0] pb-2">Payout Details</h3>
+                                <div>
+                                    <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Account Holder Name</label>
+                                    <input type="text" name="accHolder" value={formData.accHolder} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
                                 </div>
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    <input type="text" name="ifsc" value={formData.ifsc} onChange={handleInputChange} placeholder="IFSC Code" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" required disabled={isLoading}/>
-                                    <input type="text" name="upi" value={formData.upi} onChange={handleInputChange} placeholder="UPI ID (Optional)" className="w-full px-5 py-4 rounded-2xl bg-slate-50 border border-zinc-200/80 text-zinc-950 text-base font-medium focus:outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-100/50 focus:bg-white transition-all placeholder:text-zinc-400 shadow-sm" disabled={isLoading}/>
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Bank Name</label>
+                                        <input type="text" name="bankName" value={formData.bankName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Account Number</label>
+                                        <input type="text" name="accNum" value={formData.accNum} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
+                                </div>
+                                <div className="grid md:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">IFSC Code</label>
+                                        <input type="text" name="ifsc" value={formData.ifsc} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
+                                    </div>
+                                    <div>
+                                        <label className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">UPI ID (Optional)</label>
+                                        <input type="text" name="upi" value={formData.upi} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" disabled={isLoading}/>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Agreement */}
                             <div className="pt-4 pb-2">
                                 <label className="flex items-start gap-4 cursor-pointer group">
-                                    <input type="checkbox" className="mt-1 w-5 h-5 rounded border-zinc-300 text-blue-600 focus:ring-blue-500 cursor-pointer" required disabled={isLoading}/>
-                                    <span className="text-sm text-zinc-500 font-medium leading-relaxed group-hover:text-zinc-700 transition-colors">
+                                    <input type="checkbox" className="mt-1 w-4 h-4 rounded-[4px] border-[#DADCE0] text-[#1A73E8] focus:ring-[#1A73E8] cursor-pointer" required disabled={isLoading}/>
+                                    <span className="text-[14px] text-[#5F6368] leading-relaxed group-hover:text-[#1F1F1F] transition-colors">
                                         I confirm that the provided information is accurate. I understand this is a performance-based partnership and agree to follow Aptro's ethical marketing guidelines.
                                     </span>
                                 </label>
@@ -408,7 +437,7 @@ export default function JoinPage() {
                             <button 
                                 type="submit" 
                                 disabled={isLoading}
-                                className={`w-full py-4 bg-zinc-950 hover:bg-zinc-800 text-white rounded-full font-bold text-base transition-all duration-300 flex justify-center items-center shadow-[0_0_30px_-5px_rgba(0,0,0,0.3)] active:scale-[0.98] ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                                className={`w-full py-3 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors flex justify-center items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
                             >
                                 {isLoading ? (
                                     <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -423,20 +452,20 @@ export default function JoinPage() {
             </section>
 
             {/* --- FAQS --- */}
-            <section className="max-w-[700px] mx-auto px-6 py-24 relative z-10">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-zinc-950 tracking-tight">Frequently Asked Questions</h2>
+            <section className="max-w-[700px] mx-auto px-6 py-16 relative z-10">
+                <div className="text-center mb-10">
+                    <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F]">Frequently Asked Questions</h2>
                 </div>
-                <div className="border-t border-zinc-200/80">
+                <div className="border-t border-[#DADCE0]">
                     {faqs.map((faq, idx) => (
-                        <div key={idx} className="border-b border-zinc-200/80">
+                        <div key={idx} className="border-b border-[#DADCE0]">
                             <button
                                 onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                                className="w-full py-6 text-left flex justify-between items-center focus:outline-none group"
+                                className="w-full py-5 text-left flex justify-between items-center focus:outline-none group"
                             >
-                                <span className="text-lg font-bold text-zinc-950 group-hover:text-blue-600 transition-colors">{faq.q}</span>
+                                <span className="text-[16px] font-medium text-[#1F1F1F] group-hover:text-[#1A73E8] transition-colors">{faq.q}</span>
                                 <ChevronDown 
-                                    className={`text-zinc-400 transition-transform duration-300 ${openFaq === idx ? 'rotate-180 text-blue-600' : 'group-hover:text-blue-600'}`} 
+                                    className={`text-[#5F6368] transition-transform duration-300 ${openFaq === idx ? 'rotate-180 text-[#1A73E8]' : 'group-hover:text-[#1A73E8]'}`} 
                                     size={20} 
                                 />
                             </button>
@@ -446,10 +475,10 @@ export default function JoinPage() {
                                         initial={{ height: 0, opacity: 0 }}
                                         animate={{ height: "auto", opacity: 1 }}
                                         exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3, ease: premiumEasing }}
+                                        transition={{ duration: 0.3, ease: materialEasing }}
                                         className="overflow-hidden"
                                     >
-                                        <div className="pb-6 text-base text-zinc-500 font-medium leading-relaxed">
+                                        <div className="pb-6 text-[15px] text-[#5F6368] leading-relaxed">
                                             {faq.a}
                                         </div>
                                     </motion.div>

@@ -6,17 +6,17 @@ import {
   FileText, 
   BarChart3, 
   ShieldCheck, 
-  Zap, 
-  Globe,
-  ArrowUpRight
+  Smartphone, 
+  Globe
 } from "lucide-react";
 import { Easing, motion, Variants, useScroll, useTransform } from "framer-motion";
 
-const premiumEasing: Easing = [0.22, 1, 0.36, 1];
+// Material Design standard easing
+const materialEasing: Easing = [0.2, 0, 0, 1];
 
 const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: premiumEasing } }
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
 };
 
 export default function Features() {
@@ -30,93 +30,58 @@ export default function Features() {
   // Map the scroll progress to the width of the progress bar
   const progressBarWidth = useTransform(scrollXProgress, [0, 1], ["0%", "100%"]);
 
+  // Features rewritten in very simple English
   const features = [
     {
-      title: "Track Your Orders",
-      desc: "Know exactly where every order is. From the moment a customer buys to the moment it's delivered, you will never lose track of a sale.",
-      icon: <ShoppingCart size={20} />,
-      visual: (
-        <div className="absolute right-0 bottom-0 p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0 hidden sm:block">
-          <div className="flex gap-2 bg-white p-3 rounded-xl shadow-lg border border-zinc-100">
-            <div className="w-2 h-2 mt-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <div>
-              <div className="w-20 h-2 bg-zinc-200 rounded-full mb-2" />
-              <div className="w-12 h-2 bg-zinc-100 rounded-full" />
-            </div>
-          </div>
-        </div>
-      )
+      title: "Track Every Order",
+      desc: "See exactly where your customer's order is. From buying to delivery, you will never lose a sale record.",
+      icon: <ShoppingCart size={24} />,
     },
     {
-      title: "Easy Invoicing",
-      desc: "Create clear, professional bills for your customers in seconds. Send them quickly and get paid faster without the headache.",
-      icon: <FileText size={20} />,
-      visual: null
+      title: "Make Quick Bills",
+      desc: "Make clean bills in seconds. Send them to your customers quickly and get paid faster without any confusion.",
+      icon: <FileText size={24} />,
     },
     {
-      title: "Simple Reports",
-      desc: "See how much money you are making at a glance. Easy-to-read charts help you understand your daily, monthly, and yearly profits.",
-      icon: <BarChart3 size={20} />,
-      visual: null
+      title: "See Your Profits",
+      desc: "Check how much money you are making today, this month, or this year with simple charts that are easy to read.",
+      icon: <BarChart3 size={24} />,
     },
     {
-      title: "Safe & Secure",
-      desc: "Your business data is locked tight. We use bank-level security and automatically save your work so your numbers are never lost.",
-      icon: <ShieldCheck size={20} />,
-      visual: (
-        <div className="absolute right-8 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 translate-y-4 group-hover:translate-y-0 hidden sm:block">
-          <div className="w-32 h-24 bg-gradient-to-t from-blue-50 to-white rounded-t-2xl border border-b-0 border-blue-100 shadow-sm flex flex-col justify-end p-4">
-             <div className="w-full h-8 bg-blue-100/50 rounded-lg flex items-center justify-center">
-                <ShieldCheck size={14} className="text-blue-500" />
-             </div>
-          </div>
-        </div>
-      )
+      title: "Safe and Secure",
+      desc: "Your data is locked and safe. We save your work automatically so you never lose your numbers or bills.",
+      icon: <ShieldCheck size={24} />,
     },
     {
-      title: "Works Everywhere",
-      desc: "Use the app on your mobile phone or computer. Everything updates instantly across all your devices, even if the internet drops.",
-      icon: <Zap size={20} />,
-      visual: (
-        <div className="absolute right-8 top-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500 -translate-x-4 group-hover:translate-x-0 hidden sm:block">
-          <div className="flex items-center gap-3 bg-zinc-950 text-white py-2 px-4 rounded-full shadow-xl">
-             <Zap size={14} className="text-amber-400" />
-             <span className="text-[10px] font-medium tracking-wide">Syncing...</span>
-          </div>
-        </div>
-      )
+      title: "Works on Phone & PC",
+      desc: "Use the app on your mobile phone or computer. Everything updates fast, even if your internet is slow.",
+      icon: <Smartphone size={24} />,
     },
     {
-      title: "Sell Anywhere",
-      desc: "Ready to grow? Accept payments in different currencies and manage taxes easily, no matter where your customers live.",
-      icon: <Globe size={20} />,
-      visual: null
+      title: "Grow Your Shop",
+      desc: "Add different taxes easily and sell your items to anyone, anywhere without doing hard math.",
+      icon: <Globe size={24} />,
     },
   ];
 
   return (
-    <section id="features" className="relative py-32 overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-[20%] right-[-10%] w-[50%] h-[50%] bg-blue-50 blur-[120px] rounded-full pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <section id="features" className="relative py-24 bg-[#F8F9FA] overflow-hidden">
+      
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Header Section */}
         <motion.div 
           initial="hidden"
           whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
-          className="mb-16 text-left max-w-2xl"
+          viewport={{ once: true, margin: "-50px" }}
+          className="mb-12 text-left max-w-2xl"
         >
-          <motion.h2 variants={fadeUpItem} className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-6 text-zinc-950">
-            Built for <br/> 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-400 italic pr-2">
-              everyday business.
-            </span>
+          <motion.h2 variants={fadeUpItem} className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight mb-4 text-[#1F1F1F]">
+            Easy tools for your <span className="text-[#1A73E8]">daily work.</span>
           </motion.h2>
           
-          <motion.p variants={fadeUpItem} className="text-lg text-zinc-500 leading-relaxed font-medium">
-            Aptro gives you everything you need to manage your daily tasks easily, so you can spend less time on paperwork and more time growing your business.
+          <motion.p variants={fadeUpItem} className="text-[16px] md:text-[18px] text-[#444746] leading-relaxed">
+            Aptro gives you simple tools to run your shop. Spend less time writing on paper and more time with your customers.
           </motion.p>
         </motion.div>
       </div>
@@ -125,54 +90,47 @@ export default function Features() {
       <div className="relative w-full">
         <div 
           ref={scrollRef}
-          className="flex overflow-x-auto gap-6 px-6 pb-12 pt-4 snap-x snap-mandatory hide-scrollbar"
+          className="flex overflow-x-auto gap-6 px-6 pb-8 pt-4 snap-x snap-mandatory hide-scrollbar"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {/* Invisible spacer to align the first item with the container grid */}
-          <div className="w-[max(0px,calc((100vw-80rem)/2))] shrink-0 hidden xl:block" />
+          <div className="w-[max(0px,calc((100vw-1280px)/2))] shrink-0 hidden xl:block" />
 
           {features.map((f, i) => (
             <motion.div 
               key={i} 
-              initial={{ opacity: 0, x: 50 }}
+              initial={{ opacity: 0, x: 24 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: premiumEasing }}
-              className="group relative w-[85vw] sm:w-[400px] md:w-[450px] shrink-0 snap-center p-8 md:p-10 bg-white border border-zinc-200/80 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_-4px_rgba(37,99,235,0.08)] hover:border-blue-200 flex flex-col min-h-[320px]"
+              transition={{ duration: 0.5, delay: i * 0.05, ease: materialEasing }}
+              className="relative w-[85vw] sm:w-[320px] md:w-[360px] shrink-0 snap-center p-8 bg-white border border-[#DADCE0] rounded-[24px] overflow-hidden transition-shadow duration-300 hover:shadow-md flex flex-col min-h-[280px]"
             >
-              {/* Subtle Gradient Hover Background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-50/0 to-sky-50/0 group-hover:from-blue-50/50 group-hover:to-sky-50/50 transition-colors duration-500 -z-10" />
-              
-              {/* Icon Container */}
-              <div className="mb-8 inline-flex w-12 h-12 items-center justify-center rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-600 shadow-sm transition-all duration-500 group-hover:-translate-y-1 group-hover:bg-blue-600 group-hover:text-white group-hover:shadow-blue-500/25 group-hover:border-blue-500 relative z-10">
+              {/* Icon Container - Google Style Circular Container */}
+              <div className="mb-6 inline-flex w-14 h-14 items-center justify-center rounded-full bg-[#E8F0FE] text-[#1A73E8]">
                 {f.icon}
               </div>
               
               <div className="relative z-10 mt-auto">
-                <h3 className="text-xl font-bold mb-3 tracking-tight text-zinc-950 flex items-center justify-between">
+                <h3 className="text-[20px] font-medium mb-3 text-[#1F1F1F]">
                   {f.title}
-                  <ArrowUpRight size={18} className="text-zinc-300 opacity-0 -translate-x-2 translate-y-2 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 group-hover:text-blue-500" />
                 </h3>
                 
-                <p className="text-zinc-500 leading-relaxed text-sm">
+                <p className="text-[#444746] leading-relaxed text-[15px]">
                   {f.desc}
                 </p>
               </div>
-
-              {/* Abstract Visual Injections */}
-              {f.visual}
             </motion.div>
           ))}
           
           {/* Invisible spacer for padding at the end of the scroll */}
-          <div className="w-6 shrink-0 xl:w-[max(0px,calc((100vw-80rem)/2))] block" />
+          <div className="w-6 shrink-0 xl:w-[max(0px,calc((100vw-1280px)/2))] block" />
         </div>
 
-        {/* Scroll Progress Bar Indicator */}
-        <div className="max-w-7xl mx-auto px-6 mt-4">
-          <div className="w-full h-1 bg-zinc-200 rounded-full overflow-hidden">
+        {/* Scroll Progress Bar Indicator - Flat Google Style */}
+        <div className="max-w-[1280px] mx-auto px-6 mt-2">
+          <div className="w-full h-1.5 bg-[#E1E3E1] rounded-full overflow-hidden">
             <motion.div 
-              className="h-full bg-blue-500 rounded-full"
+              className="h-full bg-[#1A73E8] rounded-full"
               style={{ width: progressBarWidth }}
             />
           </div>

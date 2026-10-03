@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants, Easing } from "framer-motion";
 import { 
     Wallet, 
     RefreshCcw, 
@@ -10,32 +10,35 @@ import {
     Users,
     Building2,
     CalendarCheck,
-    ArrowUpRight
+    ArrowUpRight,
+    Sparkles
 } from "lucide-react";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import Link from "next/link";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
 
-const appleEase = [0.16, 1, 0.3, 1] as const;
+// Google Material Design Standard Easing
+const materialEasing: Easing = [0.2, 0, 0, 1];
 
-const staggerContainer = {
+const staggerContainer: Variants = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
-        transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+        transition: { staggerChildren: 0.05, delayChildren: 0.1 }
     }
 };
 
-const fadeUpItem = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: appleEase } }
+const fadeUpItem: Variants = {
+    hidden: { opacity: 0, y: 16 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
 };
 
+// Adapted to Google's Tonal Palettes
 const commissionTiers = [
-    { plan: "₹99 Plan", activation: "₹50", recurring: "₹10", color: "text-blue-600", bg: "bg-blue-50" },
-    { plan: "₹199 Plan", activation: "₹100", recurring: "₹20", color: "text-indigo-600", bg: "bg-indigo-50" },
-    { plan: "₹249 Plan", activation: "₹150", recurring: "₹50", color: "text-purple-600", bg: "bg-purple-50" },
+    { plan: "₹99 Plan", activation: "₹50", recurring: "₹10", textBase: "text-[#1967D2]", bgBase: "bg-[#E8F0FE]" },
+    { plan: "₹199 Plan", activation: "₹100", recurring: "₹20", textBase: "text-[#0D652D]", bgBase: "bg-[#E6F4EA]" },
+    { plan: "₹249 Plan", activation: "₹150", recurring: "₹50", textBase: "text-[#681DA8]", bgBase: "bg-[#F3E8FD]" },
 ];
 
 const exampleTimeline = [
@@ -56,61 +59,53 @@ const terms = [
 
 export default function HowItWorksPage() {
     return (
-        <main className={`min-h-screen bg-white pt-24 pb-20 selection:bg-[#0071E3] selection:text-white ${jakarta.className}`}>
+        <main className={`min-h-screen bg-[#F8F9FA] pt-24 pb-24 text-[#202124] selection:bg-[#D3E3FD] selection:text-[#041E49] ${jakarta.className}`}>
             
-            {/* Background Layer */}
-            <div className="fixed inset-0 pointer-events-none -z-10 bg-[#FAFAFA]">
-                <div className="absolute inset-0 bg-gradient-to-b from-white via-white/80 to-[#FAFAFA]" />
-                <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-[#0071E3]/5 blur-[140px] rounded-full mix-blend-screen" />
-            </div>
-
-            <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="max-w-[1200px] mx-auto px-6 lg:px-8 relative z-10">
                 
-                {/* --- HERO SECTION (Updated with Image) --- */}
-                <section className="pt-16 mb-32 grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                {/* --- HERO SECTION --- */}
+                <section className="pt-8 md:pt-16 mb-24 md:mb-32 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
                     <motion.div 
                         variants={staggerContainer}
                         initial="hidden"
                         animate="show"
                         className="max-w-2xl text-left"
                     >
-                        <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50/80 backdrop-blur-md text-[#0071E3] text-xs font-semibold tracking-wide uppercase border border-blue-100/60 mb-6 shadow-sm">
+                        <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium border border-[#D2E3FC] mb-6">
+                            <Sparkles size={16} className="text-[#1A73E8]" />
                             Student Business Partner Program
                         </motion.div>
                         
-                        <motion.h1 variants={fadeUpItem} className="text-4xl md:text-6xl lg:text-[72px] font-bold tracking-tight text-[#1D1D1F] mb-6 leading-[1.05]">
+                        <motion.h1 variants={fadeUpItem} className="text-4xl sm:text-5xl lg:text-[4rem] font-normal tracking-tight text-[#1F1F1F] mb-6 leading-[1.15]">
                             Final Commission <br />
-                            <span className="text-[#86868B]">Structure.</span>
+                            <span className="text-[#1A73E8]">Structure.</span>
                         </motion.h1>
                         
-                        <motion.p variants={fadeUpItem} className="text-[19px] md:text-[21px] text-[#1D1D1F] font-medium leading-relaxed max-w-xl">
+                        <motion.p variants={fadeUpItem} className="text-[16px] md:text-[18px] text-[#5F6368] leading-relaxed max-w-xl">
                             The Aptro Student Business Partner Program rewards students for introducing new businesses to Aptro and encouraging long-term usage.
                         </motion.p>
                     </motion.div>
 
-                    {/* Hero Image */}
+                    {/* Hero Image - Material Card Style */}
                     <motion.div 
-                        initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ duration: 1, ease: appleEase }}
-                        className="relative w-full aspect-[4/3] lg:aspect-square max-h-[500px] rounded-[32px] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-[#D2D2D7]/50"
+                        initial={{ opacity: 0, x: 24 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, ease: materialEasing }}
+                        className="relative w-full aspect-[4/3] lg:aspect-square max-h-[480px] rounded-[32px] overflow-hidden bg-white border border-[#DADCE0] shadow-sm"
                     >
-                        {/* Using standard img tag with Unsplash for immediate rendering. Replace src with your local image if needed. */}
                         <img 
                             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop" 
                             alt="Students and Business Partners collaborating"
                             className="w-full h-full object-cover"
                         />
-                        {/* Subtle inner overlay for depth */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-black/10 via-transparent to-transparent pointer-events-none" />
                     </motion.div>
                 </section>
 
-                {/* --- COMMISSION STRUCTURE (Unified Cards) --- */}
-                <section className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1D1D1F] mb-4">How You Earn</h2>
-                        <p className="text-[19px] text-[#86868B] font-medium max-w-2xl mx-auto">
+                {/* --- COMMISSION STRUCTURE --- */}
+                <section className="mb-24 md:mb-32">
+                    <div className="text-center mb-12">
+                        <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-4">How You Earn</h2>
+                        <p className="text-[16px] text-[#5F6368] max-w-2xl mx-auto">
                             Earn a one-time activation commission when a business purchases its first paid plan, and continue earning a small recurring commission on future renewals.
                         </p>
                     </div>
@@ -119,39 +114,39 @@ export default function HowItWorksPage() {
                         variants={staggerContainer}
                         initial="hidden"
                         whileInView="show"
-                        viewport={{ once: true, margin: "-100px" }}
+                        viewport={{ once: true, margin: "-50px" }}
                         className="grid md:grid-cols-3 gap-6"
                     >
                         {commissionTiers.map((tier, idx) => (
                             <motion.div 
                                 key={idx}
                                 variants={fadeUpItem}
-                                className="bg-white rounded-[24px] p-8 border border-[#D2D2D7]/60 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] transition-shadow duration-500"
+                                className="bg-white rounded-[24px] p-8 border border-[#DADCE0] shadow-sm hover:shadow-md transition-shadow duration-300"
                             >
-                                <div className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-zinc-100 text-[#1D1D1F] font-bold text-sm tracking-wide mb-8">
+                                <div className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full ${tier.bgBase} ${tier.textBase} text-[13px] font-medium mb-8`}>
                                     {tier.plan}
                                 </div>
                                 
-                                <div className="space-y-8">
+                                <div className="space-y-6">
                                     <div>
-                                        <p className="text-[13px] font-semibold text-[#86868B] uppercase tracking-wider mb-2 flex items-center gap-2">
-                                            <Wallet size={14} /> One-Time Activation
+                                        <p className="text-[12px] font-medium text-[#5F6368] uppercase tracking-wider mb-2 flex items-center gap-2">
+                                            <Wallet size={16} /> One-Time Activation
                                         </p>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-4xl font-bold tracking-tight text-[#1D1D1F]">{tier.activation}</span>
-                                            <span className="text-[15px] font-medium text-[#86868B]">/ first sale</span>
+                                            <span className="text-3xl font-normal text-[#1F1F1F]">{tier.activation}</span>
+                                            <span className="text-[14px] text-[#5F6368]">/ first sale</span>
                                         </div>
                                     </div>
 
-                                    <div className="w-full h-px bg-[#D2D2D7]/50" />
+                                    <div className="w-full h-px bg-[#DADCE0]" />
 
                                     <div>
-                                        <p className="text-[13px] font-semibold text-[#86868B] uppercase tracking-wider mb-2 flex items-center gap-2">
-                                            <RefreshCcw size={14} /> Recurring (Renewals)
+                                        <p className="text-[12px] font-medium text-[#5F6368] uppercase tracking-wider mb-2 flex items-center gap-2">
+                                            <RefreshCcw size={16} /> Recurring (Renewals)
                                         </p>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-3xl font-bold tracking-tight text-[#0071E3]">{tier.recurring}</span>
-                                            <span className="text-[15px] font-medium text-[#86868B]">/ renewal</span>
+                                            <span className="text-3xl font-normal text-[#1A73E8]">{tier.recurring}</span>
+                                            <span className="text-[14px] text-[#5F6368]">/ renewal</span>
                                         </div>
                                     </div>
                                 </div>
@@ -159,23 +154,28 @@ export default function HowItWorksPage() {
                         ))}
                     </motion.div>
                     
-                    <p className="text-center text-sm font-medium text-[#86868B] mt-8 flex items-center justify-center gap-2">
-                        <ShieldCheck size={16} /> Recurring commission is credited only for payments made by businesses originally referred by you.
-                    </p>
+                    <div className="mt-8 flex justify-center">
+                        <div className="inline-flex items-center gap-2 px-4 py-3 bg-[#F1F3F4] rounded-[12px] border border-[#DADCE0]">
+                            <ShieldCheck size={18} className="text-[#5F6368]" /> 
+                            <span className="text-[13px] font-medium text-[#444746]">
+                                Recurring commission is credited only for payments made by businesses originally referred by you.
+                            </span>
+                        </div>
+                    </div>
                 </section>
 
                 {/* --- EARNING EXAMPLE (Timeline) --- */}
-                <section className="mb-32">
+                <section className="mb-24 md:mb-32">
                     <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.8, ease: appleEase }}
-                        className="bg-[#F5F5F7] rounded-[32px] p-10 md:p-16 border border-[#D2D2D7]/40"
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, ease: materialEasing }}
+                        className="bg-white rounded-[32px] p-8 md:p-14 border border-[#DADCE0] shadow-sm"
                     >
                         <div className="max-w-2xl mb-12">
-                            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1D1D1F] mb-4">See it in action.</h2>
-                            <p className="text-[19px] text-[#86868B] font-medium">
+                            <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">See it in action.</h2>
+                            <p className="text-[16px] text-[#5F6368]">
                                 A student refers a business using their referral code. Here is how their earnings compound over time.
                             </p>
                         </div>
@@ -184,75 +184,75 @@ export default function HowItWorksPage() {
                             {exampleTimeline.map((item, idx) => {
                                 const Icon = item.icon;
                                 return (
-                                    <div key={idx} className="bg-white rounded-[20px] p-6 border border-[#D2D2D7]/60 shadow-sm relative overflow-hidden group">
-                                        <div className="w-10 h-10 rounded-full bg-[#F5F5F7] text-[#1D1D1F] flex items-center justify-center mb-6 group-hover:bg-[#0071E3] group-hover:text-white transition-colors">
-                                            <Icon size={18} />
+                                    <div key={idx} className="bg-[#F8F9FA] rounded-[24px] p-6 border border-[#DADCE0] hover:border-[#BDC1C6] transition-colors group">
+                                        <div className="w-12 h-12 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center mb-5">
+                                            <Icon size={20} />
                                         </div>
-                                        <span className="text-xs font-bold uppercase tracking-widest text-[#86868B] block mb-2">{item.step}</span>
-                                        <p className="text-[15px] text-[#1D1D1F] font-medium mb-6 leading-snug">{item.action}</p>
+                                        <span className="text-[11px] font-medium uppercase tracking-wider text-[#5F6368] block mb-2">{item.step}</span>
+                                        <p className="text-[14px] text-[#202124] leading-relaxed mb-6">{item.action}</p>
                                         
-                                        <div className="mt-auto pt-4 border-t border-[#D2D2D7]/50">
-                                            <p className="text-[13px] text-[#86868B] font-medium mb-1">Student earns</p>
-                                            <p className="text-2xl font-bold text-[#0071E3]">{item.earn}</p>
+                                        <div className="mt-auto pt-4 border-t border-[#DADCE0]">
+                                            <p className="text-[12px] text-[#5F6368] mb-1">Student earns</p>
+                                            <p className="text-[24px] font-normal text-[#1A73E8]">{item.earn}</p>
                                         </div>
                                     </div>
                                 )
                             })}
                         </div>
                         
-                        <div className="mt-10 inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-white border border-[#D2D2D7]/60 shadow-sm text-[15px] font-medium text-[#1D1D1F]">
-                            <TrendingUp size={18} className="text-[#0071E3]" />
+                        <div className="mt-8 flex items-center gap-3 px-5 py-4 rounded-[16px] bg-[#E8F0FE] border border-[#D2E3FC] text-[14px] font-medium text-[#041E49]">
+                            <TrendingUp size={20} className="text-[#1A73E8] shrink-0" />
                             You continue earning as long as the referred business remains active.
                         </div>
                     </motion.div>
                 </section>
 
                 {/* --- WHY THIS MODEL WORKS (Bento) --- */}
-                <section className="mb-32">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-[#1D1D1F] mb-4">Why This Model Works</h2>
+                <section className="mb-24 md:mb-32">
+                    <div className="text-center mb-12">
+                        <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-4">Why This Model Works</h2>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-6">
                         {/* For Students */}
                         <motion.div 
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: appleEase }}
-                            className="bg-white rounded-[32px] p-10 border border-[#D2D2D7]/60 shadow-sm"
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, ease: materialEasing }}
+                            className="bg-white rounded-[24px] p-8 md:p-12 border border-[#DADCE0] shadow-sm"
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#0071E3] flex items-center justify-center mb-8">
+                            <div className="w-12 h-12 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center mb-6">
                                 <Users size={24} />
                             </div>
-                            <h3 className="text-2xl font-bold text-[#1D1D1F] mb-6">For Students</h3>
+                            <h3 className="text-[24px] font-normal text-[#1F1F1F] mb-6">For Students</h3>
                             <ul className="space-y-4">
                                 {["High earnings for every new business.", "Recurring income from active customers.", "Motivation to support businesses after onboarding.", "Unlimited earning potential."].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3">
-                                        <CheckCircle2 size={20} className="text-[#0071E3] shrink-0 mt-0.5" />
-                                        <span className="text-[17px] font-medium text-[#1D1D1F]">{item}</span>
+                                        <CheckCircle2 size={20} className="text-[#1E8E3E] shrink-0 mt-0.5" />
+                                        <span className="text-[15px] text-[#444746] leading-relaxed">{item}</span>
                                     </li>
                                 ))}
                             </ul>
                         </motion.div>
 
-                        {/* For Aptro */}
+                        {/* For Aptro - Google Tonal Color Instead of Dark Mode */}
                         <motion.div 
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, ease: appleEase, delay: 0.1 }}
-                            className="bg-[#1D1D1F] rounded-[32px] p-10 shadow-sm text-white"
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.5, ease: materialEasing, delay: 0.1 }}
+                            className="bg-[#E8F0FE] rounded-[24px] p-8 md:p-12 border border-[#D2E3FC]"
                         >
-                            <div className="w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center mb-8">
+                            <div className="w-12 h-12 rounded-full bg-white text-[#1967D2] flex items-center justify-center mb-6">
                                 <Building2 size={24} />
                             </div>
-                            <h3 className="text-2xl font-bold text-white mb-6">For Aptro</h3>
+                            <h3 className="text-[24px] font-normal text-[#041E49] mb-6">For Aptro</h3>
                             <ul className="space-y-4">
                                 {["Encourages students to acquire and retain customers.", "Increases customer lifetime value.", "Builds a scalable, performance-based sales network.", "Keeps customer acquisition costs predictable."].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3">
-                                        <CheckCircle2 size={20} className="text-white/40 shrink-0 mt-0.5" />
-                                        <span className="text-[17px] font-medium text-white/90">{item}</span>
+                                        <CheckCircle2 size={20} className="text-[#1A73E8] shrink-0 mt-0.5" />
+                                        <span className="text-[15px] text-[#041E49] leading-relaxed">{item}</span>
                                     </li>
                                 ))}
                             </ul>
@@ -261,53 +261,55 @@ export default function HowItWorksPage() {
                 </section>
 
                 {/* --- TERMS & CONDITIONS --- */}
-                <section className="mb-32">
+                <section className="mb-24 md:mb-32">
                     <motion.div 
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, ease: appleEase }}
-                        className="bg-white rounded-[32px] p-10 md:p-16 border border-[#D2D2D7]/60 shadow-sm"
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, ease: materialEasing }}
+                        className="bg-white rounded-[24px] p-8 md:p-12 border border-[#DADCE0] shadow-sm"
                     >
-                        <h2 className="text-2xl font-bold tracking-tight text-[#1D1D1F] mb-8 flex items-center gap-3">
-                            <CalendarCheck size={24} className="text-[#86868B]" /> Terms & Conditions
+                        <h2 className="text-[22px] font-medium text-[#1F1F1F] mb-8 flex items-center gap-3">
+                            <CalendarCheck size={24} className="text-[#1A73E8]" /> Terms & Conditions
                         </h2>
                         
                         <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
                             {terms.map((term, idx) => (
                                 <div key={idx} className="flex items-start gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-[#0071E3] shrink-0 mt-2.5" />
-                                    <p className="text-[15px] text-[#86868B] font-medium leading-relaxed">{term}</p>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-[#1A73E8] shrink-0 mt-2" />
+                                    <p className="text-[14px] text-[#5F6368] leading-relaxed">{term}</p>
                                 </div>
                             ))}
                         </div>
                     </motion.div>
                 </section>
 
-                {/* --- CTA SECTION --- */}
+                {/* --- CTA SECTION (Material Card) --- */}
                 <section className="w-full pb-10">
                     <motion.div 
-                        initial={{ opacity: 0, y: 40 }}
+                        initial={{ opacity: 0, y: 24 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 1, ease: appleEase }}
-                        className="relative px-8 py-20 lg:p-24 rounded-[32px] overflow-hidden bg-[#1D1D1F] text-center shadow-2xl"
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ duration: 0.5, ease: materialEasing }}
+                        className="relative px-8 py-16 lg:p-20 rounded-[32px] bg-white border border-[#DADCE0] shadow-sm text-center"
                     >
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[300px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#0071E3]/30 via-transparent to-transparent blur-[80px] pointer-events-none" />
-
                         <div className="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
-                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 tracking-tight text-white leading-tight">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal mb-4 text-[#1F1F1F] leading-tight">
                                 Grow Your Network. <br />
                                 Support Local Businesses. <br />
-                                <span className="text-[#86868B]">Earn Every Time They Grow.</span>
+                                <span className="text-[#1A73E8]">Earn Every Time They Grow.</span>
                             </h2>
                             
+                            <p className="text-[#5F6368] text-[16px] mb-8">
+                                Start your journey as an Aptro Student Business Partner today.
+                            </p>
+
                             <Link
                                 href="/join"
-                                className="px-8 py-4 bg-[#0071E3] text-white rounded-full font-medium text-[17px] transition-all duration-300 hover:scale-[0.98] hover:bg-[#0077ED] flex items-center justify-center gap-2 group shadow-lg shadow-blue-500/20"
+                                className="px-8 py-3.5 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors flex items-center justify-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
                             >
                                 Apply Now
-                                <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-300" />
+                                <ArrowUpRight size={18} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                             </Link>
                         </div>
                     </motion.div>

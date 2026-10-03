@@ -6,26 +6,27 @@ import Link from "next/link";
 import Image from "next/image";
 import { Easing, motion, Variants } from "framer-motion";
 
-const premiumEasing: Easing = [0.22, 1, 0.36, 1];
+// Material Design standard easing (Standard Curve)
+const materialEasing: Easing = [0.2, 0, 0, 1];
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 }
+    transition: { staggerChildren: 0.05, delayChildren: 0.1 }
   }
 };
 
 const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: premiumEasing } }
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
 };
 
 const floatAnimation: Variants = {
   animate: {
-    y: [0, -10, 0],
+    y: [0, -8, 0],
     transition: {
-      duration: 4,
+      duration: 5,
       repeat: Infinity,
       ease: "easeInOut"
     }
@@ -34,11 +35,9 @@ const floatAnimation: Variants = {
 
 export default function Hero() {
   return (
-    <section className="relative pt-4 pb-32 overflow-hidden text-zinc-950 flex flex-col items-center justify-center min-h-[90vh]">
-      {/* Ambient Background Blur */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-50/80 via-transparent to-transparent blur-3xl pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
+    <section className="relative pt-8 pb-32 overflow-hidden bg-[#F8F9FA] flex flex-col items-center justify-center min-h-[90vh]">
+      
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10 w-full">
         
         {/* Grid Layout: Left (Text) & Right (Phone Image) */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
@@ -50,75 +49,69 @@ export default function Hero() {
             animate="show"
             className="flex flex-col items-start text-left max-w-2xl pt-10 lg:pt-0"
           >
-            {/* Status Badge */}
+            {/* Status Badge - Material Chip Style */}
             <motion.div variants={fadeUpItem} className="mb-6 flex justify-start">
-              <span className="px-3 py-1.5 text-xs font-semibold bg-blue-50 text-blue-600 rounded-full border border-blue-100 uppercase tracking-widest flex items-center gap-2 shadow-sm transition-colors hover:bg-blue-100/80 cursor-default">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-                </span>
+              <span className="px-4 py-1.5 text-[13px] font-medium bg-[#E8F0FE] text-[#1967D2] rounded-full border border-[#D2E3FC] flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-[#1E8E3E]"></span>
                 Aptro App Live
               </span>
             </motion.div>
 
-            {/* Typography */}
-            <motion.h1 variants={fadeUpItem} className="text-5xl sm:text-6xl md:text-7xl font-bold tracking-tighter mb-6 leading-[1.05] text-zinc-950">
+            {/* Typography - Cleaner, less aggressive weight */}
+            <motion.h1 variants={fadeUpItem} className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight mb-6 leading-[1.1] text-[#1F1F1F]">
               Manage your <br />
-              <span className="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent italic pr-2 pb-2">
+              <span className="text-[#1A73E8]">
                 entire business.
               </span>
             </motion.h1>
 
-            <motion.p variants={fadeUpItem} className="text-lg md:text-xl text-zinc-500 leading-relaxed max-w-lg mb-10 font-medium">
+            <motion.p variants={fadeUpItem} className="text-[16px] md:text-[18px] text-[#444746] leading-relaxed max-w-lg mb-10">
               Your unified mobile command center. Track yearly revenue, manage stock, oversee payroll, and monitor upcoming deliveries—all from one intuitive interface.
             </motion.p>
 
-            {/* Action Buttons */}
+            {/* Action Buttons - Material Pill Buttons */}
             <motion.div variants={fadeUpItem} className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-14 z-20">
               <Link
                 href="/download"
-                className="group relative w-full sm:w-auto px-8 py-4 bg-zinc-950 text-white rounded-full font-medium text-sm hover:bg-zinc-800 transition-all active:scale-[0.98] flex items-center justify-center gap-2 shadow-[0_0_30px_-5px_rgba(37,99,235,0.3)] overflow-hidden"
+                className="group w-full sm:w-auto px-6 py-3 bg-[#1A73E8] text-white rounded-full font-medium text-[15px] hover:bg-[#1557B0] hover:shadow-md transition-all flex items-center justify-center gap-2"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  Get the App
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-300" />
-                </span>
+                Get the App
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
 
               <a
                 href="#demo"
-                className="group w-full sm:w-auto px-8 py-4 bg-white border border-zinc-200 rounded-full font-medium text-sm text-zinc-700 hover:text-zinc-950 hover:border-zinc-300 hover:shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                className="group w-full sm:w-auto px-6 py-3 bg-white border border-[#DADCE0] rounded-full font-medium text-[15px] text-[#1A73E8] hover:bg-[#F8F9FA] hover:border-[#1A73E8] transition-all flex items-center justify-center gap-2"
               >
-                <div className="w-6 h-6 rounded-full bg-zinc-100 group-hover:bg-blue-50 flex items-center justify-center transition-colors">
-                  <Play size={12} className="text-zinc-500 group-hover:text-blue-600 transition-colors ml-0.5" />
+                <div className="w-6 h-6 rounded-full bg-[#E8F0FE] flex items-center justify-center">
+                  <Play size={12} className="text-[#1A73E8] ml-0.5" />
                 </div>
                 See How It Works
               </a>
             </motion.div>
 
             {/* Social Proof / App Features */}
-            <motion.div variants={fadeUpItem} className="flex flex-wrap items-center gap-6 text-xs font-semibold uppercase tracking-widest text-zinc-400">
-              <span className="flex items-center gap-2"><TrendingUp size={16} className="text-zinc-300" /> Revenue Tracking</span>
-              <span className="flex items-center gap-2"><Package size={16} className="text-zinc-300" /> Stock Management</span>
-              <span className="flex items-center gap-2"><BarChart3 size={16} className="text-zinc-300" /> Live Reports</span>
+            <motion.div variants={fadeUpItem} className="flex flex-wrap items-center gap-6 text-[13px] font-medium text-[#5F6368]">
+              <span className="flex items-center gap-2"><TrendingUp size={18} className="text-[#1A73E8]" /> Revenue Tracking</span>
+              <span className="flex items-center gap-2"><Package size={18} className="text-[#1A73E8]" /> Stock Management</span>
+              <span className="flex items-center gap-2"><BarChart3 size={18} className="text-[#1A73E8]" /> Live Reports</span>
             </motion.div>
           </motion.div>
 
           {/* --- Right Side: Phone Image Display --- */}
           <motion.div
-            initial={{ opacity: 0, x: 40 }}
+            initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: premiumEasing, delay: 0.2 }}
+            transition={{ duration: 0.6, ease: materialEasing, delay: 0.1 }}
             className="relative w-full flex justify-center lg:justify-end mt-12 lg:mt-0"
           >
-            {/* Background glow behind phone */}
-            <div className="absolute top-1/2 left-1/2 lg:left-auto lg:right-10 -translate-x-1/2 lg:translate-x-0 -translate-y-1/2 w-[200px] h-[300px] bg-blue-500/20 blur-[80px] rounded-full pointer-events-none -z-10" />
+            {/* Soft Material Background Shape instead of heavy blur */}
+            <div className="absolute top-1/2 left-1/2 lg:left-auto lg:right-4 -translate-x-1/2 lg:translate-x-0 -translate-y-1/2 w-[280px] h-[400px] bg-[#E8F0FE] rounded-[40px] pointer-events-none -z-10" />
 
             <motion.div variants={floatAnimation} animate="animate" className="relative">
               
               {/* Phone Mockup Frame */}
-              <div className="relative w-[240px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-zinc-950 bg-zinc-950 shadow-[0_20px_80px_-20px_rgba(37,99,235,0.4)] overflow-hidden">
-                
+              <div className="relative w-[240px] sm:w-[300px] aspect-[9/19.5] rounded-[36px] border-[8px] border-[#202124] bg-[#202124] shadow-lg overflow-hidden">
                 <Image
                   src="/images/dashboard.png"
                   alt="Aptro Dashboard Interface"
@@ -128,19 +121,19 @@ export default function Hero() {
                 />
               </div>
 
-              {/* Floating Notification Element overlapping the phone */}
+              {/* Floating Notification Element - Material Card */}
               <motion.div
-                initial={{ opacity: 0, x: 20, scale: 0.9 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                transition={{ duration: 0.8, delay: 0.8, ease: premiumEasing }}
-                className="absolute -bottom-6 -left-6 sm:-left-12 z-20 p-4 rounded-2xl bg-white/95 backdrop-blur-md text-zinc-950 shadow-2xl flex items-center gap-4 border border-zinc-100"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.5, ease: materialEasing }}
+                className="absolute -bottom-6 -left-6 sm:-left-12 z-20 p-4 rounded-[16px] bg-white text-[#202124] shadow-md border border-[#DADCE0] flex items-center gap-4 min-w-[220px]"
               >
-                <div className="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100">
-                  <Truck size={18} />
+                <div className="w-10 h-10 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center">
+                  <Truck size={20} />
                 </div>
                 <div className="pr-2">
-                  <p className="text-sm font-bold mb-0.5 text-zinc-950">Order #18 Shipped</p>
-                  <p className="text-[11px] text-zinc-500 font-medium">Dwarkesh Creation • ₹472.50</p>
+                  <p className="text-[14px] font-medium mb-0.5 text-[#1F1F1F]">Order #18 Shipped</p>
+                  <p className="text-[12px] text-[#5F6368]">Dwarkesh Creation • ₹472.50</p>
                 </div>
               </motion.div>
               

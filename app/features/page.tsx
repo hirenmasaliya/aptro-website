@@ -8,99 +8,93 @@ import {
   BarChart3, Lock, Package, Calculator, ClipboardList,
   Wallet, Receipt, CheckSquare, Sparkles
 } from "lucide-react";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence, Variants, Easing } from "framer-motion";
 import Link from "next/link";
-import { Plus_Jakarta_Sans } from "next/font/google";
 
-const jakarta = Plus_Jakarta_Sans({ 
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Smooth continuous easing
-const appleEase = [0.16, 1, 0.3, 1] as const;
+// Material Design standard easing
+const materialEasing: Easing = [0.2, 0, 0, 1];
 
 const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: appleEase } }
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
 };
 
 const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.05 }
+    transition: { staggerChildren: 0.06, delayChildren: 0.05 }
   }
 };
 
-// Simplified, easy-to-understand text & Mobile Image Paths
+// Simple, clear English text
 const roleContent = {
   freelancer: {
-    badge: "Solo Worker",
-    title: "Perfect for independent workers.",
-    desc: "Everything you need to run your daily work easily, so you can spend less time on paperwork and more time earning.",
+    badge: "For Solo Workers",
+    title: "Made for independent workers.",
+    desc: "Everything you need to manage your daily tasks easily. Spend less time writing bills and more time doing your work.",
     spotlight: [
       {
-        title: "Easy Dashboard",
-        desc: "See your whole business at a glance. Manage your clients and track your ongoing projects without getting confused.",
-        icon: <BarChart3 className="w-5 h-5" />,
-        details: ["Live Daily Updates", "Track Project Progress", "Client Contact List"],
+        title: "Simple Dashboard",
+        desc: "See your whole work on one page. Check your clients and project updates without getting confused.",
+        icon: <BarChart3 className="w-6 h-6" />,
+        details: ["Daily work updates", "Track your project work", "Quick customer list"],
         image: "/images/dashboard.png",
       },
       {
-        title: "Quick Bills & Quotes",
-        desc: "Create professional bills for your customers in seconds. Send them quickly to get paid faster.",
-        icon: <Receipt className="w-5 h-5" />,
-        details: ["Make Quotes Instantly", "One-Click PDF Bills", "Easy Tax Setup"],
+        title: "Fast Bills & Estimates",
+        desc: "Create clean bills for your clients in seconds. Send them on WhatsApp or email to get paid on time.",
+        icon: <Receipt className="w-6 h-6" />,
+        details: ["Make price estimates", "Download bills as PDF", "Simple GST calculation"],
         image: "/images/invoice.png",
       },
       {
         title: "Track Your Money",
-        desc: "Keep a clear record of who paid you and who still owes you money, so nothing slips through the cracks.",
-        icon: <Wallet className="w-5 h-5" />,
-        details: ["Payment History", "Add Money In/Out", "See Total Balance"],
+        desc: "Always know who paid you and who still owes you money, so you never miss any payment.",
+        icon: <Wallet className="w-6 h-6" />,
+        details: ["Money in and out records", "Check pending dues", "Total balance overview"],
         image: "/images/payments.png",
       },
       {
-        title: "To-Do Lists & Notes",
-        desc: "Write down important notes and manage your daily tasks in one simple place on your phone.",
-        icon: <CheckSquare className="w-5 h-5" />,
-        details: ["Daily Task List", "Save Important Notes"],
+        title: "Daily Tasks & Notes",
+        desc: "Write down your to-do lists and important customer notes directly in your phone.",
+        icon: <CheckSquare className="w-6 h-6" />,
+        details: ["Simple daily task list", "Save quick notes"],
         image: "/images/tasks.png",
       }
     ]
   },
   business: {
-    badge: "Growing Business",
-    title: "Manage your entire shop or business.",
-    desc: "A complete mobile system to track your stock, manage your staff's salary, and automatically calculate your taxes.",
+    badge: "For Shop & Business Owners",
+    title: "Manage your entire shop or store.",
+    desc: "A complete mobile app to keep count of your stock, track staff work hours, and make tax time stress-free.",
     spotlight: [
       {
-        title: "Live Stock Tracking",
-        desc: "Always know what's in your shop. Get a quick alert on your phone when an item is running low so you never run out of stock.",
-        icon: <Package className="w-5 h-5" />,
-        details: ["Live Item Count", "Low Stock Alerts", "Easy Add/Remove"],
+        title: "Live Stock Count",
+        desc: "Always know what is on your shelves. Get an alert on your phone before items run out.",
+        icon: <Package className="w-6 h-6" />,
+        details: ["Real-time item count", "Low stock alerts", "Quick add & remove items"],
         image: "/images/stock.png",
       },
       {
-        title: "Customer & Supplier List",
-        desc: "Keep all your customer and supplier phone numbers and details safely in one place, backed up automatically.",
-        icon: <Users className="w-5 h-5" />,
-        details: ["Separate Buyers & Sellers", "Full History Backup"],
+        title: "Customer & Supplier Directory",
+        desc: "Keep all your customer and vendor contact numbers safely in one place with automatic backup.",
+        icon: <Users className="w-6 h-6" />,
+        details: ["Separate buyers and sellers", "Automatic data backup"],
         image: "/images/customer.png",
       },
       {
-        title: "Easy Tax & GST Reports",
-        desc: "Automatically calculate your taxes and generate GST-ready reports without the math headache.",
-        icon: <Calculator className="w-5 h-5" />,
-        details: ["Ready for GST", "Automatic Monthly Reports"],
+        title: "Easy GST & Tax Bills",
+        desc: "Let the app calculate GST and taxes automatically without any difficult math.",
+        icon: <Calculator className="w-6 h-6" />,
+        details: ["GST-ready bill format", "Monthly profit & tax summary"],
         image: "/images/gst.png",
       },
       {
-        title: "Staff Attendance & Salary",
-        desc: "Track your staff's daily attendance easily and let the app calculate their monthly salary automatically.",
-        icon: <ClipboardList className="w-5 h-5" />,
-        details: ["Daily Present/Absent", "Automatic Salary Math"],
+        title: "Staff Attendance & Pay",
+        desc: "Mark staff present or absent every morning and let the app calculate their monthly salary automatically.",
+        icon: <ClipboardList className="w-6 h-6" />,
+        details: ["Daily staff attendance", "Automatic salary calculation"],
         image: "/images/payroll.png",
       }
     ]
@@ -108,12 +102,12 @@ const roleContent = {
 };
 
 const commonFeatures = [
-  { title: "Safe & Secure", icon: <Lock size={18} />, desc: "Your data is locked with bank-level security so only you can access it." },
-  { title: "Works Everywhere", icon: <Smartphone size={18} />, desc: "Use it on your phone, tablet, or computer. Everything updates instantly." },
-  { title: "Multi-Currency", icon: <Globe size={18} />, desc: "Accept payments and track bills in different currencies easily." },
-  { title: "Easy Connections", icon: <Layers size={18} />, desc: "Connects smoothly with other tools you already use for your business." },
-  { title: "Instant Updates", icon: <Zap size={18} />, desc: "If you change something on your phone, it shows up on your computer instantly." },
-  { title: "24/7 Support", icon: <Briefcase size={18} />, desc: "Our team is always here to help you if you ever get stuck or need help." },
+  { title: "Safe & Private", icon: <Lock size={22} />, desc: "Your data is locked securely. Only you have the key to view your shop numbers." },
+  { title: "Works on Any Device", icon: <Smartphone size={22} />, desc: "Use Aptro on your phone, tablet, or laptop. Everything stays synced." },
+  { title: "Multi-Currency Ready", icon: <Globe size={22} />, desc: "Accept payments and create bills in different currencies with zero fuss." },
+  { title: "Easy Integrations", icon: <Layers size={22} />, desc: "Works smoothly with your favorite business tools and payment methods." },
+  { title: "Instant Cloud Sync", icon: <Zap size={22} />, desc: "Update a bill on your phone and it appears immediately on your desktop screen." },
+  { title: "Friendly Support", icon: <Briefcase size={22} />, desc: "Our helpful support team is ready whenever you have questions or need guidance." },
 ];
 
 export default function FeaturesPage() {
@@ -121,142 +115,153 @@ export default function FeaturesPage() {
   const activeContent = roleContent[role];
 
   return (
-    <main className={`min-h-screen pt-36 pb-32 text-zinc-950 font-sans selection:bg-blue-200 selection:text-blue-900 overflow-x-hidden relative tracking-tight ${jakarta.className}`}>
+    <main className="min-h-screen pt-24 pb-32 bg-[#F8F9FA] text-[#202124] font-sans selection:bg-[#D3E3FD] selection:text-[#041E49] relative">
 
-      {/* --- Ambient Background --- */}
-      <div className="fixed inset-0 pointer-events-none -z-10 bg-slate-50">
-        <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-slate-50/80 to-slate-50" />
-        <div className="absolute top-0 left-1/4 w-[50%] h-[40%] bg-blue-400/5 blur-[140px] rounded-full mix-blend-screen" />
-      </div>
+      <div className="max-w-[1280px] mx-auto px-6 relative z-10">
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-
-        {/* --- Header & Switcher --- */}
-        <section className="max-w-4xl mx-auto mb-20 flex flex-col items-center text-center">
+        {/* --- Header & Segmented Control --- */}
+        <section className="max-w-3xl mx-auto mb-20 flex flex-col items-center text-center">
           <motion.div
-            initial={{ opacity: 0, y: -10 }} 
+            initial={{ opacity: 0, y: -8 }} 
             animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.6, ease: appleEase }}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold tracking-wider uppercase border border-blue-100 mb-6 shadow-sm"
+            transition={{ duration: 0.4, ease: materialEasing }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium border border-[#D2E3FC] mb-6"
           >
-            <Sparkles size={12} className="text-blue-500" />
-            Capabilities
+            <Sparkles size={14} className="text-[#1A73E8]" />
+            What Aptro Does
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: appleEase, delay: 0.05 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tighter mb-8 leading-[1.05] text-zinc-950"
+            transition={{ duration: 0.5, ease: materialEasing, delay: 0.05 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight mb-6 leading-[1.1] text-[#1F1F1F]"
           >
-            Built for <br />
-            <span className="bg-gradient-to-r from-blue-600 to-sky-400 bg-clip-text text-transparent italic pr-2 pb-2">
-              everyday business.
-            </span>
+            Built for <span className="text-[#1A73E8]">everyday business.</span>
           </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 15 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.8, ease: appleEase, delay: 0.12 }}
-            className="inline-flex p-1 bg-zinc-200/50 backdrop-blur-xl rounded-full border border-zinc-200/40 shadow-inner"
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: materialEasing, delay: 0.1 }}
+            className="text-[16px] md:text-[18px] text-[#444746] leading-relaxed max-w-xl mb-8"
           >
-            {(["freelancer", "business"] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setRole(tab)}
-                className={`relative flex items-center gap-2 px-7 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors z-10 ${
-                  role === tab ? "text-blue-600" : "text-zinc-500 hover:text-zinc-950"
-                }`}
-              >
-                {role === tab && (
-                  <motion.div
-                    layoutId="featuresTab"
-                    className="absolute inset-0 bg-white rounded-full shadow-[0_3px_12px_rgba(0,0,0,0.06)] border border-zinc-200/50"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-                <span className="relative z-10 flex items-center gap-1.5">
-                  {tab === "freelancer" ? <User size={13} /> : <Building2 size={13} />}
-                  {tab === "freelancer" ? "Individual" : "Business"}
-                </span>
-              </button>
-            ))}
+            Pick how you work to see how Aptro makes your day-to-day operations straightforward and stress-free.
+          </motion.p>
+
+          {/* Google Material 3 Segmented Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, ease: materialEasing, delay: 0.15 }}
+            className="inline-flex p-1 bg-[#E1E3E1]/60 rounded-full border border-[#DADCE0]"
+          >
+            {(["freelancer", "business"] as const).map((tab) => {
+              const isSelected = role === tab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setRole(tab)}
+                  className={`relative flex items-center gap-2 px-6 py-2.5 rounded-full text-[14px] font-medium transition-colors z-10 ${
+                    isSelected ? "text-[#041E49]" : "text-[#444746] hover:text-[#1F1F1F]"
+                  }`}
+                >
+                  {isSelected && (
+                    <motion.div
+                      layoutId="materialTabPill"
+                      className="absolute inset-0 bg-[#D3E3FD] rounded-full shadow-sm"
+                      transition={{ duration: 0.3, ease: materialEasing }}
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-2">
+                    {tab === "freelancer" ? <User size={16} /> : <Building2 size={16} />}
+                    {tab === "freelancer" ? "Solo Worker" : "Shop / Business"}
+                  </span>
+                </button>
+              );
+            })}
           </motion.div>
         </section>
 
-        {/* --- One-by-One Feature Spotlight --- */}
+        {/* --- Spotlight Feature List --- */}
         <section className="mb-32">
           <AnimatePresence mode="wait">
             <motion.div
               key={role}
-              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -20, filter: "blur(6px)" }}
-              transition={{ duration: 0.6, ease: appleEase }}
-              className="flex flex-col gap-28 pt-10"
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.4, ease: materialEasing }}
+              className="flex flex-col gap-24"
             >
-              
-              {/* Intro Title */}
-              <div className="text-center mb-4">
-                <span className="text-xs font-bold uppercase tracking-widest text-blue-500 block mb-2">{activeContent.badge}</span>
-                <h2 className="text-3xl md:text-4xl font-bold text-zinc-950 tracking-tight mb-4">{activeContent.title}</h2>
-                <p className="text-base md:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed font-medium">{activeContent.desc}</p>
+              {/* Category Intro */}
+              <div className="text-center max-w-2xl mx-auto">
+                <span className="text-[13px] font-medium text-[#1A73E8] uppercase tracking-wider block mb-2">
+                  {activeContent.badge}
+                </span>
+                <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">
+                  {activeContent.title}
+                </h2>
+                <p className="text-[16px] text-[#444746] leading-relaxed">
+                  {activeContent.desc}
+                </p>
               </div>
 
-              {/* Alternating Z-Pattern Layout for Mobile Phones */}
+              {/* Alternating Feature Cards */}
               {activeContent.spotlight.map((feature, i) => {
                 const isEven = i % 2 === 0;
                 
                 return (
                   <motion.div 
                     key={i}
-                    initial={{ opacity: 0, y: 50 }}
+                    initial={{ opacity: 0, y: 24 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.8, ease: appleEase }}
-                    className={`flex flex-col gap-12 lg:gap-20 items-center group ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                    viewport={{ once: true, margin: "-80px" }}
+                    transition={{ duration: 0.5, ease: materialEasing }}
+                    className={`flex flex-col gap-10 lg:gap-16 items-center ${
+                      isEven ? "lg:flex-row" : "lg:flex-row-reverse"
+                    }`}
                   >
-                    {/* Text Content Block */}
-                    <div className="flex-1 w-full flex flex-col items-start text-left space-y-5">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-2">
+                    {/* Text Details */}
+                    <div className="flex-1 w-full flex flex-col items-start text-left space-y-4">
+                      <div className="w-12 h-12 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center">
                         {feature.icon}
                       </div>
                       
-                      <h3 className="text-3xl lg:text-4xl font-bold tracking-tight text-zinc-950">
+                      <h3 className="text-2xl lg:text-3xl font-normal tracking-tight text-[#1F1F1F]">
                         {feature.title}
                       </h3>
                       
-                      <p className="text-lg text-zinc-500 leading-relaxed font-medium max-w-xl">
+                      <p className="text-[16px] text-[#444746] leading-relaxed max-w-xl">
                         {feature.desc}
                       </p>
                       
-                      <div className="pt-2 flex flex-col gap-3 w-full">
+                      {/* Sub-points / Chips */}
+                      <div className="pt-2 flex flex-col gap-2.5 w-full">
                         {feature.details.map((detail, idx) => (
-                          <div key={idx} className="flex items-center gap-3 text-zinc-700 font-medium bg-white/50 w-fit px-4 py-2 rounded-lg border border-zinc-100">
-                            <CheckCircle2 size={16} className="text-blue-500 shrink-0" />
+                          <div 
+                            key={idx} 
+                            className="flex items-center gap-3 text-[#1F1F1F] text-[15px] font-medium bg-white px-4 py-2.5 rounded-[12px] border border-[#DADCE0] w-fit shadow-xs"
+                          >
+                            <CheckCircle2 size={18} className="text-[#1E8E3E] shrink-0" />
                             <span>{detail}</span>
                           </div>
                         ))}
                       </div>
                     </div>
 
-                    {/* Mobile Phone Mockup Block */}
-                    <div className="flex-1 w-full flex justify-center items-center py-6 lg:py-0 relative">
-                      
-                      {/* Ambient Glow behind the phone */}
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[400px] bg-blue-500/20 blur-[70px] rounded-full pointer-events-none -z-10 transition-opacity duration-500 group-hover:opacity-100 opacity-60" />
+                    {/* Phone Frame - Clean Material Card Display */}
+                    <div className="flex-1 w-full flex justify-center items-center py-4 relative">
+                      {/* Subtle Google Blue background circle */}
+                      <div className="absolute w-[280px] h-[340px] bg-[#E8F0FE] rounded-[36px] -z-10 pointer-events-none" />
 
-                      {/* Phone Frame wrapper */}
-                      <div className="relative w-[260px] sm:w-[300px] aspect-[9/19.5] rounded-[2.5rem] border-[8px] border-zinc-950 bg-zinc-950 shadow-[0_20px_60px_-15px_rgba(37,99,235,0.4)] overflow-hidden transition-transform duration-700 group-hover:-translate-y-2 group-hover:shadow-[0_30px_80px_-20px_rgba(37,99,235,0.5)]">
-                        
+                      <div className="relative w-[240px] sm:w-[280px] aspect-[9/19.5] rounded-[32px] border-[6px] border-[#202124] bg-[#202124] shadow-md overflow-hidden">
                         <Image
                           src={feature.image}
                           alt={feature.title}
                           fill
                           className="object-cover"
                         />
-                        
                       </div>
                     </div>
 
@@ -267,70 +272,72 @@ export default function FeaturesPage() {
           </AnimatePresence>
         </section>
 
-        {/* --- Standard Infrastructure Grid --- */}
-        <section className="pt-24 border-t border-zinc-200/80">
-          <div className="max-w-2xl mb-16 text-center mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-zinc-950">Why choose Aptro?</h2>
-            <p className="text-base text-zinc-500 font-medium leading-relaxed">Built with the latest technology to ensure your data is safe, your app is fast, and your business never stops running.</p>
+        {/* --- General Benefits Grid (Material Cards) --- */}
+        <section className="pt-20 border-t border-[#DADCE0]">
+          <div className="max-w-2xl mb-14 text-center mx-auto">
+            <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">
+              Why business owners like Aptro
+            </h2>
+            <p className="text-[16px] text-[#444746] leading-relaxed">
+              Carefully designed so your records remain private, simple to find, and always within reach.
+            </p>
           </div>
 
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"
+            viewport={{ once: true, margin: "-60px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {commonFeatures.map((f, i) => (
               <motion.div
                 key={i}
                 variants={fadeUpItem}
-                className="group relative p-8 bg-white/70 backdrop-blur-xl border border-zinc-200/60 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-[0_8px_30px_rgba(0,0,0,0.02)] hover:border-zinc-300 hover:bg-white flex flex-col justify-between"
+                className="p-8 bg-white border border-[#DADCE0] rounded-[24px] shadow-xs hover:shadow-md transition-shadow duration-200 flex flex-col justify-between"
               >
                 <div>
-                  <div className="mb-5 inline-flex w-12 h-12 items-center justify-center rounded-xl bg-white border border-zinc-200 text-zinc-500 shadow-sm transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600">
+                  <div className="mb-6 w-12 h-12 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center">
                     {f.icon}
                   </div>
-                  <h3 className="text-lg font-bold mb-2 tracking-tight text-zinc-950">{f.title}</h3>
-                  <p className="text-zinc-500 leading-relaxed text-sm font-medium">{f.desc}</p>
+                  <h3 className="text-[18px] font-medium text-[#1F1F1F] mb-2">{f.title}</h3>
+                  <p className="text-[#444746] leading-relaxed text-[15px]">{f.desc}</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </section>
 
-        {/* --- CTA SECTION --- */}
-        <section className="mt-32 w-full pb-10">
+        {/* --- CTA Section (Material Surface Card) --- */}
+        <section className="mt-28 w-full">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1, ease: appleEase }}
-            className="relative px-8 py-24 rounded-[3rem] overflow-hidden bg-zinc-950 text-center shadow-2xl shadow-zinc-950/20"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, ease: materialEasing }}
+            className="relative px-8 py-16 md:py-20 rounded-[32px] bg-white border border-[#DADCE0] text-center shadow-sm"
           >
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-[350px] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-transparent to-transparent blur-[80px] pointer-events-none" />
-
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <h2 className="text-4xl md:text-6xl font-bold mb-5 tracking-tight text-white leading-tight">
-                Ready to <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-white to-blue-200 italic pr-1">grow?</span>
+            <div className="relative z-10 max-w-xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-normal mb-4 text-[#1F1F1F]">
+                Ready to make work <span className="text-[#1A73E8]">easier?</span>
               </h2>
-              <p className="text-zinc-400 text-base md:text-lg mb-10 leading-relaxed font-medium">
-                Join thousands of independent workers and growing businesses managing their daily tasks on Aptro.
+              <p className="text-[#444746] text-[16px] md:text-[17px] mb-8 leading-relaxed">
+                Join independent workers and shop owners who manage their billing and stock effortlessly with Aptro.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
                 <Link
                   href="/download"
-                  className="w-full sm:w-auto px-7 py-3.5 bg-white text-zinc-950 rounded-full font-semibold text-sm transition-transform duration-300 hover:scale-[1.02] flex items-center justify-center gap-1.5 group shadow-[0_0_30px_-5px_rgba(255,255,255,0.4)]"
+                  className="w-full sm:w-auto px-7 py-3 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors flex items-center justify-center gap-2 group shadow-xs"
                 >
-                  Download App
-                  <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform duration-300 text-zinc-950" />
+                  Download App Free
+                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
                 </Link>
                 <Link
                   href="/pricing"
-                  className="w-full sm:w-auto px-7 py-3.5 bg-white/5 border border-white/10 text-white rounded-full font-semibold text-sm transition-all duration-300 hover:bg-white/10 hover:scale-[0.98] flex items-center justify-center backdrop-blur-md"
+                  className="w-full sm:w-auto px-7 py-3 bg-white border border-[#DADCE0] text-[#1A73E8] hover:bg-[#F8F9FA] rounded-full font-medium text-[15px] transition-colors flex items-center justify-center"
                 >
-                  View Plans
+                  See Pricing Plans
                 </Link>
               </div>
             </div>
