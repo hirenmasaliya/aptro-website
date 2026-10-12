@@ -1,72 +1,90 @@
 "use client";
 
-import { useRef } from "react";
 import { 
   ShoppingCart, 
   FileText, 
   BarChart3, 
   ShieldCheck, 
   Smartphone, 
-  Globe
+  Package,
+  Users,
+  Clock,
+  FileCheck
 } from "lucide-react";
-import { Easing, motion, Variants, useScroll, useTransform } from "framer-motion";
+import { Easing, motion, Variants } from "framer-motion";
 
 // Material Design standard easing
 const materialEasing: Easing = [0.2, 0, 0, 1];
 
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
+
 const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 20 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
 };
 
 export default function Features() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  
-  // Track the scroll progress of the horizontal container
-  const { scrollXProgress } = useScroll({
-    container: scrollRef,
-  });
-
-  // Map the scroll progress to the width of the progress bar
-  const progressBarWidth = useTransform(scrollXProgress, [0, 1], ["0%", "100%"]);
-
-  // Features rewritten in very simple English
+  // Expanded list specifically for Aptro's capabilities
   const features = [
     {
-      title: "Track Every Order",
-      desc: "See exactly where your customer's order is. From buying to delivery, you will never lose a sale record.",
-      icon: <ShoppingCart size={24} />,
+      title: "Generate GST Bills",
+      desc: "Create clean GST invoices in seconds. Use our free invoice maker tools to send professional estimates and get paid faster.",
+      icon: <FileText size={24} aria-hidden="true" />,
     },
     {
-      title: "Make Quick Bills",
-      desc: "Make clean bills in seconds. Send them to your customers quickly and get paid faster without any confusion.",
-      icon: <FileText size={24} />,
+      title: "Stock & Inventory",
+      desc: "Simplify your inventory management. Track stock levels in real-time and get alerts before you run out of fast-moving items.",
+      icon: <Package size={24} aria-hidden="true" />,
     },
     {
-      title: "See Your Profits",
-      desc: "Check how much money you are making today, this month, or this year with simple charts that are easy to read.",
-      icon: <BarChart3 size={24} />,
+      title: "B2B Order Management",
+      desc: "Track every sale from purchase to delivery. The ultimate B2B order management app so you never lose a sales record again.",
+      icon: <ShoppingCart size={24} aria-hidden="true" />,
     },
     {
-      title: "Safe and Secure",
-      desc: "Your data is locked and safe. We save your work automatically so you never lose your numbers or bills.",
-      icon: <ShieldCheck size={24} />,
+      title: "Staff Attendance Tracker", // NEW APTRO FEATURE
+      desc: "Monitor employee check-ins and check-outs effortlessly. Keep a precise digital log of staff attendance across all your shop locations.",
+      icon: <Clock size={24} aria-hidden="true" />,
     },
     {
-      title: "Works on Phone & PC",
-      desc: "Use the app on your mobile phone or computer. Everything updates fast, even if your internet is slow.",
-      icon: <Smartphone size={24} />,
+      title: "Payroll Management", // NEW APTRO FEATURE
+      desc: "Automate your employee salary calculations. Generate salary slips and manage staff advances seamlessly within the app.",
+      icon: <Users size={24} aria-hidden="true" />,
     },
     {
-      title: "Grow Your Shop",
-      desc: "Add different taxes easily and sell your items to anyone, anywhere without doing hard math.",
-      icon: <Globe size={24} />,
+      title: "E-Invoicing Workflows", // NEW APTRO FEATURE
+      desc: "Stay fully compliant with government mandates. Generate and push valid e-invoices directly from your mobile device.",
+      icon: <FileCheck size={24} aria-hidden="true" />,
     },
+    {
+      title: "Sales & Digital Khata",
+      desc: "Monitor your digital ledger. Check your daily profits, pending payments, and monthly revenue with simple business charts.",
+      icon: <BarChart3 size={24} aria-hidden="true" />,
+    },
+    {
+      title: "Mobile & PC Sync",
+      desc: "Manage your business from anywhere. Your data syncs instantly between the Android app and the desktop web dashboard.",
+      icon: <Smartphone size={24} aria-hidden="true" />,
+    },
+    {
+      title: "Secure Cloud Backup",
+      desc: "Your data is locked and safe. We auto-save your inventory and payroll data securely, so your business ledger is never lost.",
+      icon: <ShieldCheck size={24} aria-hidden="true" />,
+    }
   ];
 
   return (
-    <section id="features" className="relative py-24 bg-[#F8F9FA] overflow-hidden">
-      
+    <section 
+      id="features" 
+      aria-labelledby="features-heading"
+      className="relative py-24 bg-[#F8F9FA] overflow-hidden"
+    >
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
         
         {/* Header Section */}
@@ -74,43 +92,40 @@ export default function Features() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="mb-12 text-left max-w-2xl"
+          className="mb-16 text-center max-w-3xl mx-auto"
         >
-          <motion.h2 variants={fadeUpItem} className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight mb-4 text-[#1F1F1F]">
-            Easy tools for your <span className="text-[#1A73E8]">daily work.</span>
+          <motion.h2 
+            id="features-heading"
+            variants={fadeUpItem} 
+            className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight mb-6 text-[#1F1F1F]"
+          >
+            Everything you need to run your <span className="text-[#1A73E8]">growing business.</span>
           </motion.h2>
           
           <motion.p variants={fadeUpItem} className="text-[16px] md:text-[18px] text-[#444746] leading-relaxed">
-            Aptro gives you simple tools to run your shop. Spend less time writing on paper and more time with your customers.
+            Aptro replaces multiple apps with one unified platform. Handle billing, track inventory, and manage your staff without touching a piece of paper.
           </motion.p>
         </motion.div>
-      </div>
 
-      {/* Horizontal Scrolling Section */}
-      <div className="relative w-full">
-        <div 
-          ref={scrollRef}
-          className="flex overflow-x-auto gap-6 px-6 pb-8 pt-4 snap-x snap-mandatory hide-scrollbar"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        {/* Responsive Grid Layout */}
+        <motion.ul 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 list-none m-0 p-0"
         >
-          {/* Invisible spacer to align the first item with the container grid */}
-          <div className="w-[max(0px,calc((100vw-1280px)/2))] shrink-0 hidden xl:block" />
-
           {features.map((f, i) => (
-            <motion.div 
+            <motion.li 
               key={i} 
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.05, ease: materialEasing }}
-              className="relative w-[85vw] sm:w-[320px] md:w-[360px] shrink-0 snap-center p-8 bg-white border border-[#DADCE0] rounded-[24px] overflow-hidden transition-shadow duration-300 hover:shadow-md flex flex-col min-h-[280px]"
+              variants={fadeUpItem}
+              className="group p-8 bg-white border border-[#DADCE0] rounded-[24px] transition-all duration-300 hover:shadow-lg hover:border-transparent flex flex-col"
             >
-              {/* Icon Container - Google Style Circular Container */}
-              <div className="mb-6 inline-flex w-14 h-14 items-center justify-center rounded-full bg-[#E8F0FE] text-[#1A73E8]">
+              <div className="mb-6 inline-flex w-14 h-14 items-center justify-center rounded-full bg-[#E8F0FE] text-[#1A73E8] transition-transform duration-300 group-hover:scale-110">
                 {f.icon}
               </div>
               
-              <div className="relative z-10 mt-auto">
+              <div>
                 <h3 className="text-[20px] font-medium mb-3 text-[#1F1F1F]">
                   {f.title}
                 </h3>
@@ -119,31 +134,11 @@ export default function Features() {
                   {f.desc}
                 </p>
               </div>
-            </motion.div>
+            </motion.li>
           ))}
-          
-          {/* Invisible spacer for padding at the end of the scroll */}
-          <div className="w-6 shrink-0 xl:w-[max(0px,calc((100vw-1280px)/2))] block" />
-        </div>
+        </motion.ul>
 
-        {/* Scroll Progress Bar Indicator - Flat Google Style */}
-        <div className="max-w-[1280px] mx-auto px-6 mt-2">
-          <div className="w-full h-1.5 bg-[#E1E3E1] rounded-full overflow-hidden">
-            <motion.div 
-              className="h-full bg-[#1A73E8] rounded-full"
-              style={{ width: progressBarWidth }}
-            />
-          </div>
-        </div>
-        
       </div>
-      
-      {/* Global styles to hide the default scrollbar but keep functionality */}
-      <style jsx global>{`
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }

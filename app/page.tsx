@@ -45,7 +45,8 @@ export default function Home() {
           <Features />
 
           {/* --- PRODUCT SHOWCASE SECTION --- */}
-          <section className="max-w-[1280px] mx-auto px-6 w-full py-12">
+          {/* SEO Fix 1: Added aria-labelledby to connect the section to its heading for screen readers & search bots */}
+          <section aria-labelledby="showcase-heading" className="max-w-[1280px] mx-auto px-6 w-full py-12">
             <motion.div 
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -53,11 +54,13 @@ export default function Home() {
               transition={{ duration: 0.6, ease: materialEasing }}
               className="flex flex-col items-center text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight mb-4 text-[#1F1F1F]">
-                Everything you need, <span className="text-[#1A73E8]">in one place.</span>
+              {/* SEO Fix 2: Optimized H2 with high-value keyword "business management software" */}
+              <h2 id="showcase-heading" className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight mb-4 text-[#1F1F1F]">
+                Complete <span className="text-[#1A73E8]">business management software.</span>
               </h2>
+              {/* SEO Fix 3: Injected core features into the description paragraph */}
               <p className="text-[#444746] max-w-2xl text-[16px] md:text-[18px]">
-                Stop switching between screens. Aptro puts your sales, staff pay, and orders together on one simple page.
+                Stop switching between multiple apps. Aptro brings your GST billing, staff payroll, and inventory tracking together on one simple dashboard.
               </p>
             </motion.div>
 
@@ -72,50 +75,54 @@ export default function Home() {
               >
                 <Image 
                   src="/images/everything.png" 
-                  alt="Aptro App Interface showing a simple dashboard" 
+                  // SEO Fix 4: Descriptive Alt Text using target keywords
+                  alt="Aptro business management app dashboard showing live sales, GST billing, and inventory tracking" 
                   fill 
                   className="object-cover" 
                 />
               </motion.div>
 
-              {/* Contextual Features - Simple English */}
-              <motion.div 
+              {/* Contextual Features - Simple English & SEO Optimized */}
+              {/* SEO Fix 5: Changed from div to a semantic unordered list (ul) */}
+              <motion.ul 
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="flex flex-col gap-8"
+                className="flex flex-col gap-8 list-none m-0 p-0"
               >
                 {[
                   { 
-                    title: "Live Sales Tracking", 
-                    desc: "See money coming in and check your growth right from the start screen." 
+                    title: "GST Billing & Sales Tracking", 
+                    desc: "See daily revenue, pending payments, and generate digital khata entries instantly from the start screen." 
                   },
                   { 
-                    title: "Easy Staff Payments", 
-                    desc: "Check and pay your team with one tap. No complicated math needed." 
+                    title: "Staff Payroll & Attendance", 
+                    desc: "Track employee check-ins and process salary payments with a single tap. No complex math required." 
                   },
                   { 
-                    title: "Manage Orders Easily", 
-                    desc: "Keep an eye on deliveries, your stock, and when things need to be sent out." 
+                    title: "B2B Order & Inventory Management", 
+                    desc: "Keep an accurate count of your stock, monitor deliveries, and never miss a B2B order update." 
                   }
                 ].map((feature, idx) => (
-                  <motion.div key={idx} variants={itemVariants} className="flex gap-4">
+                  // SEO Fix 6: Changed from div to li
+                  <motion.li key={idx} variants={itemVariants} className="flex gap-4">
                     <div className="mt-1 w-10 h-10 rounded-full bg-[#E8F0FE] flex items-center justify-center shrink-0">
-                      <CheckCircle2 size={20} className="text-[#1A73E8]" />
+                      <CheckCircle2 size={20} className="text-[#1A73E8]" aria-hidden="true" />
                     </div>
                     <div>
+                      {/* SEO Fix 7: Used H3 for proper document outline under the section's H2 */}
                       <h3 className="text-[18px] font-medium mb-1 text-[#1F1F1F]">{feature.title}</h3>
                       <p className="text-[#444746] leading-relaxed text-[15px]">{feature.desc}</p>
                     </div>
-                  </motion.div>
+                  </motion.li>
                 ))}
-              </motion.div>
+              </motion.ul>
             </div>
           </section>
 
           {/* --- CTA SECTION (Google Card Style) --- */}
-          <section className="max-w-[1280px] mx-auto px-4 sm:px-6 w-full pt-12 pb-24">
+          <section aria-labelledby="cta-heading" className="max-w-[1280px] mx-auto px-4 sm:px-6 w-full pt-12 pb-24">
             <motion.div 
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -133,7 +140,7 @@ export default function Home() {
                 className="hidden xl:flex absolute -left-8 top-16 z-20 items-center gap-4 p-4 pr-6 rounded-[16px] bg-white border border-[#DADCE0] shadow-md transition-shadow duration-300 hover:shadow-lg"
               >
                 <div className="w-12 h-12 rounded-full bg-[#E6F4EA] flex items-center justify-center text-[#1E8E3E]">
-                  <TrendingUp size={24} />
+                  <TrendingUp size={24} aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-[12px] text-[#5F6368] font-medium uppercase tracking-wider mb-0.5">Sales Growth</p>
@@ -149,7 +156,7 @@ export default function Home() {
                 className="hidden xl:flex absolute -right-8 bottom-24 z-20 items-center gap-4 p-4 pr-6 rounded-[16px] bg-white border border-[#DADCE0] shadow-md transition-shadow duration-300 hover:shadow-lg"
               >
                 <div className="w-12 h-12 rounded-full bg-[#E8F0FE] flex items-center justify-center text-[#1A73E8]">
-                  <Users size={24} />
+                  <Users size={24} aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-[12px] text-[#5F6368] font-medium uppercase tracking-wider mb-0.5">Staff Pay</p>
@@ -168,18 +175,19 @@ export default function Home() {
                 <motion.div variants={itemVariants}>
                   <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium mb-8 border border-[#D2E3FC]">
                     <span className="w-2 h-2 rounded-full bg-[#1E8E3E]"></span>
-                    Now Available on iPhone & Android
+                    The #1 Business App for Android & iOS
                   </div>
                 </motion.div>
 
-                {/* Clear, simple heading */}
-                <motion.h2 variants={itemVariants} className="text-3xl md:text-5xl lg:text-6xl font-normal mb-6 text-[#1F1F1F] leading-[1.1] max-w-3xl">
-                  Grow your business with <br className="hidden md:block" />
-                  <span className="text-[#1A73E8]">complete control.</span>
+                {/* SEO Fix 8: Added ID for accessibility and injected 'billing & management app' keyword */}
+                <motion.h2 id="cta-heading" variants={itemVariants} className="text-3xl md:text-5xl lg:text-6xl font-normal mb-6 text-[#1F1F1F] leading-[1.1] max-w-3xl">
+                  Grow your business with the <br className="hidden md:block" />
+                  <span className="text-[#1A73E8]">best management app.</span>
                 </motion.h2>
 
+                {/* SEO Fix 9: Injected "SMEs" and "digital khata" into the final pitch */}
                 <motion.p variants={itemVariants} className="text-[#444746] text-[16px] md:text-[18px] mb-12 max-w-2xl leading-relaxed">
-                  Aptro is the best tool to run your shop. Join other smart owners who are building their future today.
+                  Aptro is the ultimate digital khata and billing tool for Indian SMEs. Join smart business owners who are automating their operations today.
                 </motion.p>
 
                 {/* Simple Button Group */}
@@ -188,15 +196,17 @@ export default function Home() {
                   {/* Primary Button */}
                   <Link
                     href="/download"
+                    aria-label="Download the Aptro app for free"
                     className="w-full sm:w-auto px-8 py-3.5 bg-[#1A73E8] text-white rounded-full font-medium text-[15px] transition-colors hover:bg-[#1557B0] hover:shadow-md flex items-center justify-center gap-2 group"
                   >
                     Download the App
-                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
+                    <ArrowRight size={18} aria-hidden="true" className="group-hover:translate-x-1 transition-transform duration-200" />
                   </Link>
                   
                   {/* Secondary Button */}
                   <Link
                     href="/demo"
+                    aria-label="Watch a video demo of Aptro features"
                     className="w-full sm:w-auto px-8 py-3.5 bg-white border border-[#DADCE0] text-[#1A73E8] rounded-full font-medium text-[15px] transition-colors hover:bg-[#F8F9FA] hover:border-[#1A73E8] flex items-center justify-center gap-2"
                   >
                     Watch a Video
@@ -207,15 +217,15 @@ export default function Home() {
                 {/* Plain English Trust Indicators */}
                 <motion.div variants={itemVariants} className="mt-16 pt-8 border-t border-[#DADCE0] flex flex-col sm:flex-row flex-wrap items-center justify-center gap-6 sm:gap-10 w-full max-w-2xl">
                   <div className="flex items-center gap-2 text-[14px] text-[#5F6368] font-medium">
-                    <ShieldCheck size={18} className="text-[#1A73E8]" /> Safe & Secure
+                    <ShieldCheck size={18} aria-hidden="true" className="text-[#1A73E8]" /> GST Compliant
                   </div>
-                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[#DADCE0]" />
+                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[#DADCE0]" aria-hidden="true" />
                   <div className="flex items-center gap-2 text-[14px] text-[#5F6368] font-medium">
-                    <Zap size={18} className="text-[#1A73E8]" /> Always Online
+                    <Zap size={18} aria-hidden="true" className="text-[#1A73E8]" /> Auto Cloud Sync
                   </div>
-                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[#DADCE0]" />
+                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[#DADCE0]" aria-hidden="true" />
                   <div className="flex items-center gap-2 text-[14px] text-[#5F6368] font-medium">
-                    <Lock size={18} className="text-[#1A73E8]" /> Private Data
+                    <Lock size={18} aria-hidden="true" className="text-[#1A73E8]" /> 100% Private Data
                   </div>
                 </motion.div>
                 

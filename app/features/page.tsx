@@ -27,108 +27,138 @@ const staggerContainer: Variants = {
   }
 };
 
-// Simple, clear English text
+// SEO-Optimized Content with Unique Background Colors Added
 const roleContent = {
-  freelancer: {
-    badge: "For Solo Workers",
-    title: "Made for independent workers.",
-    desc: "Everything you need to manage your daily tasks easily. Spend less time writing bills and more time doing your work.",
+  business: {
+    badge: "For Shop & MSME Business Owners",
+    title: "The complete business management app.",
+    desc: "A powerful mobile billing app to manage your stock, track staff attendance, and generate GST invoices effortlessly. Built for Indian SMEs.",
     spotlight: [
       {
-        title: "Simple Dashboard",
-        desc: "See your whole work on one page. Check your clients and project updates without getting confused.",
-        icon: <BarChart3 className="w-6 h-6" />,
-        details: ["Daily work updates", "Track your project work", "Quick customer list"],
-        image: "/images/dashboard.png",
+        title: "GST Billing & E-Invoicing",
+        desc: "Create professional GST bills in seconds. Let the app calculate taxes automatically and generate accurate invoices to share via WhatsApp.",
+        icon: <Calculator className="w-6 h-6" aria-hidden="true" />,
+        details: ["GST-ready invoice generator", "Monthly tax & profit summary", "Download bills as PDF"],
+        image: "/images/gst.png",
+        altText: "Aptro GST billing app interface showing automated tax calculation and invoice generation",
+        // Soft Blue background
+        bgClass: "bg-[#F0F7FF] border-[#D6E6FF]" 
       },
       {
-        title: "Fast Bills & Estimates",
-        desc: "Create clean bills for your clients in seconds. Send them on WhatsApp or email to get paid on time.",
-        icon: <Receipt className="w-6 h-6" />,
-        details: ["Make price estimates", "Download bills as PDF", "Simple GST calculation"],
-        image: "/images/invoice.png",
+        title: "Inventory & Stock Management",
+        desc: "Always know what is on your shelves. Get low-stock alerts directly on your phone before fast-moving items run out.",
+        icon: <Package className="w-6 h-6" aria-hidden="true" />,
+        details: ["Real-time inventory tracking", "Low stock alerts", "Quick barcode scanning"],
+        image: "/images/stock.png",
+        altText: "Stock and inventory management dashboard showing real-time item counts",
+        // Soft Green background
+        bgClass: "bg-[#F0FDF4] border-[#DCFCE7]" 
       },
       {
-        title: "Track Your Money",
-        desc: "Always know who paid you and who still owes you money, so you never miss any payment.",
-        icon: <Wallet className="w-6 h-6" />,
-        details: ["Money in and out records", "Check pending dues", "Total balance overview"],
-        image: "/images/payments.png",
+        title: "Staff Attendance & Payroll",
+        desc: "Mark employee check-ins every morning. The app acts as your staff attendance tracker and calculates monthly salary slips automatically.",
+        icon: <ClipboardList className="w-6 h-6" aria-hidden="true" />,
+        details: ["Daily staff attendance tracker", "Automated payroll management", "Manage employee advances"],
+        image: "/images/payroll.png",
+        altText: "Payroll management app India interface showing employee attendance and salary slips",
+        // Soft Purple background
+        bgClass: "bg-[#F5F3FF] border-[#EDE9FE]" 
       },
       {
-        title: "Daily Tasks & Notes",
-        desc: "Write down your to-do lists and important customer notes directly in your phone.",
-        icon: <CheckSquare className="w-6 h-6" />,
-        details: ["Simple daily task list", "Save quick notes"],
-        image: "/images/tasks.png",
+        title: "B2B Order & Vendor Directory",
+        desc: "Keep your customer and supplier ledgers safely in one place. Monitor your B2B order management with automatic cloud backups.",
+        icon: <Users className="w-6 h-6" aria-hidden="true" />,
+        details: ["Digital khata for buyers & sellers", "Track pending payments", "Secure cloud backup"],
+        image: "/images/customer.png",
+        altText: "Customer and supplier directory showing pending payments and order management",
+        // Soft Orange/Amber background
+        bgClass: "bg-[#FFF9F0] border-[#FFEDD5]" 
       }
     ]
   },
-  business: {
-    badge: "For Shop & Business Owners",
-    title: "Manage your entire shop or store.",
-    desc: "A complete mobile app to keep count of your stock, track staff work hours, and make tax time stress-free.",
+  freelancer: {
+    badge: "For Solo Workers & Freelancers",
+    title: "Made for independent professionals.",
+    desc: "Everything you need to manage your daily tasks, send estimates, and track expenses easily. Spend less time on paperwork.",
     spotlight: [
       {
-        title: "Live Stock Count",
-        desc: "Always know what is on your shelves. Get an alert on your phone before items run out.",
-        icon: <Package className="w-6 h-6" />,
-        details: ["Real-time item count", "Low stock alerts", "Quick add & remove items"],
-        image: "/images/stock.png",
+        title: "Freelance Invoice Maker",
+        desc: "Create clean bills and quotation estimates for your clients in seconds. Send them instantly to get paid faster.",
+        icon: <Receipt className="w-6 h-6" aria-hidden="true" />,
+        details: ["Professional estimate generator", "Download invoices as PDF", "Simple tax calculation"],
+        image: "/images/invoice.png",
+        altText: "Free invoice maker app showing a clean PDF quotation for a freelance client",
+        bgClass: "bg-[#F0F7FF] border-[#D6E6FF]" // Soft Blue
       },
       {
-        title: "Customer & Supplier Directory",
-        desc: "Keep all your customer and vendor contact numbers safely in one place with automatic backup.",
-        icon: <Users className="w-6 h-6" />,
-        details: ["Separate buyers and sellers", "Automatic data backup"],
-        image: "/images/customer.png",
+        title: "Expense & Income Tracking",
+        desc: "Always know who paid you and who still owes money. A simple business ledger app to ensure you never miss a payment.",
+        icon: <Wallet className="w-6 h-6" aria-hidden="true" />,
+        details: ["Money in and out records", "Check pending client dues", "Total balance overview"],
+        image: "/images/payments.png",
+        altText: "Digital khata and expense tracking app showing client payments",
+        bgClass: "bg-[#F0FDF4] border-[#DCFCE7]" // Soft Green
       },
       {
-        title: "Easy GST & Tax Bills",
-        desc: "Let the app calculate GST and taxes automatically without any difficult math.",
-        icon: <Calculator className="w-6 h-6" />,
-        details: ["GST-ready bill format", "Monthly profit & tax summary"],
-        image: "/images/gst.png",
+        title: "Client Project Dashboard",
+        desc: "See your entire workload on one screen. Monitor your clients and project updates without messy spreadsheets.",
+        icon: <BarChart3 className="w-6 h-6" aria-hidden="true" />,
+        details: ["Daily revenue updates", "Track project milestones", "Quick customer directory"],
+        image: "/images/dashboard.png",
+        altText: "Freelancer dashboard showing daily revenue and project progress",
+        bgClass: "bg-[#F5F3FF] border-[#EDE9FE]" // Soft Purple
       },
       {
-        title: "Staff Attendance & Pay",
-        desc: "Mark staff present or absent every morning and let the app calculate their monthly salary automatically.",
-        icon: <ClipboardList className="w-6 h-6" />,
-        details: ["Daily staff attendance", "Automatic salary calculation"],
-        image: "/images/payroll.png",
+        title: "Daily Tasks & Notes",
+        desc: "Write down your to-do lists, client requirements, and important notes directly on your mobile device.",
+        icon: <CheckSquare className="w-6 h-6" aria-hidden="true" />,
+        details: ["Simple daily task tracker", "Save quick customer notes"],
+        image: "/images/tasks.png",
+        altText: "Task management interface showing daily to-do lists and notes",
+        bgClass: "bg-[#FFF9F0] border-[#FFEDD5]" // Soft Orange
       }
     ]
   }
 };
 
 const commonFeatures = [
-  { title: "Safe & Private", icon: <Lock size={22} />, desc: "Your data is locked securely. Only you have the key to view your shop numbers." },
-  { title: "Works on Any Device", icon: <Smartphone size={22} />, desc: "Use Aptro on your phone, tablet, or laptop. Everything stays synced." },
-  { title: "Multi-Currency Ready", icon: <Globe size={22} />, desc: "Accept payments and create bills in different currencies with zero fuss." },
-  { title: "Easy Integrations", icon: <Layers size={22} />, desc: "Works smoothly with your favorite business tools and payment methods." },
-  { title: "Instant Cloud Sync", icon: <Zap size={22} />, desc: "Update a bill on your phone and it appears immediately on your desktop screen." },
-  { title: "Friendly Support", icon: <Briefcase size={22} />, desc: "Our helpful support team is ready whenever you have questions or need guidance." },
+  { title: "100% Safe & Private", icon: <Lock size={22} aria-hidden="true" />, desc: "Your accounting data is locked securely. Only you have the key to view your business ledger." },
+  { title: "Mobile & PC Sync", icon: <Smartphone size={22} aria-hidden="true" />, desc: "Use the Aptro app on your Android, iOS, or laptop. Everything stays perfectly synced." },
+  { title: "Multi-Currency Ready", icon: <Globe size={22} aria-hidden="true" />, desc: "Accept payments and generate bills in different currencies for international clients." },
+  { title: "API Integrations", icon: <Layers size={22} aria-hidden="true" />, desc: "Works smoothly with your favorite B2B business tools and payment gateways." },
+  { title: "Instant Cloud Backup", icon: <Zap size={22} aria-hidden="true" />, desc: "Update an invoice on your phone and it backs up immediately to our secure cloud." },
+  { title: "Priority Support", icon: <Briefcase size={22} aria-hidden="true" />, desc: "Our SME support team is ready whenever you need guidance on GST or payroll setups." },
+];
+
+// Array of distinct colors for the benefits grid cards
+const gridCardColors = [
+  "bg-[#F8FAFC] border-[#E2E8F0]", // Slate Gray
+  "bg-[#F0FDFA] border-[#CCFBF1]", // Soft Teal
+  "bg-[#FFF7ED] border-[#FFEDD4]", // Soft Orange
+  "bg-[#EFF6FF] border-[#DBEAFE]", // Soft Blue
+  "bg-[#FDF4FF] border-[#FAE8FF]", // Soft Fuchsia
+  "bg-[#F0FDF4] border-[#DCFCE7]", // Soft Green
 ];
 
 export default function FeaturesPage() {
-  const [role, setRole] = useState<"freelancer" | "business">("freelancer");
+  const [role, setRole] = useState<"business" | "freelancer">("business");
   const activeContent = roleContent[role];
 
   return (
-    <main className="min-h-screen pt-24 pb-32 bg-[#F8F9FA] text-[#202124] font-sans selection:bg-[#D3E3FD] selection:text-[#041E49] relative">
+    <main className="min-h-screen pt-24 pb-32 bg-white text-[#202124] font-sans selection:bg-[#D3E3FD] selection:text-[#041E49] relative">
 
       <div className="max-w-[1280px] mx-auto px-6 relative z-10">
 
         {/* --- Header & Segmented Control --- */}
-        <section className="max-w-3xl mx-auto mb-20 flex flex-col items-center text-center">
+        <header className="max-w-3xl mx-auto mb-20 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: -8 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.4, ease: materialEasing }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium border border-[#D2E3FC] mb-6"
           >
-            <Sparkles size={14} className="text-[#1A73E8]" />
-            What Aptro Does
+            <Sparkles size={14} className="text-[#1A73E8]" aria-hidden="true" />
+            Aptro Features
           </motion.div>
 
           <motion.h1
@@ -137,7 +167,7 @@ export default function FeaturesPage() {
             transition={{ duration: 0.5, ease: materialEasing, delay: 0.05 }}
             className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight mb-6 leading-[1.1] text-[#1F1F1F]"
           >
-            Built for <span className="text-[#1A73E8]">everyday business.</span>
+            Built for <span className="text-[#1A73E8]">growing businesses.</span>
           </motion.h1>
 
           <motion.p
@@ -146,22 +176,23 @@ export default function FeaturesPage() {
             transition={{ duration: 0.5, ease: materialEasing, delay: 0.1 }}
             className="text-[16px] md:text-[18px] text-[#444746] leading-relaxed max-w-xl mb-8"
           >
-            Pick how you work to see how Aptro makes your day-to-day operations straightforward and stress-free.
+            Select your business type to see how Aptro automates your billing, inventory, and daily operations.
           </motion.p>
 
-          {/* Google Material 3 Segmented Button */}
-          <motion.div
+          <motion.nav
+            aria-label="Feature categories"
             initial={{ opacity: 0, y: 12 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.5, ease: materialEasing, delay: 0.15 }}
-            className="inline-flex p-1 bg-[#E1E3E1]/60 rounded-full border border-[#DADCE0]"
+            className="inline-flex p-1 bg-[#F8F9FA] rounded-full border border-[#DADCE0]"
           >
-            {(["freelancer", "business"] as const).map((tab) => {
+            {(["business", "freelancer"] as const).map((tab) => {
               const isSelected = role === tab;
               return (
                 <button
                   key={tab}
                   onClick={() => setRole(tab)}
+                  aria-pressed={isSelected}
                   className={`relative flex items-center gap-2 px-6 py-2.5 rounded-full text-[14px] font-medium transition-colors z-10 ${
                     isSelected ? "text-[#041E49]" : "text-[#444746] hover:text-[#1F1F1F]"
                   }`}
@@ -174,17 +205,17 @@ export default function FeaturesPage() {
                     />
                   )}
                   <span className="relative z-10 flex items-center gap-2">
-                    {tab === "freelancer" ? <User size={16} /> : <Building2 size={16} />}
-                    {tab === "freelancer" ? "Solo Worker" : "Shop / Business"}
+                    {tab === "business" ? <Building2 size={16} aria-hidden="true" /> : <User size={16} aria-hidden="true" />}
+                    {tab === "business" ? "Shop / MSME" : "Solo Worker"}
                   </span>
                 </button>
               );
             })}
-          </motion.div>
-        </section>
+          </motion.nav>
+        </header>
 
         {/* --- Spotlight Feature List --- */}
-        <section className="mb-32">
+        <section aria-labelledby="spotlight-heading" className="mb-32">
           <AnimatePresence mode="wait">
             <motion.div
               key={role}
@@ -192,14 +223,14 @@ export default function FeaturesPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.4, ease: materialEasing }}
-              className="flex flex-col gap-24"
+              className="flex flex-col gap-12"
             >
               {/* Category Intro */}
-              <div className="text-center max-w-2xl mx-auto">
+              <div className="text-center max-w-2xl mx-auto mb-8">
                 <span className="text-[13px] font-medium text-[#1A73E8] uppercase tracking-wider block mb-2">
                   {activeContent.badge}
                 </span>
-                <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">
+                <h2 id="spotlight-heading" className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">
                   {activeContent.title}
                 </h2>
                 <p className="text-[16px] text-[#444746] leading-relaxed">
@@ -207,141 +238,105 @@ export default function FeaturesPage() {
                 </p>
               </div>
 
-              {/* Alternating Feature Cards */}
-              {activeContent.spotlight.map((feature, i) => {
-                const isEven = i % 2 === 0;
-                
-                return (
-                  <motion.div 
-                    key={i}
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.5, ease: materialEasing }}
-                    className={`flex flex-col gap-10 lg:gap-16 items-center ${
-                      isEven ? "lg:flex-row" : "lg:flex-row-reverse"
-                    }`}
-                  >
-                    {/* Text Details */}
-                    <div className="flex-1 w-full flex flex-col items-start text-left space-y-4">
-                      <div className="w-12 h-12 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center">
-                        {feature.icon}
+              {/* Alternating Feature Cards with Unique Backgrounds */}
+              <ul className="flex flex-col gap-12 list-none p-0 m-0">
+                {activeContent.spotlight.map((feature, i) => {
+                  const isEven = i % 2 === 0;
+                  
+                  return (
+                    <motion.li 
+                      key={i}
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.5, ease: materialEasing }}
+                      // Applied the dynamic background color class to the card wrapper
+                      className={`flex flex-col gap-10 lg:gap-16 items-center p-8 lg:p-14 rounded-[32px] border ${feature.bgClass} ${
+                        isEven ? "lg:flex-row" : "lg:flex-row-reverse"
+                      }`}
+                    >
+                      {/* Text Details */}
+                      <div className="flex-1 w-full flex flex-col items-start text-left space-y-4">
+                        <div className="w-12 h-12 rounded-full bg-white text-[#1A73E8] flex items-center justify-center shadow-sm">
+                          {feature.icon}
+                        </div>
+                        
+                        <h3 className="text-2xl lg:text-3xl font-normal tracking-tight text-[#1F1F1F]">
+                          {feature.title}
+                        </h3>
+                        
+                        <p className="text-[16px] text-[#444746] leading-relaxed max-w-xl">
+                          {feature.desc}
+                        </p>
+                        
+                        <ul className="pt-2 flex flex-col gap-2.5 w-full list-none p-0 m-0">
+                          {feature.details.map((detail, idx) => (
+                            <li 
+                              key={idx} 
+                              className="flex items-center gap-3 text-[#1F1F1F] text-[15px] font-medium bg-white/70 backdrop-blur-md px-4 py-2.5 rounded-[12px] border border-white/40 w-fit shadow-xs"
+                            >
+                              <CheckCircle2 size={18} className="text-[#1E8E3E] shrink-0" aria-hidden="true" />
+                              <span>{detail}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      
-                      <h3 className="text-2xl lg:text-3xl font-normal tracking-tight text-[#1F1F1F]">
-                        {feature.title}
-                      </h3>
-                      
-                      <p className="text-[16px] text-[#444746] leading-relaxed max-w-xl">
-                        {feature.desc}
-                      </p>
-                      
-                      {/* Sub-points / Chips */}
-                      <div className="pt-2 flex flex-col gap-2.5 w-full">
-                        {feature.details.map((detail, idx) => (
-                          <div 
-                            key={idx} 
-                            className="flex items-center gap-3 text-[#1F1F1F] text-[15px] font-medium bg-white px-4 py-2.5 rounded-[12px] border border-[#DADCE0] w-fit shadow-xs"
-                          >
-                            <CheckCircle2 size={18} className="text-[#1E8E3E] shrink-0" />
-                            <span>{detail}</span>
-                          </div>
-                        ))}
+
+                      {/* Phone Frame */}
+                      <div className="flex-1 w-full flex justify-center items-center py-4 relative">
+                        <div className="relative w-[240px] sm:w-[280px] aspect-[9/19.5] rounded-[32px] border-[6px] border-[#202124] bg-[#202124] shadow-xl overflow-hidden">
+                          <Image
+                            src={feature.image}
+                            alt={feature.altText}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    {/* Phone Frame - Clean Material Card Display */}
-                    <div className="flex-1 w-full flex justify-center items-center py-4 relative">
-                      {/* Subtle Google Blue background circle */}
-                      <div className="absolute w-[280px] h-[340px] bg-[#E8F0FE] rounded-[36px] -z-10 pointer-events-none" />
-
-                      <div className="relative w-[240px] sm:w-[280px] aspect-[9/19.5] rounded-[32px] border-[6px] border-[#202124] bg-[#202124] shadow-md overflow-hidden">
-                        <Image
-                          src={feature.image}
-                          alt={feature.title}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </div>
-
-                  </motion.div>
-                );
-              })}
+                    </motion.li>
+                  );
+                })}
+              </ul>
             </motion.div>
           </AnimatePresence>
         </section>
 
-        {/* --- General Benefits Grid (Material Cards) --- */}
-        <section className="pt-20 border-t border-[#DADCE0]">
+        {/* --- General Benefits Grid --- */}
+        <section aria-labelledby="benefits-heading" className="pt-20">
           <div className="max-w-2xl mb-14 text-center mx-auto">
-            <h2 className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">
-              Why business owners like Aptro
+            <h2 id="benefits-heading" className="text-2xl md:text-3xl font-normal text-[#1F1F1F] mb-3">
+              Why business owners trust Aptro
             </h2>
             <p className="text-[16px] text-[#444746] leading-relaxed">
-              Carefully designed so your records remain private, simple to find, and always within reach.
+              Carefully designed so your MSME accounting records remain private, simple to track, and always compliant.
             </p>
           </div>
 
-          <motion.div
+          <motion.ul
             variants={staggerContainer}
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, margin: "-60px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0 m-0"
           >
             {commonFeatures.map((f, i) => (
-              <motion.div
+              <motion.li
                 key={i}
                 variants={fadeUpItem}
-                className="p-8 bg-white border border-[#DADCE0] rounded-[24px] shadow-xs hover:shadow-md transition-shadow duration-200 flex flex-col justify-between"
+                // Cycling through the gridCardColors array for different background tints
+                className={`p-8 rounded-[24px] border ${gridCardColors[i % gridCardColors.length]} shadow-xs hover:shadow-md transition-shadow duration-200 flex flex-col justify-between`}
               >
                 <div>
-                  <div className="mb-6 w-12 h-12 rounded-full bg-[#E8F0FE] text-[#1A73E8] flex items-center justify-center">
+                  <div className="mb-6 w-12 h-12 rounded-full bg-white text-[#1A73E8] flex items-center justify-center shadow-sm">
                     {f.icon}
                   </div>
                   <h3 className="text-[18px] font-medium text-[#1F1F1F] mb-2">{f.title}</h3>
                   <p className="text-[#444746] leading-relaxed text-[15px]">{f.desc}</p>
                 </div>
-              </motion.div>
+              </motion.li>
             ))}
-          </motion.div>
-        </section>
-
-        {/* --- CTA Section (Material Surface Card) --- */}
-        <section className="mt-28 w-full">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, ease: materialEasing }}
-            className="relative px-8 py-16 md:py-20 rounded-[32px] bg-white border border-[#DADCE0] text-center shadow-sm"
-          >
-            <div className="relative z-10 max-w-xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-normal mb-4 text-[#1F1F1F]">
-                Ready to make work <span className="text-[#1A73E8]">easier?</span>
-              </h2>
-              <p className="text-[#444746] text-[16px] md:text-[17px] mb-8 leading-relaxed">
-                Join independent workers and shop owners who manage their billing and stock effortlessly with Aptro.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3.5 justify-center items-center">
-                <Link
-                  href="/download"
-                  className="w-full sm:w-auto px-7 py-3 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors flex items-center justify-center gap-2 group shadow-xs"
-                >
-                  Download App Free
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
-                </Link>
-                <Link
-                  href="/pricing"
-                  className="w-full sm:w-auto px-7 py-3 bg-white border border-[#DADCE0] text-[#1A73E8] hover:bg-[#F8F9FA] rounded-full font-medium text-[15px] transition-colors flex items-center justify-center"
-                >
-                  See Pricing Plans
-                </Link>
-              </div>
-            </div>
-          </motion.div>
+          </motion.ul>
         </section>
 
       </div>
