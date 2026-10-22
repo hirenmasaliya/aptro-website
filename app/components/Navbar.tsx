@@ -107,7 +107,7 @@ export default function Navbar() {
         {/* --- RIGHT ACTIONS (Desktop) --- */}
         <div className="hidden lg:flex items-center gap-3">
           <Link
-            href="https://aptrooms.web.app/login"
+            href="/login"
             target="_blank"
             className="text-[14px] font-medium text-[#1A73E8] hover:bg-[#1A73E8]/10 transition-colors rounded-full px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
           >
@@ -169,7 +169,7 @@ export default function Navbar() {
             {/* Mobile Footer CTAs */}
             <div className="pt-6 border-t border-[#DADCE0] flex flex-col gap-3">
               <Link
-                href="https://aptrooms.web.app/login"
+                href="/login"
                 target="_blank"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="w-full flex items-center justify-center py-3 text-[14px] font-medium text-[#1A73E8] border border-[#DADCE0] rounded-full hover:bg-[#F8F9FA] transition-colors"

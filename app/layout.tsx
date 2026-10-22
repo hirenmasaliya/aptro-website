@@ -91,7 +91,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="bg-[#050505] text-white selection:bg-blue-500/30 pb-20">
+      <body className="bg-[#050505] text-white selection:bg-blue-500/30">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -133,8 +133,6 @@ export default function RootLayout({
         />
 
         <PageLayout>{children}</PageLayout>
-        
-        <DownloadBanner />
       </body>
     </html>
   );

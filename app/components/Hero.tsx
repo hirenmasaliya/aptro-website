@@ -118,7 +118,6 @@ export default function Hero() {
               <div className="relative w-[240px] sm:w-[300px] aspect-[9/19.5] rounded-[36px] border-[8px] border-[#202124] bg-[#202124] shadow-lg overflow-hidden">
                 <Image
                   src="/images/dashboard.png"
-                  // SEO Fix 6: Highly descriptive alt tag replacing generic description
                   alt="Aptro mobile app dashboard showing revenue tracking, inventory alerts, and quick GST invoice generation"
                   fill
                   className="object-cover"

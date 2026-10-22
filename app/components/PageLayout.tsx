@@ -4,6 +4,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import DownloadBanner from "./DownloadBanner";
 
 export default function PageLayout({
   children,
@@ -16,7 +17,7 @@ export default function PageLayout({
   const exactHiddenRoutes = ["/privacy", "/terms"];
 
   // Hide Navbar and Footer on all nested routes
-  const hiddenPrefixes = ["/partner", "/business", "/docs", "/tools"];
+  const hiddenPrefixes = ["/partner", "/business", "/docs", "/tools", '/login', '/signup', '/dashboard'];
 
   const hideNavAndFooter =
     exactHiddenRoutes.includes(pathname) ||
@@ -34,6 +35,8 @@ export default function PageLayout({
       </div>
 
       {!hideNavAndFooter && <Footer />}
+
+      {!hideNavAndFooter && <DownloadBanner />}
     </>
   );
 }
