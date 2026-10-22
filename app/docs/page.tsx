@@ -1,212 +1,222 @@
 "use client";
 
-import { useState } from "react";
 import { 
-  Terminal, 
-  Code2, 
-  Copy, 
-  Check, 
   Search, 
-  ChevronRight, 
-  BookOpen, 
-  Settings, 
-  Box, 
-  ShieldCheck,
-  ArrowRight
+  PlayCircle, 
+  FileText, 
+  Package, 
+  ShoppingCart, 
+  CreditCard, 
+  Users, 
+  ExternalLink,
+  Globe,
+  Compass,
+  Shield,
+  FileCheck,
+  Smartphone,
+  X,
+  ArrowRight,
+  LifeBuoy,
+  MessageSquare
 } from "lucide-react";
 import Link from "next/link";
 
-const docNavigation = [
+const popularSearches = ["GST setup", "Add new product", "Reset password", "E-way bill", "User roles"];
+
+const helpSections = [
   {
-    group: "Getting Started",
-    links: [
-      { name: "Introduction", href: "/docs/intro" },
-      { name: "Quickstart Guide", href: "/docs/quickstart" },
-      { name: "Core Architecture", href: "/docs/architecture" },
-    ],
+    title: "Getting Started",
+    description: "Create an account, set up your business profile, and configure business details.",
+    icon: <PlayCircle size={24} className="text-blue-600" />,
+    color: "blue",
+    href: "/docs/getting-started"
   },
   {
-    group: "Feature Guides",
-    links: [
-      { name: "Smart Invoicing", href: "/docs/invoicing" },
-      { name: "Order Pipelines", href: "/docs/orders" },
-      { name: "Inventory Sync", href: "/docs/inventory" },
-      { name: "Analytics API", href: "/docs/analytics" },
-    ],
+    title: "GST Billing & Invoices",
+    description: "Add products, create invoices, configure GST, download PDFs, and share bills.",
+    icon: <FileText size={24} className="text-indigo-600" />,
+    color: "indigo",
+    href: "/docs/invoices"
   },
   {
-    group: "Deployment",
-    links: [
-      { name: "Self-Hosting", href: "/docs/self-host" },
-      { name: "Cloud Integration", href: "/docs/cloud" },
-      { name: "Security Protocols", href: "/docs/security" },
-    ],
+    title: "Inventory & Products",
+    description: "Manage product details, stock quantities, purchases, returns, and stock adjustments.",
+    icon: <Package size={24} className="text-emerald-600" />,
+    color: "emerald",
+    href: "/docs/inventory"
   },
+  {
+    title: "Order Management",
+    description: "Create orders, track order status, and manage deliveries.",
+    icon: <ShoppingCart size={24} className="text-orange-600" />,
+    color: "orange",
+    href: "/docs/orders"
+  },
+  {
+    title: "Payments & Reports",
+    description: "Record payments, manage outstanding balances, and review business reports.",
+    icon: <CreditCard size={24} className="text-teal-600" />,
+    color: "teal",
+    href: "/docs/payments"
+  },
+  {
+    title: "Staff & Account Settings",
+    description: "Manage staff access, attendance, payroll, subscriptions, and account settings.",
+    icon: <Users size={24} className="text-purple-600" />,
+    color: "purple",
+    href: "/docs/settings"
+  }
 ];
 
-export default function DocsPage() {
-  const [copied, setCopied] = useState(false);
+const helpfulLinks = [
+  { name: "Official Aptro website", icon: <Globe size={18} />, href: "https://aptro.vercel.app" },
+  { name: "Explore features", icon: <Compass size={18} />, href: "/features" },
+  { name: "Privacy policy", icon: <Shield size={18} />, href: "/privacy" },
+  { name: "Terms of service", icon: <FileCheck size={18} />, href: "/terms" },
+  { name: "Download Aptro for Android", icon: <Smartphone size={18} />, href: "/download" },
+];
 
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
+export default function HelpCenterPage() {
   return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-blue-500/30">
-      {/* --- Breadcrumb Header --- */}
-      <div className="fixed top-18 w-full border-b border-white/5 bg-[#050505]/80 backdrop-blur-xl z-40 py-3">
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-            Docs <ChevronRight size={10} /> Getting Started <ChevronRight size={10} /> <span className="text-blue-400">Introduction</span>
-          </div>
-          <div className="relative hidden md:block">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-600" size={14} />
+    <main className="min-h-screen bg-[#FAFAFA] text-gray-800 font-sans selection:bg-blue-100 selection:text-blue-900 pb-24">
+      
+      {/* Top App Bar */}
+      <header className="sticky top-0 w-full h-16 border-b border-gray-200/80 bg-white/80 backdrop-blur-xl z-50 flex items-center justify-between px-6 lg:px-10">
+        <div className="flex items-center gap-3">
+          <Link href="/docs" className="flex items-center gap-2.5 group">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-sm group-hover:bg-blue-700 transition-colors">
+              <LifeBuoy className="text-white" size={18} strokeWidth={2.5} />
+            </div>
+            <span className="text-xl font-semibold tracking-tight text-gray-900 hidden sm:block">Aptro Support</span>
+          </Link>
+        </div>
+        
+        <Link 
+          href="/" 
+          className="text-sm font-medium text-gray-600 hover:text-gray-900 flex items-center gap-2 bg-gray-100/50 hover:bg-gray-100 px-4 py-2 rounded-full transition-all border border-gray-200/50"
+          title="Return to Application"
+        >
+          <X size={16} className="text-gray-500" />
+          Close Support
+        </Link>
+      </header>
+
+      {/* Hero Search Section with Subtle Radial Gradient */}
+      <section className="relative overflow-hidden bg-white border-b border-gray-200/80 pt-24 pb-20 px-6">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-50/50 via-white to-white pointer-events-none"></div>
+        
+        <div className="max-w-3xl mx-auto text-center relative z-10">
+          <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-gray-900 mb-4">
+            How can we help you today?
+          </h1>
+          <p className="text-lg text-gray-500 mb-10">
+            Search our knowledge base or browse categories below to find what you need.
+          </p>
+          
+          <div className="relative max-w-2xl mx-auto group">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-600 transition-colors" size={22} />
             <input 
               type="text" 
-              placeholder="Search documentation..." 
-              className="w-64 bg-white/5 border border-white/10 rounded-lg py-1.5 pl-9 pr-4 text-xs focus:outline-none focus:border-blue-500/50 transition-all"
+              placeholder="Search for articles, guides, or features..." 
+              className="w-full bg-white border border-gray-200 hover:border-gray-300 focus:border-blue-500 rounded-2xl py-4 pl-14 pr-16 text-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-[4px] focus:ring-blue-500/10 transition-all shadow-sm"
             />
+            {/* Keyboard Shortcut Hint */}
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1">
+              <kbd className="px-2 py-1 bg-gray-100 border border-gray-200 rounded text-xs font-sans text-gray-500 font-medium">⌘</kbd>
+              <kbd className="px-2 py-1 bg-gray-100 border border-gray-200 rounded text-xs font-sans text-gray-500 font-medium">K</kbd>
+            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-40 pb-20 flex gap-16">
-        
-        {/* --- Left Sidebar: Navigation --- */}
-        <aside className="hidden lg:block w-64 shrink-0 sticky top-40 h-[calc(100vh-10rem)] overflow-y-auto pr-4 custom-scrollbar">
-          <div className="space-y-10 pb-10">
-            {docNavigation.map((section) => (
-              <div key={section.group}>
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 mb-4 px-4">{section.group}</h4>
-                <div className="space-y-1">
-                  {section.links.map((link) => (
-                    <Link 
-                      key={link.name} 
-                      href={link.href}
-                      className={`block px-4 py-2 text-sm rounded-xl transition-all ${
-                        link.name === "Introduction" 
-                        ? "bg-blue-500/10 text-blue-400 font-bold" 
-                        : "text-gray-500 hover:text-white hover:bg-white/5"
-                      }`}
-                    >
-                      {link.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+          {/* Quick Suggestion Chips */}
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+            <span className="text-sm text-gray-500 mr-2 font-medium">Popular:</span>
+            {popularSearches.map((term, idx) => (
+              <button 
+                key={idx}
+                className="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300 transition-colors cursor-pointer"
+              >
+                {term}
+              </button>
             ))}
           </div>
-        </aside>
+        </div>
+      </section>
 
-        {/* --- Main Content --- */}
-        <article className="grow max-w-3xl">
-          <div className="space-y-12">
-            
-            {/* Page Title */}
-            <div>
-              <div className="flex items-center gap-2 text-blue-400 mb-4">
-                <BookOpen size={18} />
-                <span className="text-xs font-bold uppercase tracking-widest">Documentation</span>
-              </div>
-              <h1 className="text-5xl lg:text-7xl font-black tracking-tighter mb-6">Introduction</h1>
-              <p className="text-xl text-gray-400 leading-relaxed font-medium">
-                Aptro is a high-performance operating system for businesses, providing 
-                automated invoicing, order pipelines, and real-time intelligence.
-              </p>
-            </div>
-
-            {/* Quickstart Code Block */}
-            <section className="space-y-6">
-              <h3 className="text-2xl font-bold flex items-center gap-2">
-                <Terminal size={20} className="text-blue-500" /> Quick Installation
-              </h3>
-              <p className="text-gray-400 text-sm">
-                To begin using the Aptro Core SDK, run the following command in your project terminal:
-              </p>
-              
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-linear-to-r from-blue-600/20 to-purple-600/20 rounded-2xl blur opacity-0 group-hover:opacity-100 transition-opacity" />
-                <div className="relative bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 font-mono text-sm leading-relaxed flex items-center justify-between group">
-                  <code className="text-blue-100/80">npm install @aptro/core-sdk</code>
-                  <button 
-                    onClick={() => handleCopy("npm install @aptro/core-sdk")}
-                    className="p-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
-                  >
-                    {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} className="text-gray-500" />}
-                  </button>
+      {/* Main Content Layout */}
+      <div className="max-w-[1200px] mx-auto px-6 pt-16 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        
+        {/* Left Column: Documentation Categories (Takes up 8 columns on large screens) */}
+        <div className="lg:col-span-8 space-y-8">
+          <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Browse Categories</h2>
+          
+          <div className="grid sm:grid-cols-2 gap-5">
+            {helpSections.map((section, idx) => (
+              <Link 
+                key={idx}
+                href={section.href}
+                className="group flex flex-col p-6 bg-white border border-gray-200 rounded-2xl hover:border-transparent hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:-translate-y-0.5 transition-all duration-300"
+              >
+                <div className={`mb-5 inline-flex p-3.5 rounded-xl bg-${section.color}-50 group-hover:bg-${section.color}-100 transition-colors w-fit`}>
+                  {section.icon}
                 </div>
-              </div>
-            </section>
-
-            {/* Feature Cards Grid */}
-            <section className="grid md:grid-cols-2 gap-6 pt-8">
-              <DocFeatureCard 
-                icon={<Settings size={20} />} 
-                title="Configuration" 
-                desc="Set up your environment variables and webhook secrets."
-              />
-              <DocFeatureCard 
-                icon={<Box size={20} />} 
-                title="SDK Reference" 
-                desc="Full documentation for our Flutter and Next.js libraries."
-              />
-              <DocFeatureCard 
-                icon={<ShieldCheck size={20} />} 
-                title="Authentication" 
-                desc="Manage JWT tokens and enterprise SSO integration."
-              />
-              <DocFeatureCard 
-                icon={<Code2 size={20} />} 
-                title="API Endpoints" 
-                desc="Direct REST access for custom business workflows."
-              />
-            </section>
-
-            {/* Navigation Footer */}
-            <div className="pt-20 border-t border-white/5 flex items-center justify-between">
-              <div />
-              <Link href="/docs/quickstart" className="flex flex-col items-end group">
-                <span className="text-[10px] font-bold text-gray-600 uppercase tracking-[0.2em] mb-1">Next Step</span>
-                <span className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors flex items-center gap-2">
-                  Quickstart Guide <ArrowRight size={18} />
-                </span>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2.5 group-hover:text-blue-600 transition-colors">
+                  {section.title}
+                </h3>
+                <p className="text-[14px] text-gray-500 leading-relaxed mb-6 grow">
+                  {section.description}
+                </p>
+                <div className="flex items-center text-sm font-medium text-gray-400 group-hover:text-blue-600 transition-colors mt-auto">
+                  View articles <ArrowRight size={16} className="ml-1.5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                </div>
               </Link>
-            </div>
-
+            ))}
           </div>
-        </article>
+        </div>
 
-        {/* --- Right Sidebar: On This Page --- */}
-        <aside className="hidden xl:block w-48 shrink-0 sticky top-40 h-fit">
-          <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-600 mb-6 px-2">On this page</p>
-          <nav className="space-y-4 border-l border-white/5 pl-4">
-            <a href="#introduction" className="block text-xs font-bold text-blue-400">Introduction</a>
-            <a href="#installation" className="block text-xs font-bold text-gray-500 hover:text-white transition-colors">Installation</a>
-            <a href="#architecture" className="block text-xs font-bold text-gray-500 hover:text-white transition-colors">Core Concepts</a>
-            <a href="#community" className="block text-xs font-bold text-gray-500 hover:text-white transition-colors">Community</a>
-          </nav>
-        </aside>
+        {/* Right Column: Helpful Links & Support Widget (Takes up 4 columns on large screens) */}
+        <div className="lg:col-span-4 space-y-8">
+          <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Helpful Resources</h2>
+          
+          <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm">
+            <nav className="flex flex-col divide-y divide-gray-100">
+              {helpfulLinks.map((link, idx) => (
+                <a 
+                  key={idx}
+                  href={link.href}
+                  className="flex items-center justify-between p-4 text-[14px] text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors group"
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="text-gray-400 group-hover:text-blue-500 transition-colors">{link.icon}</span>
+                    <span className="font-medium">{link.name}</span>
+                  </div>
+                  <ExternalLink size={14} className="text-gray-300 group-hover:text-gray-500 transition-colors" />
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Contact Support Widget */}
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-2xl p-6 text-white shadow-md relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-6 opacity-10">
+              <MessageSquare size={100} />
+            </div>
+            <div className="relative z-10">
+              <div className="inline-flex p-2 bg-white/20 rounded-lg mb-4 backdrop-blur-sm">
+                <MessageSquare size={20} className="text-white" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Still need help?</h3>
+              <p className="text-blue-100 text-sm leading-relaxed mb-6">
+                Can't find the answer you're looking for? Our dedicated support team is ready to assist you with your workspace.
+              </p>
+              <button className="w-full py-2.5 px-4 bg-white text-blue-700 hover:bg-blue-50 font-semibold text-sm rounded-xl transition-colors shadow-sm">
+                Contact Support
+              </button>
+            </div>
+          </div>
+
+        </div>
 
       </div>
     </main>
-  );
-}
-
-// --- Sub-Components ---
-
-function DocFeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
-  return (
-    <Link href="#" className="p-8 rounded-4xl bg-[#0a0a0a] border border-white/5 hover:border-blue-500/30 transition-all group relative overflow-hidden">
-      <div className="absolute -right-4 -bottom-4 text-white/5 group-hover:text-blue-500/5 transition-colors">
-        {icon}
-      </div>
-      <div className="mb-6 inline-block p-3 rounded-xl bg-white/5 text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all">
-        {icon}
-      </div>
-      <h4 className="text-lg font-bold mb-2 tracking-tight group-hover:text-blue-400 transition-colors">{title}</h4>
-      <p className="text-xs text-gray-500 leading-relaxed">{desc}</p>
-    </Link>
   );
 }

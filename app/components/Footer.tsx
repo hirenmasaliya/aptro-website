@@ -87,6 +87,7 @@ export default function Footer() {
             <ul className="space-y-4 text-[14px]">
               <li><Link href="/features" className="hover:text-[#1A73E8] transition-colors block">Features</Link></li>
               <li><Link href="/pricing" className="hover:text-[#1A73E8] transition-colors block">Pricing</Link></li>
+              <li><Link href="/docs" className="hover:text-[#1A73E8] transition-colors block">Docs</Link></li>
               <li>
                 <Link href="/download" className="hover:text-[#1A73E8] transition-colors flex items-center gap-1.5 group w-fit">
                   App Store 
