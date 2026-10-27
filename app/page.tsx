@@ -1,119 +1,180 @@
+
 "use client";
 
 import Features from "./components/Features";
 import Hero from "./components/Hero";
-import { ArrowRight, ShieldCheck, Zap, Lock, TrendingUp, Users, CheckCircle2 } from "lucide-react";
+import {
+  ArrowRight,
+  CheckCircle2,
+  ClipboardList,
+  Lock,
+  ShieldCheck,
+  TrendingUp,
+  Users,
+  Zap,
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Easing, motion, Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import type { Easing, Variants } from "framer-motion";
 
-// Material Design standard easing
 const materialEasing: Easing = [0.2, 0, 0, 1];
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.1 },
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
   },
 };
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: materialEasing,
+    },
+  },
 };
 
 const floatingAnimation: Variants = {
   animate: {
-    y: [0, -8, 0],
+    y: [0, -7, 0],
     transition: {
       duration: 4,
       repeat: Infinity,
       ease: "easeInOut",
     },
   },
-} as const;
+};
+
+const businessFeatures = [
+  {
+    title: "GST Billing and Sales Tracking",
+    description:
+      "Create GST and non-GST invoices, manage customer bills, and track sales and outstanding payments in one place.",
+  },
+  {
+    title: "Inventory and Stock Management",
+    description:
+      "Manage product details, monitor stock levels, and keep your inventory organized as your business grows.",
+  },
+  {
+    title: "B2B Orders and Business Operations",
+    description:
+      "Organize customer orders, monitor order progress, and keep important business information easier to access.",
+  },
+  {
+    title: "Staff and Attendance Management",
+    description:
+      "Manage staff information, attendance, and payroll-related tasks alongside your everyday business operations.",
+  },
+];
 
 export default function Home() {
+  const shouldReduceMotion = useReducedMotion();
+
+  const reveal = shouldReduceMotion
+    ? {}
+    : {
+        initial: { opacity: 0, y: 20 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: "-40px" },
+        transition: { duration: 0.55, ease: materialEasing },
+      };
+
   return (
-    <main className="relative min-h-screen bg-[#F8F9FA] text-[#202124] selection:bg-[#D3E3FD] selection:text-[#041E49] overflow-x-hidden font-sans">
-      
+    <main className="relative min-h-screen overflow-x-clip bg-[#F8F9FA] font-sans text-[#202124] selection:bg-[#D3E3FD] selection:text-[#041E49]">
       <div className="relative z-10 pt-16">
+        {/* Hero: Keep the primary H1 inside the Hero component */}
         <Hero />
 
-        <div className="flex flex-col gap-y-24 pb-32">
+        <div className="flex flex-col gap-y-20 pb-24 md:gap-y-28 md:pb-32">
+          {/* Core features */}
           <Features />
 
-          {/* --- PRODUCT SHOWCASE SECTION --- */}
-          {/* SEO Fix 1: Added aria-labelledby to connect the section to its heading for screen readers & search bots */}
-          <section aria-labelledby="showcase-heading" className="max-w-[1280px] mx-auto px-6 w-full py-12">
-            <motion.div 
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, ease: materialEasing }}
-              className="flex flex-col items-center text-center mb-16"
+          {/* Business management showcase */}
+          <section
+            aria-labelledby="showcase-heading"
+            className="mx-auto w-full max-w-[1280px] px-5 py-8 sm:px-6 md:py-12"
+          >
+            <motion.div
+              {...reveal}
+              className="mx-auto mb-12 flex max-w-3xl flex-col items-center text-center md:mb-16"
             >
-              {/* SEO Fix 2: Optimized H2 with high-value keyword "business management software" */}
-              <h2 id="showcase-heading" className="text-3xl md:text-4xl lg:text-5xl font-normal tracking-tight mb-4 text-[#1F1F1F]">
-                Complete <span className="text-[#1A73E8]">business management software.</span>
+              <span className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#D2E3FC] bg-[#E8F0FE] px-4 py-2 text-sm font-medium text-[#1967D2]">
+                <Zap size={16} aria-hidden="true" />
+                One app for everyday business tasks
+              </span>
+
+              <h2
+                id="showcase-heading"
+                className="mb-5 text-3xl font-normal leading-tight tracking-tight text-[#1F1F1F] sm:text-4xl lg:text-5xl"
+              >
+                GST billing and{" "}
+                <span className="text-[#1A73E8]">
+                  business management
+                </span>{" "}
+                made simpler.
               </h2>
-              {/* SEO Fix 3: Injected core features into the description paragraph */}
-              <p className="text-[#444746] max-w-2xl text-[16px] md:text-[18px]">
-                Stop switching between multiple apps. Aptro brings your GST billing, staff payroll, and inventory tracking together on one simple dashboard.
+
+              <p className="max-w-2xl text-base leading-7 text-[#5F6368] md:text-lg">
+                Aptro brings invoicing, inventory, customer orders, and
+                business operations together in one app designed for
+                Indian small businesses.
               </p>
             </motion.div>
 
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              {/* Image Container - Material Card Style */}
-              <motion.div 
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: materialEasing }}
-                className="relative rounded-[24px] overflow-hidden aspect-[4/3] flex items-center justify-center bg-white border border-[#DADCE0] shadow-sm"
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+              {/* Product image */}
+              <motion.div
+                {...reveal}
+                className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-[#DADCE0] bg-white shadow-sm"
               >
-                <Image 
-                  src="/images/everything.png" 
-                  // SEO Fix 4: Descriptive Alt Text using target keywords
-                  alt="Aptro business management app dashboard showing live sales, GST billing, and inventory tracking" 
-                  fill 
-                  className="object-cover" 
+                <Image
+                  src="/images/everything.png"
+                  alt="Aptro business management app interface for billing, inventory, and order management"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-contain p-3 sm:p-5"
                 />
               </motion.div>
 
-              {/* Contextual Features - Simple English & SEO Optimized */}
-              {/* SEO Fix 5: Changed from div to a semantic unordered list (ul) */}
-              <motion.ul 
+              {/* Feature list */}
+              <motion.ul
                 variants={containerVariants}
-                initial="hidden"
+                initial={shouldReduceMotion ? false : "hidden"}
                 whileInView="visible"
-                viewport={{ once: true }}
-                className="flex flex-col gap-8 list-none m-0 p-0"
+                viewport={{ once: true, margin: "-40px" }}
+                className="m-0 flex list-none flex-col gap-7 p-0 md:gap-8"
               >
-                {[
-                  { 
-                    title: "GST Billing & Sales Tracking", 
-                    desc: "See daily revenue, pending payments, and generate digital khata entries instantly from the start screen." 
-                  },
-                  { 
-                    title: "Staff Payroll & Attendance", 
-                    desc: "Track employee check-ins and process salary payments with a single tap. No complex math required." 
-                  },
-                  { 
-                    title: "B2B Order & Inventory Management", 
-                    desc: "Keep an accurate count of your stock, monitor deliveries, and never miss a B2B order update." 
-                  }
-                ].map((feature, idx) => (
-                  // SEO Fix 6: Changed from div to li
-                  <motion.li key={idx} variants={itemVariants} className="flex gap-4">
-                    <div className="mt-1 w-10 h-10 rounded-full bg-[#E8F0FE] flex items-center justify-center shrink-0">
-                      <CheckCircle2 size={20} className="text-[#1A73E8]" aria-hidden="true" />
+                {businessFeatures.map((feature) => (
+                  <motion.li
+                    key={feature.title}
+                    variants={shouldReduceMotion ? undefined : itemVariants}
+                    className="flex gap-4"
+                  >
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#E8F0FE]">
+                      <CheckCircle2
+                        size={21}
+                        className="text-[#1A73E8]"
+                        aria-hidden="true"
+                      />
                     </div>
+
                     <div>
-                      {/* SEO Fix 7: Used H3 for proper document outline under the section's H2 */}
-                      <h3 className="text-[18px] font-medium mb-1 text-[#1F1F1F]">{feature.title}</h3>
-                      <p className="text-[#444746] leading-relaxed text-[15px]">{feature.desc}</p>
+                      <h3 className="mb-2 text-lg font-medium text-[#202124]">
+                        {feature.title}
+                      </h3>
+                      <p className="text-[15px] leading-7 text-[#5F6368]">
+                        {feature.description}
+                      </p>
                     </div>
                   </motion.li>
                 ))}
@@ -121,114 +182,161 @@ export default function Home() {
             </div>
           </section>
 
-          {/* --- CTA SECTION (Google Card Style) --- */}
-          <section aria-labelledby="cta-heading" className="max-w-[1280px] mx-auto px-4 sm:px-6 w-full pt-12 pb-24">
-            <motion.div 
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, ease: materialEasing }}
-              className="relative bg-white border border-[#DADCE0] shadow-sm rounded-[32px] overflow-visible group"
+          {/* Conversion CTA */}
+          <section
+            aria-labelledby="cta-heading"
+            className="mx-auto w-full max-w-[1280px] px-4 sm:px-6"
+          >
+            <motion.div
+              {...reveal}
+              className="relative isolate overflow-hidden rounded-[28px] border border-[#DADCE0] bg-white shadow-sm sm:rounded-[32px]"
             >
-              {/* Soft background tint */}
-              <div className="absolute inset-0 bg-[#F8F9FA]/50 rounded-[32px] pointer-events-none" />
+              {/* Decorative background */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-[#E8F0FE]/70 via-white to-[#F8F9FA]"
+              />
 
-              {/* Floating Widget 1 - Left */}
-              <motion.div 
+              {/* Left decorative card */}
+              <motion.div
                 variants={floatingAnimation}
-                animate="animate"
-                className="hidden xl:flex absolute -left-8 top-16 z-20 items-center gap-4 p-4 pr-6 rounded-[16px] bg-white border border-[#DADCE0] shadow-md transition-shadow duration-300 hover:shadow-lg"
+                animate={shouldReduceMotion ? undefined : "animate"}
+                className="absolute -left-3 top-14 hidden items-center gap-3 rounded-2xl border border-[#DADCE0] bg-white p-4 shadow-md xl:flex"
               >
-                <div className="w-12 h-12 rounded-full bg-[#E6F4EA] flex items-center justify-center text-[#1E8E3E]">
-                  <TrendingUp size={24} aria-hidden="true" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E8F0FE] text-[#1A73E8]">
+                  <TrendingUp size={22} aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-[12px] text-[#5F6368] font-medium uppercase tracking-wider mb-0.5">Sales Growth</p>
-                  <p className="text-[16px] font-medium text-[#1F1F1F]">+14.2% <span className="text-[#5F6368] text-[13px] font-normal ml-1">this month</span></p>
+                  <p className="text-sm font-medium text-[#202124]">
+                    Sales tracking
+                  </p>
+                  <p className="mt-1 text-xs text-[#5F6368]">
+                    Keep sales organized
+                  </p>
                 </div>
               </motion.div>
 
-              {/* Floating Widget 2 - Right */}
-              <motion.div 
+              {/* Right decorative card */}
+              <motion.div
                 variants={floatingAnimation}
-                animate="animate"
-                style={{ animationDelay: "2s" }}
-                className="hidden xl:flex absolute -right-8 bottom-24 z-20 items-center gap-4 p-4 pr-6 rounded-[16px] bg-white border border-[#DADCE0] shadow-md transition-shadow duration-300 hover:shadow-lg"
+                animate={shouldReduceMotion ? undefined : "animate"}
+                className="absolute -right-3 bottom-16 hidden items-center gap-3 rounded-2xl border border-[#DADCE0] bg-white p-4 shadow-md xl:flex"
               >
-                <div className="w-12 h-12 rounded-full bg-[#E8F0FE] flex items-center justify-center text-[#1A73E8]">
-                  <Users size={24} aria-hidden="true" />
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#E6F4EA] text-[#188038]">
+                  <ClipboardList size={22} aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-[12px] text-[#5F6368] font-medium uppercase tracking-wider mb-0.5">Staff Pay</p>
-                  <p className="text-[16px] font-medium text-[#1F1F1F]">Cleared <span className="text-[#1E8E3E] text-[13px] font-normal ml-1">✓ Done</span></p>
+                  <p className="text-sm font-medium text-[#202124]">
+                    Order management
+                  </p>
+                  <p className="mt-1 text-xs text-[#5F6368]">
+                    Organize business orders
+                  </p>
                 </div>
               </motion.div>
 
-              <motion.div 
-                className="relative z-10 px-6 py-20 md:py-24 lg:px-24 text-center flex flex-col items-center"
+              <motion.div
                 variants={containerVariants}
-                initial="hidden"
+                initial={shouldReduceMotion ? false : "hidden"}
                 whileInView="visible"
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "-40px" }}
+                className="relative mx-auto flex max-w-4xl flex-col items-center px-5 py-16 text-center sm:px-10 sm:py-20 md:py-24 lg:px-20"
               >
-                {/* Status Badge */}
-                <motion.div variants={itemVariants}>
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium mb-8 border border-[#D2E3FC]">
-                    <span className="w-2 h-2 rounded-full bg-[#1E8E3E]"></span>
-                    The #1 Business App for Android & iOS
-                  </div>
+                <motion.div variants={shouldReduceMotion ? undefined : itemVariants}>
+                  <span className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#D2E3FC] bg-[#E8F0FE] px-4 py-2 text-[13px] font-medium text-[#1967D2]">
+                    <span
+                      aria-hidden="true"
+                      className="h-2 w-2 rounded-full bg-[#188038]"
+                    />
+                    Built for Indian small businesses
+                  </span>
                 </motion.div>
 
-                {/* SEO Fix 8: Added ID for accessibility and injected 'billing & management app' keyword */}
-                <motion.h2 id="cta-heading" variants={itemVariants} className="text-3xl md:text-5xl lg:text-6xl font-normal mb-6 text-[#1F1F1F] leading-[1.1] max-w-3xl">
-                  Grow your business with the <br className="hidden md:block" />
-                  <span className="text-[#1A73E8]">best management app.</span>
+                <motion.h2
+                  id="cta-heading"
+                  variants={shouldReduceMotion ? undefined : itemVariants}
+                  className="mb-6 text-3xl font-normal leading-tight tracking-tight text-[#202124] sm:text-4xl md:text-5xl lg:text-6xl"
+                >
+                  Spend less time on paperwork.
+                  <span className="mt-2 block text-[#1A73E8]">
+                    Focus on growing your business.
+                  </span>
                 </motion.h2>
 
-                {/* SEO Fix 9: Injected "SMEs" and "digital khata" into the final pitch */}
-                <motion.p variants={itemVariants} className="text-[#444746] text-[16px] md:text-[18px] mb-12 max-w-2xl leading-relaxed">
-                  Aptro is the ultimate digital khata and billing tool for Indian SMEs. Join smart business owners who are automating their operations today.
+                <motion.p
+                  variants={shouldReduceMotion ? undefined : itemVariants}
+                  className="mb-9 max-w-2xl text-base leading-7 text-[#5F6368] md:text-lg"
+                >
+                  Simplify GST billing, manage stock, organize orders, and
+                  keep your business information accessible with Aptro.
                 </motion.p>
 
-                {/* Simple Button Group */}
-                <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center items-center w-full sm:w-auto">
-                  
-                  {/* Primary Button */}
+                {/* Action buttons */}
+                <motion.div
+                  variants={shouldReduceMotion ? undefined : itemVariants}
+                  className="flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row sm:gap-4"
+                >
                   <Link
                     href="/download"
-                    aria-label="Download the Aptro app for free"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[#1A73E8] text-white rounded-full font-medium text-[15px] transition-colors hover:bg-[#1557B0] hover:shadow-md flex items-center justify-center gap-2 group"
+                    className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-7 py-4 text-[15px] font-medium text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#AECBFA] sm:w-auto"
                   >
-                    Download the App
-                    <ArrowRight size={18} aria-hidden="true" className="group-hover:translate-x-1 transition-transform duration-200" />
+                    Get Aptro
+                    <ArrowRight
+                      size={18}
+                      aria-hidden="true"
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                    />
                   </Link>
-                  
-                  {/* Secondary Button */}
+
                   <Link
                     href="/demo"
-                    aria-label="Watch a video demo of Aptro features"
-                    className="w-full sm:w-auto px-8 py-3.5 bg-white border border-[#DADCE0] text-[#1A73E8] rounded-full font-medium text-[15px] transition-colors hover:bg-[#F8F9FA] hover:border-[#1A73E8] flex items-center justify-center gap-2"
+                    className="inline-flex w-full items-center justify-center rounded-full border border-[#DADCE0] bg-white px-7 py-4 text-[15px] font-medium text-[#1967D2] transition-colors hover:border-[#1A73E8] hover:bg-[#F8F9FA] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#AECBFA] sm:w-auto"
                   >
-                    Watch a Video
+                    Explore the Demo
                   </Link>
-                  
                 </motion.div>
 
-                {/* Plain English Trust Indicators */}
-                <motion.div variants={itemVariants} className="mt-16 pt-8 border-t border-[#DADCE0] flex flex-col sm:flex-row flex-wrap items-center justify-center gap-6 sm:gap-10 w-full max-w-2xl">
-                  <div className="flex items-center gap-2 text-[14px] text-[#5F6368] font-medium">
-                    <ShieldCheck size={18} aria-hidden="true" className="text-[#1A73E8]" /> GST Compliant
+                {/* Trust indicators */}
+                <motion.div
+                  variants={shouldReduceMotion ? undefined : itemVariants}
+                  className="mt-12 flex w-full max-w-2xl flex-col items-center justify-center gap-5 border-t border-[#DADCE0] pt-8 sm:flex-row sm:flex-wrap sm:gap-x-8"
+                >
+                  <div className="flex items-center gap-2 text-sm text-[#5F6368]">
+                    <ShieldCheck
+                      size={18}
+                      className="text-[#1A73E8]"
+                      aria-hidden="true"
+                    />
+                    GST invoicing tools
                   </div>
-                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[#DADCE0]" aria-hidden="true" />
-                  <div className="flex items-center gap-2 text-[14px] text-[#5F6368] font-medium">
-                    <Zap size={18} aria-hidden="true" className="text-[#1A73E8]" /> Auto Cloud Sync
+
+                  <div className="flex items-center gap-2 text-sm text-[#5F6368]">
+                    <Zap
+                      size={18}
+                      className="text-[#1A73E8]"
+                      aria-hidden="true"
+                    />
+                    Business tools in one app
                   </div>
-                  <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-[#DADCE0]" aria-hidden="true" />
-                  <div className="flex items-center gap-2 text-[14px] text-[#5F6368] font-medium">
-                    <Lock size={18} aria-hidden="true" className="text-[#1A73E8]" /> 100% Private Data
+
+                  <div className="flex items-center gap-2 text-sm text-[#5F6368]">
+                    <Lock
+                      size={18}
+                      className="text-[#1A73E8]"
+                      aria-hidden="true"
+                    />
+                    Account-based access
+                  </div>
+
+                  <div className="flex items-center gap-2 text-sm text-[#5F6368]">
+                    <Users
+                      size={18}
+                      className="text-[#1A73E8]"
+                      aria-hidden="true"
+                    />
+                    For growing businesses
                   </div>
                 </motion.div>
-                
               </motion.div>
             </motion.div>
           </section>

@@ -1,302 +1,429 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, ShieldCheck, Mail, ChevronRight, Info } from "lucide-react";
-import { motion, Variants } from "framer-motion";
-import { useState, useEffect } from "react";
+import { ArrowLeft, ArrowUp, Check, ChevronDown, Info, Link2, Mail, Printer, ShieldCheck } from "lucide-react";
 
-// Material Design standard easing
-const materialEasing = [0.2, 0, 0, 1] as const;
+/* ───────────── Edit these when the policy changes ───────────── */
 
-const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
-};
+const VERSION = "1.8.5";
+const EFFECTIVE_DATE = "27 October 2026";
+const EFFECTIVE_ISO = "2026-10-27";
 
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05 }
-  }
-};
+// NOTE: "aptrosuppor" looks like a typo of "aptrosupport". Confirm the real address.
+const SUPPORT_EMAIL = "aptrosuppor@gmail.com";
 
-const sections = [
-  { id: "introduction", title: "1. Introduction" },
-  { id: "information", title: "2. Information We Collect" },
-  { id: "permissions", title: "3. Device Permissions" },
-  { id: "usage", title: "4. How We Use & Share Data" },
-  { id: "security", title: "5. Data Security & Retention" },
-  { id: "rights", title: "6. Your Privacy Rights" },
-  { id: "contact", title: "7. Contact Us" },
+const VERSION_HISTORY = [
+  { version: "1.8.5", date: "27 October 2026" },
+  { version: "1.7.2", date: "21 June 2026" },
 ];
 
+/* ───────────── Small building blocks ───────────── */
+
+function Callout({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="mt-6 flex gap-3 rounded-xl bg-[#E8F0FE] p-5 text-[15px] leading-relaxed text-[#174EA6]">
+      <Info size={20} className="mt-0.5 shrink-0" aria-hidden="true" />
+      <div>
+        <p className="font-semibold">{title}</p>
+        <p className="mt-1">{children}</p>
+      </div>
+    </div>
+  );
+}
+
+function Table({ caption, head, rows }: { caption: string; head: string[]; rows: React.ReactNode[][] }) {
+  return (
+    <div className="mt-6 overflow-x-auto rounded-xl border border-[#DADCE0]">
+      <table className="w-full min-w-[520px] text-left text-[15px]">
+        <caption className="sr-only">{caption}</caption>
+        <thead className="bg-[#F8F9FA] text-[14px] text-[#5F6368]">
+          <tr>
+            {head.map((h) => (
+              <th key={h} scope="col" className="px-5 py-3 font-medium">{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-[#E8EAED]">
+          {rows.map((r, i) => (
+            <tr key={i} className="align-top">
+              <th scope="row" className="w-[28%] px-5 py-4 font-semibold text-[#1F1F1F]">{r[0]}</th>
+              {r.slice(1).map((c, j) => (
+                <td key={j} className="px-5 py-4 leading-relaxed text-[#444746]">{c}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Bullets({ items }: { items: string[] }) {
+  return (
+    <ul className="mt-5 space-y-3">
+      {items.map((t) => (
+        <li key={t} className="flex gap-3">
+          <Check size={18} className="mt-1 shrink-0 text-[#1A73E8]" aria-hidden="true" />
+          <span>{t}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/* ───────────── Policy content ───────────── */
+/* EDIT: have a lawyer review this text, especially sections 7 to 9. */
+
+const SECTIONS: { id: string; title: string; body: React.ReactNode }[] = [
+  {
+    id: "introduction",
+    title: "Introduction",
+    body: (
+      <>
+        <p>
+          Welcome to Aptro. Your business data is sensitive, and we treat it that way. This Privacy Policy explains how Aptro
+          collects, uses, stores and protects your information when you use our mobile app, website and related business
+          management services.
+        </p>
+        <p className="mt-4">By using the Aptro platform, you agree to the collection and use of information described in this policy.</p>
+      </>
+    ),
+  },
+  {
+    id: "information",
+    title: "Information we collect",
+    body: (
+      <>
+        <p>We collect information you give us when you register, and information created as you use the app.</p>
+        <Table
+          caption="Types of information Aptro collects"
+          head={["Type", "What it includes", "Why we need it"]}
+          rows={[
+            ["Personal details", "Full name, email address and phone number.", "To create and secure your account."],
+            ["Business information", "Business name, address, GSTIN or tax ID, and business logo.", "To generate correct invoices."],
+            ["App data", "Inventory lists, customer and vendor records, invoices, attendance and payroll records.", "To run the features you use and back up your data."],
+          ]}
+        />
+      </>
+    ),
+  },
+  {
+    id: "permissions",
+    title: "Device permissions",
+    body: (
+      <>
+        <p>
+          To provide core features, Aptro may ask for certain device permissions. You can change or withdraw them at any time in your
+          device settings.
+        </p>
+        <Table
+          caption="Device permissions Aptro may request"
+          head={["Permission", "What we use it for"]}
+          rows={[
+            ["Camera", "Only to scan product barcodes or take photos of receipts and logos."],
+            ["Storage", "To save downloaded PDF invoices and export reports to your device."],
+            ["Contacts (optional)", "To import customers or vendors from your phonebook. Aptro works without it."],
+          ]}
+        />
+      </>
+    ),
+  },
+  {
+    id: "usage",
+    title: "How we use and share your data",
+    body: (
+      <>
+        <p>
+          We use your data only to create orders, manage inventory, back up your business data to the cloud, and provide customer support.
+        </p>
+        <Callout title="We do not sell your data">
+          We do not sell, rent or trade your business data to any third party. We share information only with trusted cloud service
+          providers that host it for us, or when a valid legal process requires us to.
+        </Callout>
+      </>
+    ),
+  },
+  {
+    id: "security",
+    title: "Data security and retention",
+    body: (
+      <>
+        <p>
+          Aptro uses industry-standard security measures. Data sent between your device and our servers is encrypted with HTTPS/TLS,
+          and passwords and sensitive tokens are encrypted at rest.
+        </p>
+        <p className="mt-4">
+          We keep your profile and business data while your account is active. If you delete your account, your data is permanently
+          removed from our active databases within 30 days.
+        </p>
+      </>
+    ),
+  },
+  {
+    id: "rights",
+    title: "Your privacy rights",
+    body: (
+      <>
+        <p>You stay in control of your data. You can:</p>
+        <Bullets
+          items={[
+            "Access and view all the data stored in your account.",
+            "Export your invoices, customer lists and inventory as CSV or PDF files.",
+            "Update or correct inaccurate business details at any time.",
+            "Delete your account from Account Settings in the app.",
+            "Withdraw permissions you gave earlier, using your device settings.",
+          ]}
+        />
+        <p className="mt-5">If you cannot do something from the app, email us and we will help.</p>
+      </>
+    ),
+  },
+  {
+    id: "children",
+    title: "Children’s privacy",
+    // EDIT: confirm this matches your product and local law.
+    body: (
+      <p>
+        Aptro is built for business use and is not meant for children under 18. We do not knowingly collect personal data from
+        children. If you believe a child has given us personal data, contact us and we will delete it.
+      </p>
+    ),
+  },
+  {
+    id: "changes",
+    title: "Changes to this policy",
+    body: (
+      <>
+        <p>
+          We may update this policy to reflect app improvements or legal requirements. The version and effective date at the top of
+          this page always show the latest update. If a change is significant, we will tell you in the app or by email.
+        </p>
+        <Table
+          caption="Privacy policy version history"
+          head={["Version", "Effective date"]}
+          rows={VERSION_HISTORY.map((v) => [v.version, v.date])}
+        />
+      </>
+    ),
+  },
+  {
+    id: "contact",
+    title: "Contact us and grievances",
+    body: (
+      <>
+        <p>
+          For questions, privacy requests or complaints, contact our privacy team. We will acknowledge your message and reply as soon
+          as we can.
+        </p>
+        <a
+          href={`mailto:${SUPPORT_EMAIL}?subject=Aptro%20privacy%20request`}
+          className="mt-6 inline-flex items-center gap-4 rounded-full border border-[#DADCE0] py-3 pl-3 pr-6 transition-colors hover:bg-[#F8F9FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F1F3F4] text-[#444746]">
+            <Mail size={18} aria-hidden="true" />
+          </span>
+          <span>
+            <span className="block text-[12px] font-medium text-[#5F6368]">Privacy support</span>
+            <span className="block text-[14px] font-medium text-[#1A73E8]">{SUPPORT_EMAIL}</span>
+          </span>
+        </a>
+      </>
+    ),
+  },
+];
+
+/* ───────────── Page ───────────── */
+
 export default function PrivacyPolicyPage() {
-  const [activeSection, setActiveSection] = useState(sections[0].id);
+  const [active, setActive] = useState(SECTIONS[0].id);
+  const barRef = useRef<HTMLDivElement>(null);
+  const mobileNav = useRef<HTMLDetailsElement>(null);
 
-  // Scroll Tracking for Table of Contents
+  // Highlight the section being read
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
+        const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (hit) setActive(hit.target.id);
       },
-      { rootMargin: "-100px 0px -60% 0px" }
+      { rootMargin: "-100px 0px -65% 0px" }
     );
-
-    const sectionElements = document.querySelectorAll("section[id]");
-    sectionElements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
+    document.querySelectorAll("section[data-policy]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
-  return (
-    <main className="min-h-screen pt-20 pb-32 bg-[#F8F9FA] text-[#202124] font-sans selection:bg-[#D3E3FD] selection:text-[#041E49]">
-      
-      <div className="max-w-[1200px] mx-auto px-6">
-        
-        {/* Navigation - Google App Bar Style */}
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ duration: 0.4 }}
-          className="mb-8"
-        >
-          <Link 
-            href="/" 
-            className="inline-flex items-center gap-2 text-[14px] font-medium text-[#444746] hover:bg-[#E1E3E1]/50 px-4 py-2 rounded-full transition-colors"
-          >
-            <ArrowLeft size={18} />
-            Home
-          </Link>
-        </motion.div>
+  // Reading progress bar
+  useEffect(() => {
+    const onScroll = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      if (barRef.current) barRef.current.style.transform = `scaleX(${max > 0 ? Math.min(h.scrollTop / max, 1) : 0})`;
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-        <div className="flex flex-col lg:flex-row gap-8 xl:gap-12 relative">
-          
-          {/* Sticky Table of Contents (Desktop) - Material Drawer Style */}
-          <motion.aside 
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: materialEasing }}
-            className="hidden lg:block w-72 shrink-0"
-          >
-            <div className="sticky top-28">
-              <h3 className="text-[14px] font-medium text-[#444746] mb-4 px-4">On this page</h3>
-              <nav className="flex flex-col gap-1">
-                {sections.map((section) => {
-                  const isActive = activeSection === section.id;
+  const activeIndex = SECTIONS.findIndex((s) => s.id === active);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Aptro Privacy Policy",
+    description: "How Aptro collects, uses, stores and protects your business data.",
+    dateModified: EFFECTIVE_ISO,
+    version: VERSION,
+    publisher: { "@type": "Organization", name: "Aptro" },
+  };
+
+  return (
+    <main className="min-h-screen scroll-smooth bg-white pb-28 pt-20 font-sans text-[#202124] selection:bg-[#D3E3FD]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
+      {/* Reading progress */}
+      <div className="fixed inset-x-0 top-0 z-50 h-[3px] print:hidden" aria-hidden="true">
+        <div ref={barRef} className="h-full origin-left scale-x-0 bg-[#1A73E8]" />
+      </div>
+
+      <div className="mx-auto max-w-[1100px] px-6">
+        <Link
+          href="/"
+          className="mb-8 inline-flex items-center gap-2 rounded-full px-4 py-2 text-[14px] font-medium text-[#444746] transition-colors hover:bg-[#F1F3F4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] print:hidden"
+        >
+          <ArrowLeft size={18} aria-hidden="true" />
+          Home
+        </Link>
+
+        {/* Header */}
+        <header className="mb-10 max-w-3xl border-b border-[#DADCE0] pb-10">
+          <span className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-[#E8F0FE] text-[#1A73E8]">
+            <ShieldCheck size={24} aria-hidden="true" />
+          </span>
+          <h1 className="text-4xl font-medium tracking-tight text-[#1F1F1F] md:text-5xl">Privacy Policy</h1>
+          <p className="mt-4 text-[17px] leading-relaxed text-[#5F6368]">
+            What Aptro collects, why we collect it, and the control you have over it.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-3 text-[14px] text-[#5F6368]">
+            <span>
+              Effective <time dateTime={EFFECTIVE_ISO} className="font-medium text-[#3C4043]">{EFFECTIVE_DATE}</time>
+            </span>
+            <span>
+              Version <span className="font-medium text-[#3C4043]">{VERSION}</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#DADCE0] px-3.5 py-1.5 font-medium text-[#3C4043] hover:bg-[#F8F9FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] print:hidden"
+            >
+              <Printer size={15} aria-hidden="true" />
+              Print or save as PDF
+            </button>
+          </div>
+        </header>
+
+        {/* Mobile section picker */}
+        <details
+          ref={mobileNav}
+          className="group sticky top-20 z-30 mb-8 rounded-xl border border-[#DADCE0] bg-white/95 backdrop-blur lg:hidden print:hidden"
+        >
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-[14px] font-medium text-[#1F1F1F] [&::-webkit-details-marker]:hidden">
+            <span className="truncate">
+              <span className="text-[#5F6368]">On this page: </span>
+              {activeIndex + 1}. {SECTIONS[activeIndex].title}
+            </span>
+            <ChevronDown size={18} className="shrink-0 transition-transform group-open:rotate-180" aria-hidden="true" />
+          </summary>
+          <nav aria-label="Sections" className="border-t border-[#E8EAED] p-2">
+            {SECTIONS.map((s, i) => (
+              <a
+                key={s.id}
+                href={`#${s.id}`}
+                onClick={() => mobileNav.current?.removeAttribute("open")}
+                className={`block rounded-lg px-3 py-2.5 text-[14px] ${s.id === active ? "bg-[#E8F0FE] font-medium text-[#174EA6]" : "text-[#444746]"}`}
+              >
+                {i + 1}. {s.title}
+              </a>
+            ))}
+          </nav>
+        </details>
+
+        <div className="flex gap-12">
+          {/* Desktop table of contents */}
+          <aside className="hidden w-64 shrink-0 lg:block print:hidden">
+            <nav aria-label="On this page" className="sticky top-28">
+              <p className="mb-3 px-4 text-[14px] font-medium text-[#5F6368]">On this page</p>
+              <ul className="space-y-0.5">
+                {SECTIONS.map((s, i) => {
+                  const on = s.id === active;
                   return (
-                    <a
-                      key={section.id}
-                      href={`#${section.id}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        document.getElementById(section.id)?.scrollIntoView({ behavior: 'smooth' });
-                      }}
-                      className={`text-[14px] py-2.5 px-4 rounded-full transition-colors relative flex items-center ${
-                        isActive 
-                          ? "bg-[#D3E3FD] text-[#041E49] font-medium" 
-                          : "text-[#444746] hover:bg-[#F1F3F4]"
-                      }`}
-                    >
-                      {section.title}
-                    </a>
+                    <li key={s.id}>
+                      <a
+                        href={`#${s.id}`}
+                        aria-current={on ? "true" : undefined}
+                        className={`block rounded-full px-4 py-2.5 text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] ${
+                          on ? "bg-[#D3E3FD] font-medium text-[#041E49]" : "text-[#444746] hover:bg-[#F1F3F4]"
+                        }`}
+                      >
+                        {i + 1}. {s.title}
+                      </a>
+                    </li>
                   );
                 })}
-              </nav>
+              </ul>
+            </nav>
+          </aside>
+
+          {/* Document */}
+          <article className="min-w-0 max-w-[72ch] flex-1">
+            {/* Plain-language summary */}
+            <section aria-labelledby="summary-heading" className="mb-14 rounded-2xl bg-[#F8F9FA] p-6 sm:p-8">
+              <h2 id="summary-heading" className="text-[19px] font-semibold text-[#1F1F1F]">The short version</h2>
+              <ul className="mt-4 space-y-3 text-[15px] leading-relaxed text-[#3C4043]">
+                {[
+                  "We never sell, rent or trade your business data.",
+                  "Data moves between your device and our servers over encrypted HTTPS/TLS.",
+                  "You can export your data, correct it, or delete your account from the app.",
+                  "Deleted accounts are removed from our active databases within 30 days.",
+                ].map((t) => (
+                  <li key={t} className="flex gap-3">
+                    <Check size={18} className="mt-0.5 shrink-0 text-[#1E8E3E]" aria-hidden="true" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-5 text-[13px] text-[#5F6368]">This summary is for convenience. The full policy below applies.</p>
+            </section>
+
+            <div className="space-y-14">
+              {SECTIONS.map((s, i) => (
+                <section key={s.id} id={s.id} data-policy className="group/section scroll-mt-32">
+                  <h2 className="flex items-center gap-2 text-[24px] font-medium text-[#1F1F1F]">
+                    {i + 1}. {s.title}
+                    <a
+                      href={`#${s.id}`}
+                      aria-label={`Link to section ${i + 1}`}
+                      className="rounded p-1 text-[#80868B] opacity-0 transition-opacity hover:text-[#1A73E8] focus-visible:opacity-100 group-hover/section:opacity-100 print:hidden"
+                    >
+                      <Link2 size={18} aria-hidden="true" />
+                    </a>
+                  </h2>
+                  <div className="mt-4 text-[16px] leading-[1.75] text-[#444746]">{s.body}</div>
+                </section>
+              ))}
             </div>
-          </motion.aside>
 
-          {/* Document Container - Material Card */}
-          <motion.div 
-            variants={staggerContainer}
-            initial="hidden"
-            animate="show"
-            className="flex-1 bg-white p-8 md:p-12 lg:p-16 rounded-[24px] border border-[#DADCE0] shadow-sm"
-          >
-            
-            {/* Header */}
-            <motion.header variants={fadeUpItem} className="mb-14 border-b border-[#DADCE0] pb-10">
-              <div className="w-12 h-12 bg-[#E8F0FE] text-[#1A73E8] rounded-full flex items-center justify-center mb-6">
-                <ShieldCheck size={24} strokeWidth={2} />
-              </div>
-              <h1 className="text-3xl md:text-4xl font-normal text-[#1F1F1F] mb-4">
-                Privacy Policy
-              </h1>
-              <div className="flex items-center gap-3 text-[14px] text-[#5F6368]">
-                <span>Effective Date: June 21, 2026</span>
-                <span className="w-1 h-1 rounded-full bg-[#DADCE0]" />
-                <span>Version 1.7.2</span>
-              </div>
-            </motion.header>
-
-            {/* Document Content */}
-            <article className="space-y-12">
-              
-              <motion.section id="introduction" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  1. Introduction
-                </h2>
-                <div className="space-y-4 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    Welcome to Aptro. We understand that your business data is highly sensitive. This Privacy Policy explains how Aptro collects, uses, stores, and protects your information when you use our mobile application, website, and related business management services.
-                  </p>
-                  <p>
-                    By using the Aptro platform, you agree to the collection and use of information in accordance with this policy.
-                  </p>
-                </div>
-              </motion.section>
-
-              <motion.section id="information" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  2. Information We Collect
-                </h2>
-                <div className="space-y-4 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    We collect information directly from you when you register, as well as automatically when you use our app:
-                  </p>
-                  <ul className="list-none space-y-3 mt-6 pl-0">
-                    <li className="flex items-start gap-4 p-4 rounded-[16px] border border-[#DADCE0] bg-[#F8F9FA]">
-                      <ChevronRight size={20} className="text-[#1A73E8] shrink-0 mt-0.5" />
-                      <span><strong className="text-[#1F1F1F] font-medium">Personal Details:</strong> Full Name, Email Address, and Phone Number required for account creation.</span>
-                    </li>
-                    <li className="flex items-start gap-4 p-4 rounded-[16px] border border-[#DADCE0] bg-[#F8F9FA]">
-                      <ChevronRight size={20} className="text-[#1A73E8] shrink-0 mt-0.5" />
-                      <span><strong className="text-[#1F1F1F] font-medium">Business Information:</strong> Business Name, Address, GSTIN/Tax ID, and Business Logo for invoice generation.</span>
-                    </li>
-                    <li className="flex items-start gap-4 p-4 rounded-[16px] border border-[#DADCE0] bg-[#F8F9FA]">
-                      <ChevronRight size={20} className="text-[#1A73E8] shrink-0 mt-0.5" />
-                      <span><strong className="text-[#1F1F1F] font-medium">App Data:</strong> Inventory lists, customer/vendor records, generated invoices, attendance, and payroll records.</span>
-                    </li>
-                  </ul>
-                </div>
-              </motion.section>
-
-              <motion.section id="permissions" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  3. Device Permissions
-                </h2>
-                <div className="space-y-4 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    To provide core app functionalities, Aptro may request specific device permissions. You can manage these at any time in your device settings.
-                  </p>
-                  <ul className="list-none space-y-3 mt-4 pl-0">
-                    <li className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#1A73E8] shrink-0 mt-2.5" />
-                      <span><strong className="text-[#1F1F1F] font-medium">Camera:</strong> Used strictly for scanning product barcodes or taking photos of receipts and logos.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#1A73E8] shrink-0 mt-2.5" />
-                      <span><strong className="text-[#1F1F1F] font-medium">Storage:</strong> Required to save downloaded PDF invoices and export reports directly to your local device.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#1A73E8] shrink-0 mt-2.5" />
-                      <span><strong className="text-[#1F1F1F] font-medium">Contacts:</strong> Optional permission to quickly import customers or vendors from your phonebook.</span>
-                    </li>
-                  </ul>
-                </div>
-              </motion.section>
-
-              <motion.section id="usage" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  4. How We Use & Share Your Data
-                </h2>
-                <div className="space-y-4 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    We use your data strictly to facilitate order creation, manage inventory, back up your business data to the cloud, and provide customer support.
-                  </p>
-                  <div className="p-4 rounded-[16px] bg-[#E8F0FE] text-[#1967D2] text-[15px] flex gap-3 mt-4">
-                    <Info size={20} className="shrink-0 mt-0.5" />
-                    <div>
-                      <strong className="font-medium block mb-1">Data Sharing Policy</strong>
-                      We do not sell, rent, or trade your business data to any third party. Your data is solely yours. We only share information with trusted cloud service providers for hosting, or if required by law enforcement to comply with a valid legal process.
-                    </div>
-                  </div>
-                </div>
-              </motion.section>
-
-              <motion.section id="security" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  5. Data Security & Retention
-                </h2>
-                <div className="space-y-4 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    Aptro implements industry-standard security protocols. All data transmitted between your device and our servers is encrypted using standard HTTPS/TLS. Passwords and sensitive tokens are encrypted at rest.
-                  </p>
-                  <p>
-                    We retain your profile and business data for as long as your Aptro account is active. If you choose to delete your account, your data will be permanently purged from our active databases within 30 days.
-                  </p>
-                </div>
-              </motion.section>
-
-              <motion.section id="rights" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  6. Your Privacy Rights
-                </h2>
-                <div className="space-y-4 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    As an Aptro user, you have complete control over your data. You have the right to:
-                  </p>
-                  <ul className="list-none space-y-3 mt-4 pl-0">
-                    {[
-                      "Access and view all your stored data within the app.",
-                      "Export and download your invoices, customer lists, and inventory as CSV/PDF files.",
-                      "Update and correct any inaccurate business details at any time.",
-                      "Request complete account deletion via the Account Settings section in the app."
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-3">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[#1A73E8] shrink-0 mt-2.5" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.section>
-
-              <motion.section id="contact" variants={fadeUpItem} className="scroll-mt-32">
-                <h2 className="text-[22px] text-[#1F1F1F] font-medium mb-4">
-                  7. Contact Us
-                </h2>
-                <div className="space-y-6 text-[16px] text-[#444746] leading-relaxed">
-                  <p>
-                    We may occasionally update this Privacy Policy to reflect app enhancements or legal requirements. If you have any questions or privacy concerns, our support team is here to help you.
-                  </p>
-                  
-                  <a 
-                    href="mailto:aptrosuppor@gmail.com" 
-                    className="inline-flex items-center gap-4 p-4 rounded-full border border-[#DADCE0] hover:bg-[#F8F9FA] transition-colors"
-                  >
-                    <div className="w-10 h-10 bg-[#F1F3F4] text-[#444746] rounded-full flex items-center justify-center">
-                      <Mail size={18} />
-                    </div>
-                    <div className="pr-4">
-                      <p className="text-[12px] font-medium text-[#5F6368] mb-0.5">Privacy Support</p>
-                      <p className="text-[14px] font-medium text-[#1A73E8]">
-                        aptrosuppor@gmail.com
-                      </p>
-                    </div>
-                  </a>
-                </div>
-              </motion.section>
-
-            </article>
-            
-            {/* Footer */}
-            <motion.footer 
-              variants={fadeUpItem}
-              className="mt-16 pt-8 border-t border-[#DADCE0] text-[14px] text-[#5F6368] flex flex-col md:flex-row justify-between items-center gap-4"
-            >
+            <footer className="mt-16 flex flex-col justify-between gap-4 border-t border-[#DADCE0] pt-8 text-[14px] text-[#5F6368] sm:flex-row sm:items-center">
               <p>© {new Date().getFullYear()} Aptro App. All rights reserved.</p>
-              <div className="flex gap-6">
-                <Link href="/terms" className="hover:text-[#1A73E8] transition-colors">Terms of Service</Link>
-                <Link href="/contact" className="hover:text-[#1A73E8] transition-colors">Contact Support</Link>
+              <div className="flex flex-wrap items-center gap-6 print:hidden">
+                <Link href="/terms" className="hover:text-[#1A73E8]">Terms of service</Link>
+                <Link href="/contact" className="hover:text-[#1A73E8]">Contact support</Link>
+                <a href="#introduction" className="inline-flex items-center gap-1 hover:text-[#1A73E8]">
+                  <ArrowUp size={14} aria-hidden="true" /> Back to top
+                </a>
               </div>
-            </motion.footer>
-
-          </motion.div>
+            </footer>
+          </article>
         </div>
       </div>
     </main>

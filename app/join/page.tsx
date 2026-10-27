@@ -1,503 +1,661 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence, Variants, Easing } from "framer-motion";
-import { 
-    ChevronDown, 
-    ArrowRight,
-    Star,
-    Zap,
-    Crown,
-    Briefcase,
-    Clock,
-    CreditCard,
-    CheckCircle,
-    Sparkles,
-    AlertCircle
-} from "lucide-react";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link"; 
+import { Plus_Jakarta_Sans } from "next/font/google";
+import {
+  AlertCircle,
+  ArrowRight,
+  Briefcase,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Copy,
+  GraduationCap,
+  MessageCircle,
+  Wallet,
+} from "lucide-react";
 
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap" });
 
-// Material Design standard easing
-const materialEasing: Easing = [0.2, 0, 0, 1];
+/* ───────────── Content ───────────── */
 
-const fadeUpItem: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: materialEasing } }
-};
+const PLANS = [
+  { id: "standard", name: "Standard Affiliate", price: 99, activation: 50, recurring: 10 },
+  { id: "pro", name: "Pro Partner", price: 199, activation: 100, recurring: 20, popular: true },
+  { id: "max", name: "Max Agency", price: 249, activation: 150, recurring: 50 },
+] as const;
 
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.1 }
-  }
-};
+const inr = (n: number) =>
+  new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(n);
 
-const commissionPlans = [
-    { plan: "Standard Affiliate", price: "₹99", activation: "₹50", recurring: "₹10", icon: Star },
-    { plan: "Pro Partner", price: "₹199", activation: "₹100", recurring: "₹20", icon: Zap, popular: true },
-    { plan: "Max Agency", price: "₹249", activation: "₹150", recurring: "₹50", icon: Crown },
+const BENEFITS = [
+  { icon: Wallet, title: "No joining fee", text: "You never pay to join. You earn when a shop you referred buys an Aptro plan." },
+  { icon: Clock, title: "Work around your classes", text: "No targets and no fixed hours. Refer shops on weekends, holidays or between exams." },
+  { icon: Briefcase, title: "Real sales experience", text: "Practise pitching, following up and closing with real local businesses." },
+  { icon: GraduationCap, title: "Training and pitch material", text: "Learn how Aptro handles GST billing, inventory, staff attendance and digital khata before you pitch." },
 ];
 
-const faqs = [
-    { q: "Is there any registration fee for this student partner program?", a: "No. Joining the Aptro student affiliate program is completely free with zero hidden charges. We want you to earn, not pay." },
-    { q: "Do I need prior B2B sales experience?", a: "Not at all. We provide comprehensive SaaS training and marketing materials to help you pitch local MSMEs and shops successfully." },
-    { q: "Is there a monthly target or forced schedule?", a: "There are no compulsory targets. This is the best part-time job for students—you work on your own schedule and earn based on your actual software conversions." },
-    { q: "How do I receive my affiliate commissions?", a: "Commissions are credited after successful payment verification from the merchant and transferred directly to your provided Bank account or UPI ID." }
+const STEPS = [
+  { title: "Apply in about 3 minutes", text: "Fill in your details and get a temporary ID straight away." },
+  { title: "Get approved and trained", text: "We review your application and email your final Partner ID." },
+  { title: "Introduce Aptro to shops", text: "Show local retailers and wholesalers how Aptro simplifies billing." },
+  { title: "Get paid", text: "Commission is paid to your bank account or UPI once the shop's payment is verified." },
 ];
+
+// EDIT: confirm every answer matches your real policy.
+const FAQS = [
+  { q: "Is there any registration fee for the student partner program?", a: "No. Joining the Aptro student partner program is free, with no hidden charges." },
+  { q: "What will I be selling?", a: "The Aptro Business App: GST billing, inventory, staff attendance and digital khata for retailers, wholesalers and small shops. Training and pitch material are provided." },
+  { q: "Do I need prior sales experience?", a: "No. We explain the product and how to pitch it, so you can start as a beginner." },
+  { q: "Is there a monthly target?", a: "No compulsory targets. You work on your own schedule and earn based on the shops that actually buy a plan." },
+  { q: "How much can I earn?", a: "It depends on how many shops you bring and which plan they choose. Use the earnings estimator at the top of this page, and note that results are not guaranteed." },
+  { q: "How and when do I get paid?", a: "Commission is credited after the merchant's payment is verified, and sent to your bank account or UPI ID." },
+  { q: "Who can apply?", a: "Students with a valid student ID. You will need your college details and a bank account for payouts." },
+  { q: "What happens after I submit the form?", a: "You get a temporary ID immediately. After we review your application, you will receive an email with your final Partner ID." },
+];
+
+/* ───────────── Form config ───────────── */
+
+type Name =
+  | "fullName" | "mobile" | "email" | "dob" | "gender" | "address"
+  | "college" | "course" | "studentId"
+  | "accHolder" | "bankName" | "accNum" | "ifsc" | "upi";
+type Form = Record<Name, string>;
+
+interface FieldDef {
+  name: Name;
+  label: string;
+  type?: "text" | "tel" | "email" | "date" | "select" | "textarea";
+  autoComplete?: string;
+  inputMode?: "numeric" | "text" | "tel";
+  hint?: string;
+  optional?: boolean;
+  half?: boolean;
+  validate?: (v: string) => string;
+}
+
+const digits = (v: string) => v.replace(/\D/g, "");
+const required = (label: string) => (v: string) => (v.trim() ? "" : `Enter your ${label.toLowerCase()}`);
+
+const STEP_DEFS: { title: string; fields: FieldDef[] }[] = [
+  {
+    title: "Personal details",
+    fields: [
+      { name: "fullName", label: "Full name", autoComplete: "name", validate: required("full name") },
+      {
+        name: "mobile", label: "Mobile number", type: "tel", autoComplete: "tel-national", inputMode: "numeric",
+        hint: "10-digit number, we may call or WhatsApp you", half: true,
+        validate: (v) => (/^[6-9]\d{9}$/.test(digits(v).slice(-10)) ? "" : "Enter a valid 10-digit mobile number"),
+      },
+      {
+        name: "email", label: "Email address", type: "email", autoComplete: "email", half: true,
+        hint: "Your final Partner ID will be sent here",
+        validate: (v) => (/^\S+@\S+\.\S+$/.test(v.trim()) ? "" : "Enter a valid email address"),
+      },
+      {
+        name: "dob", label: "Date of birth", type: "date", autoComplete: "bday", half: true,
+        validate: (v) => {
+          if (!v) return "Select your date of birth";
+          return new Date(v) > new Date() ? "Date of birth cannot be in the future" : "";
+        },
+      },
+      {
+        name: "gender", label: "Gender", type: "select", half: true,
+        validate: (v) => (v ? "" : "Select an option"),
+      },
+      { name: "address", label: "Full address", type: "textarea", autoComplete: "street-address", validate: required("address") },
+    ],
+  },
+  {
+    title: "College details",
+    fields: [
+      { name: "college", label: "College or university name", validate: required("college name") },
+      { name: "course", label: "Course and department", half: true, hint: "For example: B.Com, Commerce", validate: required("course") },
+      { name: "studentId", label: "Student ID number", half: true, validate: required("student ID") },
+    ],
+  },
+  {
+    title: "Payout details",
+    fields: [
+      { name: "accHolder", label: "Account holder name", validate: required("account holder name") },
+      { name: "bankName", label: "Bank name", half: true, validate: required("bank name") },
+      {
+        name: "accNum", label: "Account number", inputMode: "numeric", half: true,
+        validate: (v) => (/^\d{9,18}$/.test(v.trim()) ? "" : "Account number should be 9 to 18 digits"),
+      },
+      {
+        name: "ifsc", label: "IFSC code", half: true, hint: "11 characters, for example SBIN0001234",
+        validate: (v) => (/^[A-Z]{4}0[A-Z0-9]{6}$/.test(v.trim().toUpperCase()) ? "" : "Enter a valid 11-character IFSC code"),
+      },
+      {
+        name: "upi", label: "UPI ID", half: true, optional: true, hint: "Optional, for example name@bank",
+        validate: (v) => (!v.trim() || /^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(v.trim()) ? "" : "Enter a valid UPI ID"),
+      },
+    ],
+  },
+];
+
+const EMPTY: Form = {
+  fullName: "", mobile: "", email: "", dob: "", gender: "", address: "",
+  college: "", course: "", studentId: "",
+  accHolder: "", bankName: "", accNum: "", ifsc: "", upi: "",
+};
+
+// Bank details are never written to localStorage
+const SENSITIVE: Name[] = ["accHolder", "bankName", "accNum", "ifsc", "upi"];
+const DRAFT_KEY = "aptro-partner-draft";
+
+const inputCls = (err: boolean) =>
+  `w-full rounded-lg border bg-white px-4 py-3 text-[15px] text-[#202124] transition-colors focus:outline-none focus:ring-2 disabled:bg-[#F1F3F4] ${
+    err ? "border-[#D93025] focus:ring-[#D93025]/30" : "border-[#DADCE0] focus:border-[#1A73E8] focus:ring-[#1A73E8]/30"
+  }`;
+
+function Field({
+  def, value, error, disabled, onChange,
+}: {
+  def: FieldDef; value: string; error?: string; disabled: boolean;
+  onChange: (name: Name, v: string) => void;
+}) {
+  const id = def.name;
+  const describedBy = error ? `${id}-err` : def.hint ? `${id}-hint` : undefined;
+  const common = {
+    id, name: id, value, disabled,
+    "aria-invalid": !!error,
+    "aria-describedby": describedBy,
+    autoComplete: def.autoComplete,
+    className: inputCls(!!error),
+  };
+
+  return (
+    <div className={def.half ? "" : "md:col-span-2"}>
+      <label htmlFor={id} className="mb-1.5 block text-[14px] font-medium text-[#3C4043]">
+        {def.label}
+        {def.optional && <span className="ml-1 font-normal text-[#5F6368]">(optional)</span>}
+      </label>
+
+      {def.type === "select" ? (
+        <select {...common} onChange={(e) => onChange(def.name, e.target.value)}>
+          <option value="" disabled>Select</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="other">Other / prefer not to say</option>
+        </select>
+      ) : def.type === "textarea" ? (
+        <textarea {...common} rows={3} onChange={(e) => onChange(def.name, e.target.value)} className={`${inputCls(!!error)} resize-none`} />
+      ) : (
+        <input
+          {...common}
+          type={def.type ?? "text"}
+          inputMode={def.inputMode}
+          autoCapitalize={def.name === "ifsc" ? "characters" : undefined}
+          max={def.type === "date" ? new Date().toISOString().split("T")[0] : undefined}
+          onChange={(e) => onChange(def.name, def.name === "ifsc" ? e.target.value.toUpperCase() : e.target.value)}
+        />
+      )}
+
+      {error ? (
+        <p id={`${id}-err`} className="mt-1.5 text-[13px] text-[#C5221F]">{error}</p>
+      ) : def.hint ? (
+        <p id={`${id}-hint`} className="mt-1.5 text-[13px] text-[#5F6368]">{def.hint}</p>
+      ) : null}
+    </div>
+  );
+}
+
+/* ───────────── Earnings estimator ───────────── */
+
+function Estimator() {
+  const [planId, setPlanId] = useState<(typeof PLANS)[number]["id"]>("pro");
+  const [shops, setShops] = useState(5);
+  const plan = PLANS.find((p) => p.id === planId)!;
+
+  return (
+    <div className="rounded-[24px] border border-[#DADCE0] bg-white p-6 shadow-sm sm:p-8">
+      <h2 className="text-[20px] font-semibold text-[#1F1F1F]">Estimate your earnings</h2>
+
+      <div role="group" aria-label="Plan the shop buys" className="mt-5 flex flex-wrap gap-2">
+        {PLANS.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            aria-pressed={p.id === planId}
+            onClick={() => setPlanId(p.id)}
+            className={`rounded-full border px-4 py-2 text-[14px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] ${
+              p.id === planId ? "border-[#1A73E8] bg-[#E8F0FE] text-[#1967D2]" : "border-[#DADCE0] text-[#5F6368] hover:border-[#5F6368]"
+            }`}
+          >
+            {inr(p.price)} plan
+          </button>
+        ))}
+      </div>
+
+      <label htmlFor="shops" className="mt-6 flex items-baseline justify-between text-[14px] font-medium text-[#3C4043]">
+        Shops you bring in
+        <output htmlFor="shops" className="text-[18px] font-semibold text-[#1F1F1F]">{shops}</output>
+      </label>
+      <input
+        id="shops" type="range" min={1} max={30} value={shops}
+        onChange={(e) => setShops(Number(e.target.value))}
+        className="mt-2 w-full accent-[#1A73E8]"
+      />
+
+      <dl className="mt-6 grid grid-cols-2 gap-4 border-t border-[#E8EAED] pt-6" aria-live="polite">
+        <div>
+          <dt className="text-[13px] text-[#5F6368]">One-time activation</dt>
+          <dd className="mt-1 text-3xl font-medium tracking-tight text-[#1F1F1F]">{inr(plan.activation * shops)}</dd>
+        </div>
+        <div>
+          <dt className="text-[13px] text-[#5F6368]">Each renewal cycle</dt>
+          <dd className="mt-1 text-3xl font-medium tracking-tight text-[#1A73E8]">{inr(plan.recurring * shops)}</dd>
+        </div>
+      </dl>
+      <p className="mt-5 text-[12.5px] leading-relaxed text-[#5F6368]">
+        Illustration only, based on the commission table below. Actual earnings depend on how many shops buy and renew.
+      </p>
+    </div>
+  );
+}
+
+/* ───────────── Page ───────────── */
 
 export default function JoinPage() {
-    const router = useRouter(); 
-    const [openFaq, setOpenFaq] = useState<number | null>(null);
-    
-    // Form State
-    const [formData, setFormData] = useState({
-        fullName: "",
-        mobile: "",
-        email: "",
-        dob: "",
-        gender: "",
-        address: "",
-        college: "",
-        course: "",
-        studentId: "",
-        accHolder: "",
-        bankName: "",
-        accNum: "",
-        ifsc: "",
-        upi: "",
+  const router = useRouter();
+  const [step, setStep] = useState(0);
+  const [form, setForm] = useState<Form>(EMPTY);
+  const [errors, setErrors] = useState<Partial<Record<Name, string>>>({});
+  const [agreed, setAgreed] = useState(false);
+  const [agreeError, setAgreeError] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [tempId, setTempId] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [formVisible, setFormVisible] = useState(false);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const applyRef = useRef<HTMLElement>(null);
+  const attribution = useRef<Record<string, string>>({});
+
+  // Restore draft (never includes bank details) and capture referral / UTM source
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT_KEY);
+      if (raw) setForm((f) => ({ ...f, ...JSON.parse(raw) }));
+    } catch {}
+    const q = new URLSearchParams(window.location.search);
+    ["ref", "utm_source", "utm_medium", "utm_campaign"].forEach((k) => {
+      const v = q.get(k);
+      if (v) attribution.current[k] = v.slice(0, 100);
     });
-    
-    // UI State
-    const [isLoading, setIsLoading] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const [tempId, setTempId] = useState<string | null>(null);
-    const [errorMessage, setErrorMessage] = useState("");
+  }, []);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
+  useEffect(() => {
+    try {
+      const safe = Object.fromEntries(Object.entries(form).filter(([k]) => !SENSITIVE.includes(k as Name)));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(safe));
+    } catch {}
+  }, [form]);
+
+  // Hide the mobile sticky CTA while the form is on screen
+  useEffect(() => {
+    const el = applyRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setFormVisible(e.isIntersecting), { threshold: 0.1 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (step > 0) headingRef.current?.focus();
+  }, [step]);
+
+  const onChange = (name: Name, value: string) => {
+    setForm((f) => ({ ...f, [name]: value }));
+    if (errors[name]) setErrors((e) => ({ ...e, [name]: "" }));
+  };
+
+  const validateStep = (i: number) => {
+    const next: Partial<Record<Name, string>> = {};
+    STEP_DEFS[i].fields.forEach((f) => {
+      const msg = f.validate?.(form[f.name]) ?? "";
+      if (msg) next[f.name] = msg;
+    });
+    setErrors(next);
+    if (Object.keys(next).length) {
+      document.getElementById(Object.keys(next)[0])?.focus();
+      return false;
+    }
+    return true;
+  };
+
+  const submit = async () => {
+    setStatus("loading");
+    setErrorMessage("");
+    const payload = {
+      ...form,
+      fullName: form.fullName.trim(),
+      mobile: digits(form.mobile).slice(-10),
+      email: form.email.trim().toLowerCase(),
+      ifsc: form.ifsc.trim().toUpperCase(),
+      upi: form.upi.trim(),
+      ...attribution.current,
     };
+    try {
+      const res = await fetch("/api/partner", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Something went wrong. Please try again.");
+      setTempId(data.tempId);
+      setStatus("success");
+      try { localStorage.removeItem(DRAFT_KEY); } catch {}
+    } catch (e: any) {
+      setStatus("error");
+      setErrorMessage(e?.message?.includes("fetch") ? "We could not reach the server. Check your connection and try again." : e?.message || "Something went wrong.");
+    }
+  };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setSubmitStatus('idle');
-        setErrorMessage("");
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === "loading") return;
+    if (!validateStep(step)) return;
+    if (step < STEP_DEFS.length - 1) return setStep(step + 1);
+    if (!agreed) { setAgreeError(true); return; }
+    submit();
+  };
 
-        try {
-            const response = await fetch('/api/partner', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+  const copyId = async () => {
+    try {
+      await navigator.clipboard.writeText(tempId);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  };
 
-            const data = await response.json();
+  const shareHref = useMemo(() => {
+    const url = typeof window !== "undefined" ? `${window.location.origin}/join` : "/join";
+    return `https://wa.me/?text=${encodeURIComponent(`Students can earn by introducing Aptro billing software to local shops. No joining fee: ${url}`)}`;
+  }, []);
 
-            if (response.ok) {
-                setSubmitStatus('success');
-                setTempId(data.tempId);
-                
-                setTimeout(() => {
-                    router.push('/partner/dashboard');
-                }, 5000);
-            } else {
-                setSubmitStatus('error');
-                setErrorMessage(data.error || "Something went wrong.");
-            }
-        } catch (error) {
-            setSubmitStatus('error');
-            setErrorMessage("Failed to connect to the server.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+  const jsonLd = useMemo(
+    () => ({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQS.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    }),
+    []
+  );
 
-    return (
-        <main className={`min-h-screen pt-20 pb-20 bg-[#F8F9FA] text-[#202124] selection:bg-[#D3E3FD] selection:text-[#041E49] overflow-x-hidden relative ${jakarta.className}`}>
-            
-            {/* --- HERO SECTION --- */}
-            {/* SEO Fix: Changed to <header> */}
-            <header className="relative w-full pt-12 md:pt-24 pb-20 flex flex-col items-center">
-                
-                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-                    <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-[#E8F0FE]/50 to-transparent" />
-                </div>
+  const def = STEP_DEFS[step];
+  const isLast = step === STEP_DEFS.length - 1;
+  const loading = status === "loading";
 
-                <motion.div 
-                    variants={staggerContainer}
-                    initial="hidden"
-                    animate="show"
-                    className="relative z-10 text-center flex flex-col items-center max-w-4xl mx-auto px-6"
-                >
-                    <motion.div variants={fadeUpItem} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E8F0FE] text-[#1967D2] text-[13px] font-medium border border-[#D2E3FC] mb-6">
-                        <Sparkles size={16} aria-hidden="true" className="text-[#1A73E8]" />
-                        Top Student Affiliate Program in India
-                    </motion.div>
-                    
-                    {/* SEO Fix: Embedded high-value keywords naturally in H1 */}
-                    <motion.h1 
-                        variants={fadeUpItem}
-                        className="text-4xl sm:text-5xl md:text-6xl font-normal tracking-tight text-[#1F1F1F] mb-6 leading-[1.15]"
-                    >
-                        Earn money while you study. <br className="hidden md:block" />
-                        <span className="text-[#1A73E8]">On your own schedule.</span>
-                    </motion.h1>
-                    
-                    {/* SEO Fix: Included B2B SaaS keywords in H2 equivalent */}
-                    <motion.p 
-                        variants={fadeUpItem}
-                        className="text-[16px] md:text-[18px] text-[#5F6368] max-w-3xl mx-auto mb-10 leading-relaxed"
-                    >
-                        Help local retail shops and businesses digitize their billing with the Aptro Business App. Turn your free time into passive income with our industry-leading SaaS commission program. Zero upfront investment required.
-                    </motion.p>
-                    
-                    <motion.div 
-                        variants={fadeUpItem}
-                        className="flex flex-col sm:flex-row items-center gap-4"
-                    >
-                        <button 
-                            onClick={() => document.getElementById('registration-form')?.scrollIntoView({ behavior: 'smooth' })}
-                            aria-label="Scroll to student partner application form"
-                            className="px-8 py-3.5 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
-                        >
-                            Apply Now
-                        </button>
+  return (
+    <main className={`min-h-screen scroll-smooth bg-white pt-20 text-[#202124] selection:bg-[#D3E3FD] ${jakarta.className}`}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-                        <Link 
-                            href="/how-it-works" 
-                            aria-label="Learn how the Aptro student partner program works"
-                            className="px-8 py-3.5 bg-white border border-[#DADCE0] text-[#1A73E8] hover:bg-[#F8F9FA] rounded-full font-medium text-[15px] transition-colors flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
-                        >
-                            See how it works <ArrowRight size={18} aria-hidden="true" className="group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </motion.div>
-                </motion.div>
-            </header>
+      {/* Hero */}
+      <header className="mx-auto grid max-w-[1200px] items-center gap-12 px-6 pb-20 pt-12 lg:grid-cols-[1.1fr_0.9fr] lg:pt-20">
+        <div>
+          <h1 className="text-4xl font-medium leading-[1.15] tracking-tight text-[#1F1F1F] sm:text-5xl lg:text-[56px]">
+            Earn from your phone while you study
+          </h1>
+          <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-[#5F6368]">
+            Introduce local shops to the Aptro Business App for GST billing, inventory and digital khata. Earn a commission when a shop
+            you referred buys a plan, and again on every renewal. Joining is free.
+          </p>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href="#apply"
+              className="inline-flex items-center justify-center rounded-full bg-[#1A73E8] px-8 py-3.5 text-[15px] font-semibold text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
+            >
+              Apply to become a partner
+            </a>
+            <Link
+              href="/how-it-works"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-[#DADCE0] px-8 py-3.5 text-[15px] font-semibold text-[#1A73E8] transition-colors hover:bg-[#F8F9FA] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
+            >
+              See how Aptro works
+              <ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </div>
+        <Estimator />
+      </header>
 
-            {/* --- COMMISSION PLANS --- */}
-            {/* SEO Fix: Added aria-labelledby */}
-            <section aria-labelledby="commission-heading" className="max-w-[1200px] mx-auto px-6 py-16 relative z-10">
-                <div className="text-center mb-14">
-                    <h2 id="commission-heading" className="text-3xl md:text-4xl font-normal text-[#1F1F1F] mb-4">SaaS Partner Commission Structure</h2>
-                    <p className="text-[16px] text-[#5F6368] max-w-2xl mx-auto">Earn a massive one-time activation reward per shop, plus recurring passive income every time they renew their billing subscription.</p>
-                </div>
-                
-                {/* SEO Fix: Swapped Grid to an unordered list */}
-                <ul className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto list-none p-0 m-0">
-                    {commissionPlans.map((plan, idx) => {
-                        const Icon = plan.icon;
-                        const isPopular = plan.popular;
-
-                        return (
-                            <motion.li 
-                                initial={{ opacity: 0, y: 24 }} 
-                                whileInView={{ opacity: 1, y: 0 }} 
-                                viewport={{ once: true, margin: "-50px" }} 
-                                transition={{ duration: 0.5, ease: materialEasing, delay: idx * 0.1 }}
-                                key={plan.plan}
-                                className={`relative flex flex-col items-center text-center p-8 rounded-[24px] bg-white transition-shadow duration-300 hover:shadow-md ${
-                                    isPopular 
-                                    ? 'border-2 border-[#1A73E8] shadow-sm' 
-                                    : 'border border-[#DADCE0]'
-                                }`}
-                            >
-                                {isPopular && (
-                                    <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#1A73E8] text-white text-[11px] font-medium uppercase tracking-wider px-3 py-1 rounded-full shadow-sm">
-                                        Most Popular
-                                    </div>
-                                )}
-                                
-                                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-6 ${isPopular ? 'bg-[#E8F0FE] text-[#1A73E8]' : 'bg-[#F1F3F4] text-[#5F6368]'}`}>
-                                    <Icon size={24} aria-hidden="true" />
-                                </div>
-
-                                <h3 className="text-[20px] font-medium mb-1 text-[#1F1F1F]">{plan.plan}</h3>
-                                <p className="text-[14px] text-[#5F6368] mb-8">{plan.price} merchant membership</p>
-                                
-                                <div className="w-full h-px mb-8 bg-[#DADCE0]" aria-hidden="true" />
-                                
-                                <p className="font-medium text-[12px] uppercase tracking-wider mb-2 text-[#5F6368]">Instant Activation</p>
-                                <div className="text-4xl font-normal text-[#1F1F1F] mb-2">
-                                    {plan.activation}
-                                </div>
-                                <p className="text-[14px] mb-8 text-[#5F6368]">One-time per business setup</p>
-                                
-                                <div className="mt-auto w-full pt-6 border-t border-[#DADCE0]">
-                                    <p className="text-[13px] text-[#5F6368] mb-1">Plus Lifetime Recurring</p>
-                                    <p className="font-medium text-[18px] text-[#1A73E8]">
-                                        {plan.recurring} <span className="text-[13px] text-[#5F6368] font-normal">/ renewal</span>
-                                    </p>
-                                </div>
-                            </motion.li>
-                        )
-                    })}
-                </ul>
-            </section>
-
-            {/* --- BENTO BENEFITS (Material Cards) --- */}
-            <section aria-label="Student Partner Benefits" className="max-w-[1200px] mx-auto px-6 py-16 relative z-10">
-                <div className="grid md:grid-cols-2 gap-6">
-                    
-                    {/* Big Tile */}
-                    <motion.article 
-                        initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing }}
-                        className="md:col-span-2 bg-white rounded-[24px] border border-[#DADCE0] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-10 shadow-sm hover:shadow-md transition-shadow duration-300"
-                    >
-                        <div className="max-w-xl">
-                            <h3 className="text-3xl md:text-4xl font-normal text-[#1F1F1F] mb-4 leading-tight">
-                                Zero financial investment. <br/>
-                                <span className="text-[#1A73E8]">Infinite earning potential.</span>
-                            </h3>
-                            <p className="text-[16px] text-[#5F6368] leading-relaxed">
-                                Start earning immediately without spending a single rupee. All you need is your smartphone, college networking skills, and a drive to introduce modern GST software to local markets.
-                            </p>
-                        </div>
-                        <div className="w-full md:w-auto flex justify-center">
-                           <div className="w-32 h-32 bg-[#E8F0FE] rounded-full flex items-center justify-center text-[#1A73E8]">
-                               <CreditCard size={64} aria-hidden="true" />
-                           </div>
-                        </div>
-                    </motion.article>
-
-                    {/* Small Tile 1 */}
-                    <motion.article 
-                        initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing, delay: 0.1 }}
-                        className="bg-[#E6F4EA] rounded-[24px] p-10 border border-[#CEEAD6] text-center flex flex-col items-center"
-                    >
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center text-[#1E8E3E] mb-6 shadow-sm">
-                            <Clock size={32} aria-hidden="true" />
-                        </div>
-                        <h4 className="text-[22px] font-medium text-[#0D652D] mb-3">Work on your own terms.</h4>
-                        <p className="text-[#137333] text-[15px]">No fixed agency hours. Fit software sales perfectly around your college classes and university exams.</p>
-                    </motion.article>
-
-                    {/* Small Tile 2 */}
-                    <motion.article 
-                        initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing, delay: 0.2 }}
-                        className="bg-white border border-[#DADCE0] rounded-[24px] p-10 text-center flex flex-col items-center shadow-sm hover:shadow-md transition-shadow duration-300"
-                    >
-                        <div className="w-16 h-16 bg-[#FCE8E6] rounded-full flex items-center justify-center text-[#D93025] mb-6">
-                            <Briefcase size={32} aria-hidden="true" />
-                        </div>
-                        <h4 className="text-[22px] font-medium text-[#1F1F1F] mb-3">Real B2B experience.</h4>
-                        <p className="text-[#5F6368] text-[15px]">Build your corporate resume with practical B2B software sales, marketing, and client networking skills.</p>
-                    </motion.article>
-                </div>
-            </section>
-
-            {/* --- REGISTRATION FORM --- */}
-            <section id="registration-form" aria-labelledby="form-heading" className="max-w-[760px] mx-auto px-6 py-16 relative z-10">
-                <motion.div 
-                    initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, ease: materialEasing }}
-                    className="bg-white border border-[#DADCE0] rounded-[24px] p-8 md:p-12 shadow-sm"
-                >
-                    <div className="text-center mb-10">
-                        <h2 id="form-heading" className="text-3xl font-normal text-[#1F1F1F] mb-3">Apply to be a Partner</h2>
-                        <p className="text-[15px] text-[#5F6368]">Fill out the details below to generate your student affiliate ID.</p>
-                    </div>
-
-                    {submitStatus === 'success' ? (
-                        <motion.div 
-                            initial={{ opacity: 0, scale: 0.98 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            className="bg-[#F8F9FA] p-10 rounded-[16px] text-center border border-[#DADCE0]"
-                        >
-                            <div className="w-16 h-16 bg-[#E6F4EA] text-[#1E8E3E] rounded-full flex items-center justify-center mx-auto mb-6">
-                                <CheckCircle size={32} aria-hidden="true" />
-                            </div>
-                            <h3 className="text-2xl font-normal text-[#1F1F1F] mb-3">Application Received</h3>
-                            <p className="text-[#5F6368] text-[15px] mb-8">
-                                Thank you for applying to the Aptro Affiliate Program. We are reviewing your application.
-                            </p>
-                            <div className="bg-white p-6 rounded-[12px] inline-block border border-[#DADCE0] shadow-sm">
-                                <p className="text-[12px] text-[#5F6368] uppercase tracking-wider font-medium mb-1">Your Temporary ID</p>
-                                <p className="text-2xl font-mono text-[#1F1F1F]">{tempId}</p>
-                            </div>
-                            <p className="text-[14px] text-[#5F6368] mt-8 mb-8 max-w-sm mx-auto leading-relaxed">
-                                Keep this ID safe. You will receive an email once your final Partner ID is generated upon approval.
-                            </p>
-                            
-                            <button
-                                onClick={() => router.push('/partner/dashboard')}
-                                className="px-6 py-2.5 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[14px] transition-colors inline-flex items-center justify-center gap-2"
-                            >
-                                Go to Dashboard <ArrowRight size={18} aria-hidden="true" />
-                            </button>
-                        </motion.div>
-                    ) : (
-                        <form className="space-y-8" onSubmit={handleSubmit}>
-                            
-                            {submitStatus === 'error' && (
-                                <div role="alert" className="bg-[#FCE8E6] text-[#C5221F] p-4 rounded-[8px] text-[14px] font-medium border border-[#FAD2CF] flex items-center gap-3">
-                                    <AlertCircle size={20} className="shrink-0" aria-hidden="true" />
-                                    {errorMessage}
-                                </div>
-                            )}
-
-                            {/* Section 1 */}
-                            <fieldset className="space-y-5">
-                                <legend className="text-[18px] font-medium text-[#1F1F1F] mb-4 border-b border-[#DADCE0] pb-2 w-full text-left">Personal Information</legend>
-                                
-                                <div>
-                                    <label htmlFor="fullName" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Full Name</label>
-                                    <input type="text" id="fullName" name="fullName" value={formData.fullName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                </div>
-                                
-                                <div className="grid md:grid-cols-2 gap-5">
-                                    <div>
-                                        <label htmlFor="mobile" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Mobile Number</label>
-                                        <input type="tel" id="mobile" name="mobile" value={formData.mobile} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="email" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Email Address</label>
-                                        <input type="email" id="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                </div>
-
-                                <div className="grid grid-cols-2 gap-5">
-                                    <div>
-                                        <label htmlFor="dob" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Date of Birth</label>
-                                        <input type="date" id="dob" name="dob" value={formData.dob} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="gender" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Gender</label>
-                                        <select id="gender" name="gender" value={formData.gender} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4] appearance-none bg-no-repeat bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%235F6368%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E')] bg-[position:right_12px_center] bg-[length:16px_16px] pr-10" required disabled={isLoading}>
-                                            <option value="" disabled>Select</option>
-                                            <option value="male">Male</option>
-                                            <option value="female">Female</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <label htmlFor="address" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Full Address</label>
-                                    <textarea id="address" name="address" value={formData.address} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4] min-h-[100px] resize-none" required disabled={isLoading}/>
-                                </div>
-                            </fieldset>
-
-                            {/* Section 2 */}
-                            <fieldset className="space-y-5 pt-2">
-                                <legend className="text-[18px] font-medium text-[#1F1F1F] mb-4 border-b border-[#DADCE0] pb-2 w-full text-left">Academic Details</legend>
-                                <div>
-                                    <label htmlFor="college" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">College / University Name</label>
-                                    <input type="text" id="college" name="college" value={formData.college} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                </div>
-                                <div className="grid md:grid-cols-2 gap-5">
-                                    <div>
-                                        <label htmlFor="course" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Course & Department</label>
-                                        <input type="text" id="course" name="course" value={formData.course} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="studentId" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Student ID Number</label>
-                                        <input type="text" id="studentId" name="studentId" value={formData.studentId} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            {/* Section 3 */}
-                            <fieldset className="space-y-5 pt-2">
-                                <legend className="text-[18px] font-medium text-[#1F1F1F] mb-4 border-b border-[#DADCE0] pb-2 w-full text-left">Payout Details</legend>
-                                <div>
-                                    <label htmlFor="accHolder" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Account Holder Name</label>
-                                    <input type="text" id="accHolder" name="accHolder" value={formData.accHolder} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                </div>
-                                <div className="grid md:grid-cols-2 gap-5">
-                                    <div>
-                                        <label htmlFor="bankName" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Bank Name</label>
-                                        <input type="text" id="bankName" name="bankName" value={formData.bankName} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="accNum" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">Account Number</label>
-                                        <input type="text" id="accNum" name="accNum" value={formData.accNum} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                </div>
-                                <div className="grid md:grid-cols-2 gap-5">
-                                    <div>
-                                        <label htmlFor="ifsc" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">IFSC Code</label>
-                                        <input type="text" id="ifsc" name="ifsc" value={formData.ifsc} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" required disabled={isLoading}/>
-                                    </div>
-                                    <div>
-                                        <label htmlFor="upi" className="block text-[13px] font-medium text-[#5F6368] mb-1.5 ml-1">UPI ID (Optional)</label>
-                                        <input type="text" id="upi" name="upi" value={formData.upi} onChange={handleInputChange} className="w-full px-4 py-3 rounded-[8px] bg-white border border-[#DADCE0] text-[#202124] text-[15px] focus:outline-none focus:border-[#1A73E8] focus:ring-1 focus:ring-[#1A73E8] transition-colors disabled:bg-[#F1F3F4]" disabled={isLoading}/>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            {/* Agreement */}
-                            <div className="pt-4 pb-2">
-                                <label className="flex items-start gap-4 cursor-pointer group">
-                                    <input type="checkbox" className="mt-1 w-4 h-4 rounded-[4px] border-[#DADCE0] text-[#1A73E8] focus:ring-[#1A73E8] cursor-pointer" required disabled={isLoading}/>
-                                    <span className="text-[14px] text-[#5F6368] leading-relaxed group-hover:text-[#1F1F1F] transition-colors">
-                                        I confirm that the provided information is accurate. I understand this is a performance-based affiliate partnership and agree to follow Aptro's ethical SaaS marketing guidelines.
-                                    </span>
-                                </label>
-                            </div>
-
-                            {/* Submit CTA */}
-                            <button 
-                                type="submit" 
-                                disabled={isLoading}
-                                className={`w-full py-3 bg-[#1A73E8] hover:bg-[#1557B0] text-white rounded-full font-medium text-[15px] transition-colors flex justify-center items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
-                            >
-                                {isLoading ? (
-                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                ) : "Submit Application"}
-                            </button>
-                        </form>
+      {/* Commission table (a real table: easier to compare, better for search) */}
+      <section aria-labelledby="commission-heading" className="mx-auto max-w-[1000px] px-6 py-16">
+        <h2 id="commission-heading" className="text-3xl font-medium text-[#1F1F1F]">Commission per shop</h2>
+        <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-[#5F6368]">
+          You earn a one-time activation commission when the shop starts, and a recurring commission each time it renews.
+        </p>
+        <div className="mt-8 overflow-x-auto rounded-2xl border border-[#DADCE0]">
+          <table className="w-full min-w-[560px] text-left text-[15px]">
+            <caption className="sr-only">Aptro partner commission by merchant plan</caption>
+            <thead className="bg-[#F8F9FA] text-[14px] text-[#5F6368]">
+              <tr>
+                <th scope="col" className="px-6 py-4 font-medium">Partner tier</th>
+                <th scope="col" className="px-6 py-4 font-medium">Shop pays</th>
+                <th scope="col" className="px-6 py-4 font-medium">You earn at activation</th>
+                <th scope="col" className="px-6 py-4 font-medium">You earn per renewal</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#E8EAED]">
+              {PLANS.map((p) => (
+                <tr key={p.id} className={"popular" in p && p.popular ? "bg-[#F5F9FF]" : ""}>
+                  <th scope="row" className="px-6 py-5 font-semibold text-[#1F1F1F]">
+                    {p.name}
+                    {"popular" in p && p.popular && (
+                      <span className="ml-2 rounded-full bg-[#1A73E8] px-2.5 py-0.5 text-[12px] font-medium text-white">Most chosen</span>
                     )}
-                </motion.div>
-            </section>
+                  </th>
+                  <td className="px-6 py-5 text-[#3C4043]">{inr(p.price)}</td>
+                  <td className="px-6 py-5 font-medium text-[#1F1F1F]">{inr(p.activation)}</td>
+                  <td className="px-6 py-5 font-medium text-[#1A73E8]">{inr(p.recurring)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-            {/* --- FAQS --- */}
-            <section aria-labelledby="faq-heading" className="max-w-[700px] mx-auto px-6 py-16 relative z-10">
-                <div className="text-center mb-10">
-                    <h2 id="faq-heading" className="text-2xl md:text-3xl font-normal text-[#1F1F1F]">Student Affiliate FAQs</h2>
+      {/* Benefits */}
+      <section aria-labelledby="benefits-heading" className="mx-auto max-w-[1000px] px-6 py-16">
+        <h2 id="benefits-heading" className="text-3xl font-medium text-[#1F1F1F]">Why students join</h2>
+        <ul className="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2">
+          {BENEFITS.map(({ icon: Icon, title, text }) => (
+            <li key={title} className="flex gap-4">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#E8F0FE] text-[#1A73E8]">
+                <Icon size={22} aria-hidden="true" />
+              </span>
+              <div>
+                <h3 className="text-[17px] font-semibold text-[#1F1F1F]">{title}</h3>
+                <p className="mt-1 text-[15px] leading-relaxed text-[#5F6368]">{text}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Steps: a real sequence */}
+      <section aria-labelledby="steps-heading" className="bg-[#F8F9FA] py-16">
+        <div className="mx-auto max-w-[1000px] px-6">
+          <h2 id="steps-heading" className="text-3xl font-medium text-[#1F1F1F]">How it works</h2>
+          <ol className="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((s, i) => (
+              <li key={s.title}>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[15px] font-semibold text-[#1967D2] ring-1 ring-[#D2E3FC]">
+                  {i + 1}
+                </span>
+                <h3 className="mt-4 text-[17px] font-semibold text-[#1F1F1F]">{s.title}</h3>
+                <p className="mt-1 text-[15px] leading-relaxed text-[#5F6368]">{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* Application */}
+      <section id="apply" ref={applyRef} aria-labelledby="form-heading" className="mx-auto max-w-[760px] scroll-mt-24 px-6 py-16">
+        <h2 id="form-heading" className="text-3xl font-medium text-[#1F1F1F]">Apply to become a partner</h2>
+        <p className="mt-3 text-[16px] text-[#5F6368]">Three short steps. Your progress is saved on this device (bank details are not).</p>
+
+        <div className="mt-8 rounded-[24px] border border-[#DADCE0] bg-white p-6 shadow-sm sm:p-10">
+          {status === "success" ? (
+            <div className="text-center" role="status">
+              <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[#E6F4EA] text-[#1E8E3E]">
+                <CheckCircle size={32} aria-hidden="true" />
+              </span>
+              <h3 className="mt-6 text-2xl font-medium text-[#1F1F1F]">Application received</h3>
+              <p className="mx-auto mt-3 max-w-md text-[15px] leading-relaxed text-[#5F6368]">
+                We are reviewing your application. You will get an email with your final Partner ID once it is approved.
+              </p>
+
+              <div className="mx-auto mt-8 flex w-fit items-center gap-3 rounded-xl border border-[#DADCE0] bg-[#F8F9FA] py-3 pl-5 pr-3">
+                <div className="text-left">
+                  <p className="text-[13px] text-[#5F6368]">Your temporary ID</p>
+                  <p className="font-mono text-xl text-[#1F1F1F]">{tempId}</p>
                 </div>
-                <div className="border-t border-[#DADCE0]">
-                    {faqs.map((faq, idx) => (
-                        <article key={idx} className="border-b border-[#DADCE0]">
-                            <button
-                                onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                                aria-expanded={openFaq === idx}
-                                className="w-full py-5 text-left flex justify-between items-center focus:outline-none group"
-                            >
-                                <h3 className="text-[16px] font-medium text-[#1F1F1F] group-hover:text-[#1A73E8] transition-colors m-0">{faq.q}</h3>
-                                <ChevronDown 
-                                    className={`text-[#5F6368] shrink-0 transition-transform duration-300 ${openFaq === idx ? 'rotate-180 text-[#1A73E8]' : 'group-hover:text-[#1A73E8]'}`} 
-                                    size={20} 
-                                    aria-hidden="true"
-                                />
-                            </button>
-                            <AnimatePresence>
-                                {openFaq === idx && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: "auto", opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.3, ease: materialEasing }}
-                                        className="overflow-hidden"
-                                    >
-                                        <div className="pb-6 text-[15px] text-[#5F6368] leading-relaxed">
-                                            {faq.a}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </article>
-                    ))}
+                <button
+                  type="button" onClick={copyId}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-[#DADCE0] bg-white px-3.5 py-2 text-[13px] font-medium text-[#1F1F1F] hover:border-[#5F6368] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
+                >
+                  <Copy size={14} aria-hidden="true" />
+                  {copied ? "Copied" : "Copy"}
+                </button>
+              </div>
+              <p className="mt-4 text-[14px] text-[#5F6368]">Keep this ID safe. You will need it if you contact support.</p>
+
+              <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+                <button
+                  type="button" onClick={() => router.push("/partner/dashboard")}
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-6 py-3 text-[15px] font-semibold text-white hover:bg-[#1557B0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
+                >
+                  Go to dashboard <ArrowRight size={18} aria-hidden="true" />
+                </button>
+                <a
+                  href={shareHref} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#DADCE0] px-6 py-3 text-[15px] font-semibold text-[#1F1F1F] hover:border-[#5F6368] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2"
+                >
+                  <MessageCircle size={18} aria-hidden="true" /> Share with a friend
+                </a>
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={onSubmit} noValidate>
+              {/* Progress */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between text-[14px]">
+                  <h3 ref={headingRef} tabIndex={-1} className="text-[18px] font-semibold text-[#1F1F1F] outline-none">
+                    {def.title}
+                  </h3>
+                  <span className="text-[#5F6368]">Step {step + 1} of {STEP_DEFS.length}</span>
                 </div>
-            </section>
-        </main>
-    );
+                <div
+                  role="progressbar" aria-valuemin={1} aria-valuemax={STEP_DEFS.length} aria-valuenow={step + 1}
+                  aria-label="Application progress" className="mt-3 h-1.5 overflow-hidden rounded-full bg-[#E8EAED]"
+                >
+                  <div className="h-full rounded-full bg-[#1A73E8] transition-all duration-300" style={{ width: `${((step + 1) / STEP_DEFS.length) * 100}%` }} />
+                </div>
+              </div>
+
+              {status === "error" && (
+                <div role="alert" className="mb-6 flex items-start gap-3 rounded-lg border border-[#FAD2CF] bg-[#FCE8E6] p-4 text-[14px] font-medium text-[#C5221F]">
+                  <AlertCircle size={20} className="mt-px shrink-0" aria-hidden="true" />
+                  {errorMessage}
+                </div>
+              )}
+
+              <div className="grid gap-5 md:grid-cols-2">
+                {def.fields.map((f) => (
+                  <Field key={f.name} def={f} value={form[f.name]} error={errors[f.name]} disabled={loading} onChange={onChange} />
+                ))}
+              </div>
+
+              {isLast && (
+                <div className="mt-8">
+                  <label className="flex cursor-pointer items-start gap-3">
+                    <input
+                      type="checkbox" checked={agreed} disabled={loading}
+                      onChange={(e) => { setAgreed(e.target.checked); setAgreeError(false); }}
+                      aria-invalid={agreeError}
+                      className="mt-1 h-4 w-4 rounded border-[#DADCE0] text-[#1A73E8] focus:ring-[#1A73E8]"
+                    />
+                    <span className="text-[14px] leading-relaxed text-[#5F6368]">
+                      I confirm the information is accurate. I understand this is a performance-based affiliate partnership and agree to
+                      follow Aptro&apos;s marketing guidelines and the{" "}
+                      <Link href="/terms" className="font-medium text-[#1A73E8] hover:underline">terms</Link>.
+                    </span>
+                  </label>
+                  {agreeError && <p className="mt-2 text-[13px] text-[#C5221F]">Tick the box to submit your application</p>}
+                </div>
+              )}
+
+              <div className="mt-10 flex items-center justify-between gap-4">
+                {step > 0 ? (
+                  <button
+                    type="button" onClick={() => setStep(step - 1)} disabled={loading}
+                    className="rounded-full px-5 py-3 text-[15px] font-semibold text-[#1A73E8] hover:bg-[#F1F3F4] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8]"
+                  >
+                    Back
+                  </button>
+                ) : <span />}
+                <button
+                  type="submit" disabled={loading}
+                  className="inline-flex min-w-[170px] items-center justify-center gap-2 rounded-full bg-[#1A73E8] px-8 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-[#1557B0] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {loading ? (
+                    <>
+                      <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Submitting
+                    </>
+                  ) : isLast ? "Submit application" : "Continue"}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      </section>
+
+      {/* FAQ: native details, no JS needed */}
+      <section aria-labelledby="faq-heading" className="mx-auto max-w-[720px] px-6 pb-28 pt-8">
+        <h2 id="faq-heading" className="text-3xl font-medium text-[#1F1F1F]">Student partner FAQs</h2>
+        <div className="mt-8 divide-y divide-[#DADCE0] border-y border-[#DADCE0]">
+          {FAQS.map((f) => (
+            <details key={f.q} className="group py-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-medium text-[#1F1F1F] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1A73E8] [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <ChevronDown size={20} className="shrink-0 text-[#5F6368] transition-transform group-open:rotate-180" aria-hidden="true" />
+              </summary>
+              <p className="mt-3 max-w-[62ch] text-[15px] leading-relaxed text-[#5F6368]">{f.a}</p>
+            </details>
+          ))}
+        </div>
+        <p className="mt-6 text-[13px] text-[#5F6368]">
+          Earnings are performance-based and depend on the shops you bring. No income is guaranteed.
+        </p>
+      </section>
+
+      {/* Mobile sticky CTA, hidden while the form is visible */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-20 border-t border-[#DADCE0] bg-white/95 px-4 pt-3 backdrop-blur transition-transform duration-200 md:hidden ${
+          formVisible || status === "success" ? "translate-y-full" : "translate-y-0"
+        }`}
+        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)" }}
+      >
+        <a href="#apply" className="flex items-center justify-center rounded-full bg-[#1A73E8] py-3 text-[15px] font-semibold text-white">
+          Apply to become a partner
+        </a>
+      </div>
+    </main>
+  );
 }
